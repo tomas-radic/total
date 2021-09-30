@@ -1,12 +1,15 @@
 @import "tailwindcss/base";
 @import "tailwindcss/utilities";
 @import "tailwindcss/components";
+@import "custom_tw_components.css";
+
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 
 body {
-    font-family: 'Raleway', sans-serif;
+  @apply text-xl md:text-lg;
+  font-family: 'Raleway', sans-serif;
 }

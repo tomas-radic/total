@@ -16,34 +16,34 @@
 <section id="recent-matches" class="min-h-screen p-8 bg-yellow-400">
   <% if true # || @recent_matches.any? %>
     <h2 class="text-6xl p-1 text-green-600">Čo sa najnovšie odohralo?</h2>
-    <div class="lg:flex lg:justify-center lg:pt-9">
-      <table class="table-auto mt-4 text-center md:text-lg md:w-1/2">
+    <div class="table-container">
+      <table>
         <thead>
         <tr>
-          <th class="p-2"></th>
-          <th class="p-2">Víťaz</th>
-          <th class="p-2">Výsledok</th>
-          <th class="p-2">Porazený</th>
+          <th></th>
+          <th>Víťaz</th>
+          <th>Výsledok</th>
+          <th>Porazený</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-          <td class="p-2">17. máj</td>
-          <td class="p-2">Tomáš Radič</td>
-          <td class="p-2">6:4, 6:1</td>
-          <td class="p-2">Natália Petrášová</td>
+          <td>17. máj</td>
+          <td>Tomáš Radič</td>
+          <td>6:4, 6:1</td>
+          <td>Natália Petrášová</td>
         </tr>
         <tr>
-          <td class="p-2">15. máj</td>
-          <td class="p-2">Michal Bihary</td>
-          <td class="p-2 border-white border-solid border-t-4">6:2, 6:2</td>
-          <td class="p-2">Slavo Kutňanský</td>
+          <td>15. máj</td>
+          <td>Michal Bihary</td>
+          <td class="border-white border-solid border-t-4">6:2, 6:2</td>
+          <td>Slavo Kutňanský</td>
         </tr>
         <tr>
-          <td class="p-2">14. máj</td>
-          <td class="p-2">Tomáš Horváth</td>
-          <td class="p-2 border-white border-solid border-t-4">7:6, 6:3</td>
-          <td class="p-2">Ľubo Hollan</td>
+          <td>14. máj</td>
+          <td>Tomáš Horváth</td>
+          <td class="border-white border-solid border-t-4">7:6, 6:3</td>
+          <td>Ľubo Hollan</td>
         </tr>
         </tbody>
       </table>
@@ -71,34 +71,34 @@
 <section id="planned-matches" class="min-h-screen p-8 lg bg-red-300">
   <% if true #|| @recent_matches.any? %>
     <h2 class="text-5xl p-1 text-white text-right">Zápasy, ktoré uvidíme.</h2>
-    <div class="lg:flex lg:justify-center lg:pt-9">
-      <table class="table-auto mt-4 text-center md:text-lg md:w-1/2">
+    <div class="table-container">
+      <table>
         <thead>
         <tr>
-          <th class="p-2">Vyzývateľ</th>
-          <th class="p-2">Vyzvaný</th>
-          <th class="p-2">Info</th>
-          <th class="p-2"></th>
+          <th class="">Vyzývateľ</th>
+          <th class="">Vyzvaný</th>
+          <th class="">Info</th>
+          <th class=""></th>
         </tr>
         </thead>
         <tbody>
         <tr>
-          <td class="p-2">Tomáš Radič</td>
-          <td class="p-2">Natália Petrášová</td>
-          <td class="p-2">10. máj<br>10:00</td>
-          <td class="p-2">Mravenisko</td>
+          <td class="">Tomáš Radič</td>
+          <td class="">Natália Petrášová</td>
+          <td class="">10. máj<br>10:00</td>
+          <td class="">Mravenisko</td>
         </tr>
         <tr>
-          <td class="p-2">Michal Bihary</td>
-          <td class="p-2">Slavo Kutňanský</td>
-          <td class="p-2 border-white border-solid border-t-4">12. máj<br>16:30</td>
-          <td class="p-2">kúpalisko</td>
+          <td class="">Michal Bihary</td>
+          <td class="">Slavo Kutňanský</td>
+          <td class=" border-white border-solid border-t-4">12. máj<br>16:30</td>
+          <td class="">kúpalisko</td>
         </tr>
         <tr>
-          <td class="p-2">Tomáš Horváth</td>
-          <td class="p-2">Ľubo Hollan</td>
-          <td class="p-2 border-white border-solid border-t-4">14. máj<br>13:00</td>
-          <td class="p-2">Mravenisko</td>
+          <td class="">Tomáš Horváth</td>
+          <td class="">Ľubo Hollan</td>
+          <td class=" border-white border-solid border-t-4">14. máj<br>13:00</td>
+          <td class="">Mravenisko</td>
         </tr>
         </tbody>
       </table>
@@ -126,76 +126,76 @@
 <section id="race" class="min-h-screen p-8 bg-red-800 text-white">
   <% if true #|| @top_ranked_players.any? %>
     <h2 class="text-5xl p-1 text-yellow-400">Najväčší králi.</h2>
-    <div class="lg:flex lg:justify-center lg:pt-9">
-      <table class="table-auto mt-4 text-center md:text-lg md:w-1/2">
+    <div class="table-container">
+      <table>
         <thead>
         <tr>
-          <th class="p-2"></th>
-          <th class="p-2"></th>
-          <th class="p-2">Body</th>
-          <th class="p-2">% výhier</th>
+          <th></th>
+          <th></th>
+          <th>Body</th>
+          <th>% výhier</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-          <td class="p-2">1.</td>
-          <td class="p-2">Michal Bihary</td>
-          <td class="p-2">17</td>
-          <td class="p-2">87%</td>
+          <td>1.</td>
+          <td>Michal Bihary</td>
+          <td>17</td>
+          <td>87%</td>
         </tr>
         <tr>
-          <td class="p-2 border-yellow-400 border-solid border-t-4">2.</td>
-          <td class="p-2">Marek Kudela</td>
-          <td class="p-2">17</td>
-          <td class="p-2">72%</td>
+          <td class="border-yellow-400 border-solid border-t-4">2.</td>
+          <td>Marek Kudela</td>
+          <td>17</td>
+          <td>72%</td>
         </tr>
         <tr>
-          <td class="p-2 border-yellow-400 border-solid border-t-4">3.</td>
-          <td class="p-2">Braňo Lištiak</td>
-          <td class="p-2">16</td>
-          <td class="p-2">93%</td>
+          <td class="border-yellow-400 border-solid border-t-4">3.</td>
+          <td>Braňo Lištiak</td>
+          <td>16</td>
+          <td>93%</td>
         </tr>
         <tr>
-          <td class="p-2 border-yellow-400 border-solid border-t-4">4.</td>
-          <td class="p-2">Igor Malinka</td>
-          <td class="p-2">15</td>
-          <td class="p-2">84%</td>
+          <td class="border-yellow-400 border-solid border-t-4">4.</td>
+          <td>Igor Malinka</td>
+          <td>15</td>
+          <td>84%</td>
         </tr>
         <tr>
-          <td class="p-2 border-yellow-400 border-solid border-t-4">5.</td>
-          <td class="p-2">Jarik Šípoš</td>
-          <td class="p-2">14</td>
-          <td class="p-2">66%</td>
+          <td class="border-yellow-400 border-solid border-t-4">5.</td>
+          <td>Jarik Šípoš</td>
+          <td>14</td>
+          <td>66%</td>
         </tr>
         <tr>
-          <td class="p-2 border-yellow-400 border-solid border-t-4">6.</td>
-          <td class="p-2">Ivan Šlosár</td>
-          <td class="p-2">14</td>
-          <td class="p-2">62%</td>
+          <td class="border-yellow-400 border-solid border-t-4">6.</td>
+          <td>Ivan Šlosár</td>
+          <td>14</td>
+          <td>62%</td>
         </tr>
         <tr>
-          <td class="p-2 border-yellow-400 border-solid border-t-4">7.</td>
-          <td class="p-2">Braňo Milata</td>
-          <td class="p-2">13</td>
-          <td class="p-2">69%</td>
+          <td class="border-yellow-400 border-solid border-t-4">7.</td>
+          <td>Braňo Milata</td>
+          <td>13</td>
+          <td>69%</td>
         </tr>
         <tr>
-          <td class="p-2 border-yellow-400 border-solid border-t-4">8.</td>
-          <td class="p-2">Juro Sulík</td>
-          <td class="p-2">11</td>
-          <td class="p-2">70%</td>
+          <td class="border-yellow-400 border-solid border-t-4">8.</td>
+          <td>Juro Sulík</td>
+          <td>11</td>
+          <td>70%</td>
         </tr>
         <tr class="text-gray-500 border-yellow-400 border-solid border-t-4">
-          <td class="p-2">9.</td>
-          <td class="p-2">Tomáš Dobek</td>
-          <td class="p-2">10</td>
-          <td class="p-2">54%</td>
+          <td>9.</td>
+          <td>Tomáš Dobek</td>
+          <td>10</td>
+          <td>54%</td>
         </tr>
         <tr class="text-gray-500">
-          <td class="p-2 border-yellow-400 border-solid border-t-4">10.</td>
-          <td class="p-2">Tomáš Korytár</td>
-          <td class="p-2">9</td>
-          <td class="p-2">81%</td>
+          <td class="border-yellow-400 border-solid border-t-4">10.</td>
+          <td>Tomáš Korytár</td>
+          <td>9</td>
+          <td>81%</td>
         </tr>
         </tbody>
       </table>

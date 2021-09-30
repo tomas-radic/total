@@ -1,0 +1,14 @@
+@layer components {
+
+  .table-container {
+    @apply overflow-x-auto lg:flex lg:justify-center lg:pt-9;
+  }
+
+  .table-container table {
+    @apply table-auto mt-4 text-center md:text-lg md:w-1/2;
+  }
+
+  .table-container table th, .table-container table td {
+    @apply p-2;
+  }
+}
