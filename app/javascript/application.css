@@ -1,0 +1,12 @@
+@import "tailwindcss/base";
+@import "tailwindcss/utilities";
+@import "tailwindcss/components";
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    font-family: 'Raleway', sans-serif;
+}
