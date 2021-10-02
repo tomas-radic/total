@@ -6,7 +6,7 @@ RSpec.describe "Todays", type: :request do
 
     it "Returns http success" do
       subject
-      
+
       expect(response).to have_http_status(:success)
     end
   end

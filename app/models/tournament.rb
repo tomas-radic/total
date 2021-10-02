@@ -19,11 +19,18 @@ class Tournament < ApplicationRecord
 
   # Enums ---------
   enum color_base: {
-    "base-green" => 0,
-    "base-yellow" => 1,
-    "base-salmon" => 2,
-    "base-red" => 3
+    base_green: 0,
+    base_yellow: 1,
+    base_salmon: 2,
+    base_red: 3
   }
+
+
+  # Methods -------
+
+  def color_base_css
+    color_base.gsub('_', '-') if color_base
+  end
 
 
   private

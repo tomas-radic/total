@@ -4,12 +4,13 @@
 // that code so it'll be compiled.
 
 import Rails from "@rails/ujs"
-import Turbolinks from "turbolinks"
+// import Turbolinks from "turbolinks"
+import { Controller } from "@hotwired/stimulus"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import "../application.css";
 import "./alpine.min"
 
 Rails.start()
-Turbolinks.start()
+// Turbolinks.start()
 ActiveStorage.start()
