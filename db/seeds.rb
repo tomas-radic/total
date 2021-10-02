@@ -34,4 +34,19 @@ raise "Existing data" if Tournament.any?
 end
 
 
+puts "\nCreating players..."
+raise "Existing data" if Player.any?
+25.times do
+  player = Player.create!(
+    name: "#{Faker::Name.first_name} #{Faker::Name.last_name}",
+    email: Faker::Internet.email,
+    phone_nr: Faker::PhoneNumber.cell_phone,
+    birth_year: Date.today.year - rand(20..60),
+    password: "asdfasdf"
+  )
+
+  season.players << player
+end
+
+
 puts "\nDone."
