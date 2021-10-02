@@ -1,0 +1,9 @@
+<% if @tournaments.any? %>
+  <div class="flex flex-wrap w-full">
+    <% @tournaments.each.with_index do |tournament, idx| %>
+      <%= render "tournaments/tournament", tournament: tournament %>
+    <% end %>
+  </div>
+<% else %>
+  <p class="p-8 text-center">V tejto sezóne nie sú zatiaľ žiadne turnaje.</p>
+<% end %>

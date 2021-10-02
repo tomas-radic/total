@@ -5,6 +5,9 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['Raleway', 'sans-serif']
+      },
+      spacing: {
+        '320px': '320px'
       }
     },
   },

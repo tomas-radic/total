@@ -1,7 +1,7 @@
 <header id="navbar" class="w-full text-green-300 bg-gray-700">
   <div x-data="{ open: false }" class="flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-8">
     <div class="p-4 flex flex-row items-center justify-between">
-      <a href="#" class="text-lg font-semibold tracking-widest rounded-lg">TOtal</a>
+      <%= link_to "TOtal", root_path, class: "text-lg font-semibold tracking-widest rounded-lg" %>
       <button class="md:hidden rounded-lg focus:outline-none focus:shadow-outline" @click="open = !open">
         <svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6">
           <path x-show="!open" fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z" clip-rule="evenodd"></path>
@@ -12,7 +12,7 @@
     <nav :class="{'flex': open, 'hidden': !open}" class="text-white flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row">
       <a class="px-4 py-2 mt-2 text-sm font-semibold bt-transparent hover:underline md:mt-0" href="#">Zápasy</a>
       <a class="px-4 py-2 mt-2 text-sm font-semibold bt-transparent hover:underline md:mt-0" href="#">Rebríček</a>
-      <a class="px-4 py-2 mt-2 text-sm font-semibold bt-transparent hover:underline md:mt-0" href="#">Turnaje</a>
+      <%= link_to "Turnaje", tournaments_path, class: "px-4 py-2 mt-2 text-sm font-semibold bt-transparent hover:underline md:mt-0" %>
       <a class="px-4 py-2 mt-2 text-sm font-semibold bt-transparent hover:underline md:mt-0" href="#">Novinky</a>
       <a class="px-4 py-2 mt-2 text-sm font-semibold bt-transparent hover:underline md:mt-0" href="#">O súťaži</a>
       <div @click.away="open = false" class="relative" x-data="{ open: false }">

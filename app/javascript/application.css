@@ -13,3 +13,19 @@ body {
   @apply text-xl md:text-lg;
   font-family: 'Raleway', sans-serif;
 }
+
+
+.min-h-300px {
+  min-height: 300px;
+}
+
+
+@media only screen and (min-width: 768px) {
+  .md-min-w-290 {
+    min-width: 290px;
+  }
+
+  .md-min-w-360 {
+    min-width: 360px;
+  }
+}

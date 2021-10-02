@@ -4,4 +4,7 @@ Rails.application.routes.draw do
   root to: "today#index"
 
   get "/today", to: "today#index", as: "today"
+
+  resources :tournaments, only: [:index, :show]
+
 end
