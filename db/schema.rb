@@ -10,11 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_02_205403) do
+ActiveRecord::Schema.define(version: 2021_10_02_211741) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "assignments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "player_id", null: false
+    t.uuid "match_id", null: false
+    t.integer "side", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["match_id"], name: "index_assignments_on_match_id"
+    t.index ["player_id"], name: "index_assignments_on_player_id"
+  end
 
   create_table "enrollments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "player_id", null: false
@@ -24,6 +34,28 @@ ActiveRecord::Schema.define(version: 2021_10_02_205403) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["player_id"], name: "index_enrollments_on_player_id"
     t.index ["season_id"], name: "index_enrollments_on_season_id"
+  end
+
+  create_table "matches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.date "play_date"
+    t.integer "play_time"
+    t.string "notes"
+    t.integer "kind", default: 0, null: false
+    t.integer "winner_side"
+    t.integer "retired_side"
+    t.datetime "finished_at"
+    t.boolean "play_off_counted", default: true, null: false
+    t.string "competitable_type", null: false
+    t.uuid "competitable_id", null: false
+    t.integer "set1_side1_score"
+    t.integer "set1_side2_score"
+    t.integer "set2_side1_score"
+    t.integer "set2_side2_score"
+    t.integer "set3_side1_score"
+    t.integer "set3_side2_score"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["competitable_type", "competitable_id"], name: "index_matches_on_competitable"
   end
 
   create_table "players", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -64,6 +96,8 @@ ActiveRecord::Schema.define(version: 2021_10_02_205403) do
     t.index ["season_id"], name: "index_tournaments_on_season_id"
   end
 
+  add_foreign_key "assignments", "matches"
+  add_foreign_key "assignments", "players"
   add_foreign_key "enrollments", "players"
   add_foreign_key "enrollments", "seasons"
   add_foreign_key "tournaments", "seasons"

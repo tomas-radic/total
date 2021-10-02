@@ -49,4 +49,41 @@ raise "Existing data" if Player.any?
 end
 
 
+puts "\nCreating matches..."
+raise "Existing data" if Match.any?
+16.times do
+  players = Player.all.sample(2)
+
+  Match.create!(
+    play_date: rand(2.weeks).seconds.ago.to_date,
+    play_time: Match.play_times.values.sample,
+    winner_side: 1,
+    finished_at: rand(2.weeks).seconds.ago.to_date,
+    competitable: season,
+    set1_side1_score: 6,
+    set1_side2_score: 4,
+    set2_side1_score: 7,
+    set2_side2_score: 5,
+    assignments: [
+      Assignment.new(side: 1, player: players[0]),
+      Assignment.new(side: 2, player: players[1])
+    ]
+  )
+end
+
+3.times do
+  players = Player.all.sample(2)
+
+  Match.create!(
+    play_date: rand(2.weeks).seconds.ago.to_date,
+    play_time: Match.play_times.values.sample,
+    competitable: season,
+    assignments: [
+      Assignment.new(side: 1, player: players[0]),
+      Assignment.new(side: 2, player: players[1])
+    ]
+  )
+end
+
+
 puts "\nDone."

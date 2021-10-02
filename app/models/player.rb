@@ -8,6 +8,8 @@ class Player < ApplicationRecord
   # Relations -----
   has_many :enrollments, dependent: :destroy
   has_many :seasons, through: :enrollments
+  has_many :assignments, dependent: :destroy
+  has_many :matches, through: :assignments
 
   # Validations -----
   validates :phone_nr, uniqueness: true

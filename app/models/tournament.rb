@@ -5,6 +5,7 @@ class Tournament < ApplicationRecord
 
   # Relations ----------
   belongs_to :season
+  has_many :matches, as: :competitable
 
   # Validations --------
   validates :name, :main_info,
