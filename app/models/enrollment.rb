@@ -8,4 +8,7 @@ class Enrollment < ApplicationRecord
   # Validations -----
   validates :player_id, uniqueness: { scope: :season_id }
 
+
+  # Scopes -----
+  scope :active, -> { where(canceled_at: nil) }
 end

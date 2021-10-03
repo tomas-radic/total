@@ -1,5 +1,8 @@
 class Match < ApplicationRecord
 
+  before_validation :set_defaults
+
+
   # Relations -----
   belongs_to :competitable, polymorphic: true
   has_many :assignments, dependent: :destroy
@@ -7,6 +10,7 @@ class Match < ApplicationRecord
 
 
   # Validations -----
+  validates :kind, presence: true
   validates :winner_side, inclusion: { in: [1, 2] }, if: Proc.new { |m| m.finished_at.present? }
   validate :player_assignments
 
@@ -25,11 +29,36 @@ class Match < ApplicationRecord
   ]
 
 
+  # Scopes
+  scope :published, -> { where.not(published_at: nil) }
+  scope :finished, -> { where.not(finished_at: nil) }
+  scope :ranking_counted, -> { where(ranking_counted: true) }
+
+
+  def played_3rd_set?
+    set3_side1_score.present? || set3_side2_score.present?
+  end
+
+
   private
 
   def player_assignments
-    if assignments.select { |a| a.side == 1 }.length != assignments.select { |a| a.side == 2 }.length
+    nr_assignments = assignments.length
+    nr_side1_assignments = assignments.select { |a| a.side == 1 }.length
+    nr_side2_assignments = assignments.select { |a| a.side == 2 }.length
+
+    if !nr_assignments.in?([0, 2, 4]) || (nr_side1_assignments != nr_side2_assignments)
       errors.add(:base, "Incorrect players assignments.")
+    end
+  end
+
+
+  def set_defaults
+    case assignments.length
+    when 2
+      self.kind = :single
+    when 4
+      self.kind = :double
     end
   end
 

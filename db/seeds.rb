@@ -8,7 +8,15 @@
 
 puts "\nCreating season..."
 raise "Existing data" if Season.any?
-season = Season.create!(name: Date.today.year.to_s)
+season = Season.create!(name: Date.today.year.to_s,
+                        points_single_20: 1,
+                        points_single_21: 1,
+                        points_single_12: 0,
+                        points_single_02: 0,
+                        points_double_20: 1,
+                        points_double_21: 1,
+                        points_double_12: 0,
+                        points_double_02: 0)
 
 
 puts "\nCreating tournaments..."
@@ -53,12 +61,14 @@ puts "\nCreating matches..."
 raise "Existing data" if Match.any?
 16.times do
   players = Player.all.sample(2)
+  match_time = rand(2.weeks).seconds.ago.to_date
 
   Match.create!(
-    play_date: rand(2.weeks).seconds.ago.to_date,
+    published_at: match_time,
+    play_date: match_time,
     play_time: Match.play_times.values.sample,
     winner_side: 1,
-    finished_at: rand(2.weeks).seconds.ago.to_date,
+    finished_at: match_time,
     competitable: season,
     set1_side1_score: 6,
     set1_side2_score: 4,
@@ -73,9 +83,11 @@ end
 
 3.times do
   players = Player.all.sample(2)
+  match_time = rand(2.weeks).seconds.ago.to_date
 
   Match.create!(
-    play_date: rand(2.weeks).seconds.ago.to_date,
+    published_at: match_time,
+    play_date: match_time,
     play_time: Match.play_times.values.sample,
     competitable: season,
     assignments: [

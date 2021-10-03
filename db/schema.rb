@@ -41,10 +41,11 @@ ActiveRecord::Schema.define(version: 2021_10_02_211741) do
     t.integer "play_time"
     t.string "notes"
     t.integer "kind", default: 0, null: false
+    t.datetime "published_at"
     t.integer "winner_side"
     t.integer "retired_side"
     t.datetime "finished_at"
-    t.boolean "play_off_counted", default: true, null: false
+    t.boolean "ranking_counted", default: true, null: false
     t.string "competitable_type", null: false
     t.uuid "competitable_id", null: false
     t.integer "set1_side1_score"
@@ -77,6 +78,14 @@ ActiveRecord::Schema.define(version: 2021_10_02_211741) do
 
   create_table "seasons", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
+    t.integer "points_single_20", null: false
+    t.integer "points_single_21", null: false
+    t.integer "points_single_12", null: false
+    t.integer "points_single_02", null: false
+    t.integer "points_double_20", null: false
+    t.integer "points_double_21", null: false
+    t.integer "points_double_12", null: false
+    t.integer "points_double_02", null: false
     t.datetime "ended_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
