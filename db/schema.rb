@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 2021_10_02_211741) do
 
   create_table "seasons", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
+    t.integer "play_off_size", default: 8, null: false
     t.integer "points_single_20", null: false
     t.integer "points_single_21", null: false
     t.integer "points_single_12", null: false

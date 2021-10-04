@@ -44,9 +44,14 @@ end
 
 puts "\nCreating players..."
 raise "Existing data" if Player.any?
-25.times do
+[
+  "Michal Bihary", "Branislav Lištiak", "Michal Dovalovský", "Slavo Kutňanský", "Ivan Šlosár",
+  "Ľuboš Hollan", "Marek Bednárik", "Andrej Jančovič", "Jarik Šípoš", "Tomáš Dobek", "Ľuboš Barborík",
+  "Igor Malinka", "Braňo Milata", "Michal Kollár", "Juro Sulík", "Peter Klačanský", "Tomáš Korytár",
+  "Marek Kúdela", "Rasťo Kováč", "Tomáš Radič"
+].each do |name|
   player = Player.create!(
-    name: "#{Faker::Name.first_name} #{Faker::Name.last_name}",
+    name: name,
     email: Faker::Internet.email,
     phone_nr: Faker::PhoneNumber.cell_phone,
     birth_year: Date.today.year - rand(20..60),
@@ -71,9 +76,9 @@ raise "Existing data" if Match.any?
     finished_at: match_time,
     competitable: season,
     set1_side1_score: 6,
-    set1_side2_score: 4,
-    set2_side1_score: 7,
-    set2_side2_score: 5,
+    set1_side2_score: rand(0..4),
+    set2_side1_score: 6,
+    set2_side2_score: rand(0..4),
     assignments: [
       Assignment.new(side: 1, player: players[0]),
       Assignment.new(side: 2, player: players[1])

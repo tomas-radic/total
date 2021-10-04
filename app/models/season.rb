@@ -20,4 +20,8 @@ class Season < ApplicationRecord
             :points_double_02,
             presence: true
 
+
+  # Scopes -----
+  scope :sorted, -> { order(created_at: :desc) }
+
 end

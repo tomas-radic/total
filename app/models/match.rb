@@ -40,6 +40,49 @@ class Match < ApplicationRecord
   end
 
 
+  def winner
+    return nil if finished_at.blank?
+
+    assignments.where(side: winner_side)
+               .joins(:player)
+               .includes(:player).map { |a| a.player.name }.join(", ")
+  end
+
+
+  def looser
+    return nil if finished_at.blank?
+
+    assignments.where.not(side: winner_side)
+               .joins(:player)
+               .includes(:player).map { |a| a.player.name }.join(", ")
+  end
+
+
+  def result(side: 1)
+    return nil if finished_at.blank?
+
+    side = 1 if (side < 1) || (side > 2)
+    other_side = side - 1
+    other_side = 2 if other_side < 1
+
+    sets = (1..3).map do |set|
+      [
+        send("set#{set}_side#{side}_score"),
+        send("set#{set}_side#{other_side}_score")
+      ].reject(&:blank?).join(':')
+    end
+
+    sets.reject(&:blank?).join(", ")
+  end
+
+
+  def side(side)
+    assignments.where(side: side)
+               .joins(:player)
+               .includes(:player).map { |a| a.player.name }.join(", ")
+  end
+
+
   private
 
   def player_assignments
