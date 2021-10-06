@@ -70,10 +70,13 @@ raise "Existing data" if Match.any?
 
   Match.create!(
     published_at: match_time,
+    requested_at: match_time,
+    accepted_at: match_time,
     play_date: match_time,
     play_time: Match.play_times.values.sample,
     winner_side: 1,
     finished_at: match_time,
+    reviewed_at: match_time,
     competitable: season,
     set1_side1_score: 6,
     set1_side2_score: rand(0..4),
@@ -92,6 +95,8 @@ end
 
   Match.create!(
     published_at: match_time,
+    requested_at: match_time,
+    accepted_at: Time.now,
     play_date: match_time,
     play_time: Match.play_times.values.sample,
     competitable: season,
@@ -101,6 +106,44 @@ end
     ]
   )
 end
+
+2.times do
+  players = Player.all.sample(2)
+
+  Match.create!(
+    requested_at: rand(3.days).seconds.ago.to_datetime,
+    published_at: Time.now,
+    competitable: season,
+    assignments: [
+      Assignment.new(side: 1, player: players[0]),
+      Assignment.new(side: 2, player: players[1])
+    ]
+  )
+end
+
+players = Player.all.sample(2)
+Match.create!(
+  requested_at: rand(3.days).seconds.ago.to_datetime,
+  accepted_at: Time.now,
+  published_at: Time.now,
+  competitable: season,
+  assignments: [
+    Assignment.new(side: 1, player: players[0]),
+    Assignment.new(side: 2, player: players[1])
+  ]
+)
+
+players = Player.all.sample(2)
+Match.create!(
+  requested_at: rand(3.days).seconds.ago.to_datetime,
+  rejected_at: Time.now,
+  published_at: Time.now,
+  competitable: season,
+  assignments: [
+    Assignment.new(side: 1, player: players[0]),
+    Assignment.new(side: 2, player: players[1])
+  ]
+)
 
 
 puts "\nDone."

@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe "Todays", type: :request do
+
+  let!(:season) { create(:season) }
+
   describe "GET /today" do
     subject { get today_path }
 

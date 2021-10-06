@@ -43,7 +43,11 @@ ActiveRecord::Schema.define(version: 2021_10_02_211741) do
     t.integer "kind", default: 0, null: false
     t.datetime "published_at"
     t.integer "winner_side"
-    t.integer "retired_side"
+    t.boolean "is_retired", default: false, null: false
+    t.datetime "requested_at"
+    t.datetime "accepted_at"
+    t.datetime "rejected_at"
+    t.datetime "reviewed_at"
     t.datetime "finished_at"
     t.boolean "ranking_counted", default: true, null: false
     t.string "competitable_type", null: false

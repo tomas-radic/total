@@ -11,7 +11,10 @@ class Match < ApplicationRecord
 
   # Validations -----
   validates :kind, presence: true
-  validates :winner_side, inclusion: { in: [1, 2] }, if: Proc.new { |m| m.finished_at.present? }
+  validates :winner_side, inclusion: { in: [1, 2] }, if: Proc.new { |m| m.finished_at }
+  validates :rejected_at, absence: true, if: Proc.new { |m| m.accepted_at }
+  validates :accepted_at, absence: true, if: Proc.new { |m| m.rejected_at }
+  validates :requested_at, presence: true, if: Proc.new { |m| m.accepted_at || m.rejected_at }
   validate :player_assignments
 
 
@@ -31,7 +34,11 @@ class Match < ApplicationRecord
 
   # Scopes
   scope :published, -> { where.not(published_at: nil) }
+  scope :requested, -> { where.not(requested_at: nil).where(accepted_at: nil, rejected_at: nil) }
+  scope :accepted, -> { where.not(accepted_at: nil) }
+  scope :rejected, -> { where.not(rejected_at: nil) }
   scope :finished, -> { where.not(finished_at: nil) }
+  scope :reviewed, -> { where.not(reviewed_at: nil) }
   scope :ranking_counted, -> { where(ranking_counted: true) }
 
 

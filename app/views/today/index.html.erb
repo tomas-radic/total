@@ -10,9 +10,27 @@
     <div class="py-1"><a href="#planned-matches">Zápasy na pláne</a></div>
     <div class="py-1"><a href="#race">Nominácie PLAY OFF</a></div>
   </div>
-  <% if player_signed_in? %>
-    <!-- TODO: TVOJE zápasy (zvlast ako vyzyvatel, ako vyzvany) -->
+  <% if @requested_matches.any? || @rejected_matches.any? %>
+    <div class="text-right">
+      <h3 class="text-2xl primary-color pt-8 pb-2 lg:text-4xl underline">
+        <%= link_to "Nepotvrdené výzvy", "#" %>
+      </h3>
+      <% @requested_matches.each do |match| %>
+        <p class="text-sm default-color lg:text-lg">
+          <%= "#{match.side 1} vyzval/a #{match.side 2}" %>
+        </p>
+      <% end %>
+      <div class="pt-2">
+        <% @rejected_matches.each do |match| %>
+          <p class="text-sm text-gray-300 lg:text-lg">
+            <%= "#{match.side 2} odmietol/la zápas s #{match.side 1}" %>
+          </p>
+        <% end %>
+      </div>
+    </div>
   <% end %>
+
+
 </section>
 
 <section id="recent-matches" class="base-yellow min-h-screen p-8">
@@ -81,7 +99,9 @@
             <td><%= match.side 1 %></td>
             <td><%= match.side 2 %></td>
             <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
-              <%= "#{app_date(match.play_date)}<br>#{match.play_time}".html_safe %>
+              <% if match.play_date.present? %>
+                <%= "#{app_date(match.play_date)}<br>#{match.play_time}".html_safe %>
+              <% end %>
             </td>
             <td><%= match.notes %></td>
           </tr>

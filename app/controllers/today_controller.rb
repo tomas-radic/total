@@ -2,12 +2,24 @@ class TodayController < ApplicationController
 
   def index
     season_matches = selected_season.matches.published
-    @recent_matches = season_matches.finished.ranking_counted
-                                    .where("finished_at > ?", 7.day.ago)
+    last_days = 7.days.ago
+
+    @requested_matches = season_matches.ranking_counted.requested
+                                       .where(finished_at: nil)
+                                       .where("requested_at >= ?", last_days)
+                                       .order(requested_at: :desc)
+                                       .includes(assignments: :player)
+
+    @rejected_matches = season_matches.ranking_counted.rejected
+                                      .where("rejected_at >= ?", last_days)
+
+    @recent_matches = season_matches.reviewed.ranking_counted
+                                    .where("finished_at >= ?", last_days)
                                     .order(finished_at: :desc)
                                     .includes(assignments: :player)
 
-    @planned_matches = season_matches.where(finished_at: nil)
+    @planned_matches = season_matches.accepted.ranking_counted
+                                     .where(finished_at: nil)
                                      .order(:play_date, :play_time)
                                      .includes(assignments: :player)
 

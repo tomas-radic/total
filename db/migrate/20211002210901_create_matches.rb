@@ -7,7 +7,11 @@ class CreateMatches < ActiveRecord::Migration[6.1]
       t.integer :kind, null: false, default: 0
       t.datetime :published_at
       t.integer :winner_side
-      t.integer :retired_side
+      t.boolean :is_retired, null: false, default: false
+      t.datetime :requested_at
+      t.datetime :accepted_at
+      t.datetime :rejected_at
+      t.datetime :reviewed_at
       t.datetime :finished_at
       t.boolean :ranking_counted, null: false, default: true
       t.references :competitable, polymorphic: true, null: false, type: :uuid
