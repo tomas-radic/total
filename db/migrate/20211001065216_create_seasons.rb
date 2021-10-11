@@ -11,6 +11,7 @@ class CreateSeasons < ActiveRecord::Migration[6.1]
       t.integer :points_double_21, null: false
       t.integer :points_double_12, null: false
       t.integer :points_double_02, null: false
+      t.integer :position, null: false
       t.datetime :ended_at
 
       t.timestamps

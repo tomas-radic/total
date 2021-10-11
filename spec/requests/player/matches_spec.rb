@@ -25,6 +25,16 @@ RSpec.describe "Player::Matches", type: :request do
 
           it "Creates the match and redirects to requested player page" do
             expect { subject }.to change { Match.count }.by(1)
+            match = Match.order(:created_at).last
+            expect(match.requested_at).not_to be_nil
+            expect(match.published_at).not_to be_nil
+            expect(match.accepted_at).to be_nil
+            expect(match.rejected_at).to be_nil
+            expect(match.finished_at).to be_nil
+            expect(match.reviewed_at).to be_nil
+            expect(match.assignments.find { |a| a.side == 1 }.player).to eq(player)
+            expect(match.assignments.find { |a| a.side == 2 }.player).to eq(requested_player)
+
             expect(response).to redirect_to player_path(requested_player)
           end
         end
@@ -41,6 +51,16 @@ RSpec.describe "Player::Matches", type: :request do
 
           it "Creates the match and redirects to requested player page" do
             expect { subject }.to change { Match.count }.by(1)
+            match = Match.order(:created_at).last
+            expect(match.requested_at).not_to be_nil
+            expect(match.published_at).not_to be_nil
+            expect(match.accepted_at).to be_nil
+            expect(match.rejected_at).to be_nil
+            expect(match.finished_at).to be_nil
+            expect(match.reviewed_at).to be_nil
+            expect(match.assignments.find { |a| a.side == 1 }.player).to eq(player)
+            expect(match.assignments.find { |a| a.side == 2 }.player).to eq(requested_player)
+
             expect(response).to redirect_to player_path(requested_player)
           end
         end
@@ -55,6 +75,16 @@ RSpec.describe "Player::Matches", type: :request do
 
           it "Creates the match and redirects to requested player page" do
             expect { subject }.to change { Match.count }.by(1)
+            match = Match.order(:created_at).last
+            expect(match.requested_at).not_to be_nil
+            expect(match.published_at).not_to be_nil
+            expect(match.accepted_at).to be_nil
+            expect(match.rejected_at).to be_nil
+            expect(match.finished_at).to be_nil
+            expect(match.reviewed_at).to be_nil
+            expect(match.assignments.find { |a| a.side == 1 }.player).to eq(player)
+            expect(match.assignments.find { |a| a.side == 2 }.player).to eq(requested_player)
+
             expect(response).to redirect_to player_path(requested_player)
           end
 
@@ -70,6 +100,16 @@ RSpec.describe "Player::Matches", type: :request do
 
           it "Creates the match and redirects to requested player page" do
             expect { subject }.to change { Match.count }.by(1)
+            match = Match.order(:created_at).last
+            expect(match.requested_at).not_to be_nil
+            expect(match.published_at).not_to be_nil
+            expect(match.accepted_at).to be_nil
+            expect(match.rejected_at).to be_nil
+            expect(match.finished_at).to be_nil
+            expect(match.reviewed_at).to be_nil
+            expect(match.assignments.find { |a| a.side == 1 }.player).to eq(player)
+            expect(match.assignments.find { |a| a.side == 2 }.player).to eq(requested_player)
+
             expect(response).to redirect_to player_path(requested_player)
           end
 
@@ -99,6 +139,16 @@ RSpec.describe "Player::Matches", type: :request do
 
             it "Creates the match and redirects to requested player page" do
               expect { subject }.to change { Match.count }.by(1)
+              match = Match.order(:created_at).last
+              expect(match.requested_at).not_to be_nil
+              expect(match.published_at).not_to be_nil
+              expect(match.accepted_at).to be_nil
+              expect(match.rejected_at).to be_nil
+              expect(match.finished_at).to be_nil
+              expect(match.reviewed_at).to be_nil
+              expect(match.assignments.find { |a| a.side == 1 }.player).to eq(player)
+              expect(match.assignments.find { |a| a.side == 2 }.player).to eq(requested_player)
+
               expect(response).to redirect_to player_path(requested_player)
             end
           end
@@ -128,6 +178,16 @@ RSpec.describe "Player::Matches", type: :request do
 
             it "Creates the match and redirects to requested player page" do
               expect { subject }.to change { Match.count }.by(1)
+              match = Match.order(:created_at).last
+              expect(match.requested_at).not_to be_nil
+              expect(match.published_at).not_to be_nil
+              expect(match.accepted_at).to be_nil
+              expect(match.rejected_at).to be_nil
+              expect(match.finished_at).to be_nil
+              expect(match.reviewed_at).to be_nil
+              expect(match.assignments.find { |a| a.side == 1 }.player).to eq(player)
+              expect(match.assignments.find { |a| a.side == 2 }.player).to eq(requested_player)
+
               expect(response).to redirect_to player_path(requested_player)
             end
           end

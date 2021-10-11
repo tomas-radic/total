@@ -1,5 +1,7 @@
 class Season < ApplicationRecord
 
+  acts_as_list
+
   # Relations ----------
   has_many :tournaments, dependent: :destroy
   has_many :enrollments, dependent: :destroy
@@ -22,6 +24,6 @@ class Season < ApplicationRecord
 
 
   # Scopes -----
-  scope :sorted, -> { order(created_at: :desc) }
+  scope :sorted, -> { order(position: :desc) }
 
 end

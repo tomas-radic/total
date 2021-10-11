@@ -105,6 +105,7 @@ ActiveRecord::Schema.define(version: 2021_10_02_211741) do
     t.integer "points_double_21", null: false
     t.integer "points_double_12", null: false
     t.integer "points_double_02", null: false
+    t.integer "position", null: false
     t.datetime "ended_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

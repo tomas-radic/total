@@ -30,13 +30,20 @@ class Player::MatchesController < Player::BaseController
     if existing_match
       flash[:alert] = "Výzvu nie je možné  vytvoriť, pretože takáto výzva už existuje. Pokiaľ nie je zobrazená na stránke medzi výzvami, kontaktuj manažéra súťaže."
     else
-      selected_season.matches.create!(
+      now = Time.now
+      match = selected_season.matches.create(
+        requested_at: now,
+        published_at: now,
         assignments: [
           Assignment.new(player: current_player, side: 1),
           Assignment.new(player: @requested_player, side: 2)
         ])
 
-      flash[:notice] = "Výzva bola vytvorená. Kontaktuj vyzvaného súpera a dohodni si čas a miesto zápasu. Nezabudni, že dohodnutý čas a miesto môžeš zverejniť na tomto webe."
+      if match.persisted?
+        flash[:notice] = "Výzva bola vytvorená. Kontaktuj vyzvaného súpera a dohodni si čas a miesto zápasu. Nezabudni, že dohodnutý čas a miesto môžeš zverejniť na tomto webe."
+      else
+        flash[:alert] = "Výzvu nie je možné vytvoriť. Kontaktuj manažéra súťaže."
+      end
     end
 
     redirect_to player_path(@requested_player)
