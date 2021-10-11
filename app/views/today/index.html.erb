@@ -29,8 +29,6 @@
       </div>
     </div>
   <% end %>
-
-
 </section>
 
 <section id="recent-matches" class="base-yellow min-h-screen p-8">
@@ -81,7 +79,7 @@
 </section>
 
 <section id="planned-matches" class="base-salmon min-h-screen p-8">
-  <% if true #|| @recent_matches.any? %>
+  <% if @planned_matches.any? %>
     <h2 class="text-5xl p-1 primary-color text-right">Zápasy, ktoré uvidíme.</h2>
     <div class="table-container">
       <table>
@@ -103,7 +101,7 @@
                 <%= "#{app_date(match.play_date)}<br>#{match.play_time}".html_safe %>
               <% end %>
             </td>
-            <td><%= match.notes %></td>
+            <td><%= match.place&.name %></td>
           </tr>
         <% end %>
         </tbody>

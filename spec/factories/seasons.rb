@@ -10,5 +10,9 @@ FactoryBot.define do
     points_double_21 { 1 }
     points_double_12 { 0 }
     points_double_02 { 0 }
+
+    trait :ended do
+      ended_at { 1.month.ago }
+    end
   end
 end

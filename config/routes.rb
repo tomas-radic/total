@@ -5,7 +5,15 @@ Rails.application.routes.draw do
   devise_for :players
 
   get "/today", to: "today#index", as: "today"
+  get "/rankings", to: "rankings#index", as: "rankings"
 
   resources :tournaments, only: [:index, :show]
+  resources :matches, only: [:index]
+  resources :players, only: [:show]
+
+
+  namespace :player do
+    resources :matches, only: [:create, :edit, :update]
+  end
 
 end

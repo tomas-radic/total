@@ -9,6 +9,7 @@ class CreateTournaments < ActiveRecord::Migration[6.1]
       t.integer :color_base, null: false
       t.datetime :published_at
       t.references :season, null: false, foreign_key: true, type: :uuid
+      t.references :place, foreign_key: true, type: :uuid
 
       t.timestamps
     end

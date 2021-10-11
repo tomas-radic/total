@@ -10,8 +10,8 @@
       </button>
     </div>
     <nav :class="{'flex': open, 'hidden': !open}" class="text-white flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row">
-      <a class="px-4 py-2 mt-2 text-sm font-semibold bt-transparent hover:underline md:mt-0" href="#">Zápasy</a>
-      <a class="px-4 py-2 mt-2 text-sm font-semibold bt-transparent hover:underline md:mt-0" href="#">Rebríček</a>
+      <%= link_to "Zápasy", matches_path, class: "px-4 py-2 mt-2 text-sm font-semibold bt-transparent hover:underline md:mt-0" %>
+      <%= link_to "Rebríček", rankings_path, class: "px-4 py-2 mt-2 text-sm font-semibold bt-transparent hover:underline md:mt-0" %>
       <%= link_to "Turnaje", tournaments_path, class: "px-4 py-2 mt-2 text-sm font-semibold bt-transparent hover:underline md:mt-0" %>
       <a class="px-4 py-2 mt-2 text-sm font-semibold bt-transparent hover:underline md:mt-0" href="#">Novinky</a>
       <a class="px-4 py-2 mt-2 text-sm font-semibold bt-transparent hover:underline md:mt-0" href="#">O súťaži</a>
@@ -22,6 +22,7 @@
         </button>
         <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg md:w-48">
           <div class="px-2 py-2 rounded-md shadow">
+            <%= link_to "Prihlásiť", new_player_session_path, class: "block px-4 py-2 mt-2 text-sm font-semibold bg-transparent hover:underline md:mt-0" %>
             <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent hover:underline md:mt-0" href="#">Link #1</a>
             <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent hover:underline md:mt-0" href="#">Link #2</a>
             <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent hover:underline md:mt-0" href="#">Link #3</a>

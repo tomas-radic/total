@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 2021_10_02_211741) do
     t.boolean "ranking_counted", default: true, null: false
     t.string "competitable_type", null: false
     t.uuid "competitable_id", null: false
+    t.uuid "place_id"
     t.integer "set1_side1_score"
     t.integer "set1_side2_score"
     t.integer "set2_side1_score"
@@ -61,6 +62,14 @@ ActiveRecord::Schema.define(version: 2021_10_02_211741) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["competitable_type", "competitable_id"], name: "index_matches_on_competitable"
+    t.index ["place_id"], name: "index_matches_on_place_id"
+  end
+
+  create_table "places", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_places_on_name", unique: true
   end
 
   create_table "players", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -110,8 +119,10 @@ ActiveRecord::Schema.define(version: 2021_10_02_211741) do
     t.integer "color_base", null: false
     t.datetime "published_at"
     t.uuid "season_id", null: false
+    t.uuid "place_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["place_id"], name: "index_tournaments_on_place_id"
     t.index ["season_id"], name: "index_tournaments_on_season_id"
   end
 
@@ -119,5 +130,7 @@ ActiveRecord::Schema.define(version: 2021_10_02_211741) do
   add_foreign_key "assignments", "players"
   add_foreign_key "enrollments", "players"
   add_foreign_key "enrollments", "seasons"
+  add_foreign_key "matches", "places"
+  add_foreign_key "tournaments", "places"
   add_foreign_key "tournaments", "seasons"
 end

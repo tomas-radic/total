@@ -1,0 +1,40 @@
+<section id="recent-matches" class="base-yellow min-h-screen p-8">
+  <% if @matches.any? %>
+    <h2 class="text-6xl p-1 primary-color text-right">Všetky zápasy sezóny.</h2>
+    <div class="table-container default-color">
+      <table>
+        <tbody>
+        <% @matches.each.with_index do |match, idx| %>
+          <tr>
+            <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
+              <%= match.winner || match.side(1) %>
+            </td>
+            <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
+              <%= match.looser || match.side(2) %>
+            </td>
+            <td class="whitespace-nowrap">
+              <%= match.result %>
+            </td>
+            <td>
+              <span class="whitespace-nowrap">
+                <%= app_date match.play_date if match.play_date %>
+              </span>
+              <% unless match.finished_at %>
+                <%= match.play_time if match.play_date && match.play_time %><br>
+                <%= match.place&.name %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <p class="p-8 text-center default-color">Žiadne zápasy sa ešte neodohrali.</p>
+    <p class="p-2 text-center">
+      <a href="#" class="button button-red">
+        Zavolaj niekoho hrať!
+      </a>
+    </p>
+  <% end %>
+</section>

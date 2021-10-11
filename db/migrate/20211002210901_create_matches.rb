@@ -15,6 +15,7 @@ class CreateMatches < ActiveRecord::Migration[6.1]
       t.datetime :finished_at
       t.boolean :ranking_counted, null: false, default: true
       t.references :competitable, polymorphic: true, null: false, type: :uuid
+      t.references :place, foreign_key: true, type: :uuid
       t.integer :set1_side1_score
       t.integer :set1_side2_score
       t.integer :set2_side1_score

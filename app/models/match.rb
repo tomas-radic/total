@@ -5,6 +5,7 @@ class Match < ApplicationRecord
 
   # Relations -----
   belongs_to :competitable, polymorphic: true
+  belongs_to :place, optional: true
   has_many :assignments, dependent: :destroy
   has_many :players, through: :assignments
 
@@ -15,6 +16,9 @@ class Match < ApplicationRecord
   validates :rejected_at, absence: true, if: Proc.new { |m| m.accepted_at }
   validates :accepted_at, absence: true, if: Proc.new { |m| m.rejected_at }
   validates :requested_at, presence: true, if: Proc.new { |m| m.accepted_at || m.rejected_at }
+  validates :finished_at, presence: true, if: Proc.new { |m| m.reviewed_at }
+  validates :set1_side1_score, :set1_side2_score,
+            presence: true, if: Proc.new { |m| m.finished_at }
   validate :player_assignments
 
 
@@ -40,6 +44,8 @@ class Match < ApplicationRecord
   scope :finished, -> { where.not(finished_at: nil) }
   scope :reviewed, -> { where.not(reviewed_at: nil) }
   scope :ranking_counted, -> { where(ranking_counted: true) }
+  scope :single, -> { where(kind: "single") }
+  scope :double, -> { where(kind: "double") }
 
 
   def played_3rd_set?
@@ -48,7 +54,7 @@ class Match < ApplicationRecord
 
 
   def winner
-    return nil if finished_at.blank?
+    return nil if reviewed_at.blank?
 
     assignments.where(side: winner_side)
                .joins(:player)
@@ -57,7 +63,7 @@ class Match < ApplicationRecord
 
 
   def looser
-    return nil if finished_at.blank?
+    return nil if reviewed_at.blank?
 
     assignments.where.not(side: winner_side)
                .joins(:player)
@@ -66,7 +72,7 @@ class Match < ApplicationRecord
 
 
   def result(side: 1)
-    return nil if finished_at.blank?
+    return nil if reviewed_at.blank?
 
     side = 1 if (side < 1) || (side > 2)
     other_side = side - 1

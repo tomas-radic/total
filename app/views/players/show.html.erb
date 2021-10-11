@@ -1,0 +1,29 @@
+<section class="base-green">
+  <h1 class="text-6xl p-20 primary-color text-center">
+    <%= @player.name %>
+  </h1>
+  <div class="default-color p-4 md:text-center">
+    <p><%= @player.phone_nr %></p>
+    <p><%= @player.email %></p>
+    <p>Nar.: <%= @player.birth_year.presence || '-' %></p>
+  </div>
+</section>
+
+<% if player_signed_in? %>
+
+  <section class="p-2">
+    <%= link_to "Vyzvať hráča", "#", id: "match-request-button", class: "button button-red" %>
+  </section>
+<% end %>
+
+<%= modal_window "match-request-window", trigger_id: "match-request-button" do %>
+  <p>
+    Potvrdenie výzvy. Áno, chcem naozaj vyzvať: <%= @player.name %>
+  </p>
+  <p>
+    <%= form_with url: player_match_path do |f| %>
+      <%= f.hidden_field :player_id, value: @player.id %>
+      <%= f.submit "Vyzvať hráča", class: "button button-red disabled:opacity-50", disabled: current_player == @player %>
+    <% end %>
+  </p>
+<% end %>
