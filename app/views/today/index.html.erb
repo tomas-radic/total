@@ -146,7 +146,7 @@
             <td class="<%= 'border-yellow-400 border-solid border-t-4' if position > 1 %>">
               <%= "#{position}." %>
             </td>
-            <td><%= ranking[:name] %></td>
+            <td><%= link_to ranking[:name], player_path(ranking[:id]), class: "underline" %></td>
             <td><%= ranking[:points] %></td>
             <td><%= "#{(ranking[:percentage] / 100.0).round(2)}%" %></td>
           </tr>

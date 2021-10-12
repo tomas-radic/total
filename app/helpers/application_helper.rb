@@ -27,30 +27,47 @@ module ApplicationHelper
 
 
   def modal_window(id, trigger_id:, &block)
-    content_tag :div, id: id, class: "modal opacity-0 pointer-events-none absolute w-full h-full top-0 left-0 flex items-center justify-center" do
-      overlay = content_tag :div, id: "#{id}-overlay", class: "p-2 absolute w-full h-full bg-black opacity-25 top-0 left-0 cursor-pointer" do
+    content_tag :div,
+                id: id,
+                class: "fixed z-10 inset-0 overflow-y-auto",
+                "aria-labelledby" => "modal-title",
+                role: "dialog",
+                "aria-modal" => true do
 
-      end
-      content = content_tag :div, class: "absolute p-4 bg-white rounded-sm shadow-lg flex items-center justify-center text-2xl" do
-        yield
-      end
+      content_tag :div, class: "flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0" do
+        modal_element1 = content_tag :div, id: "#{id}-overlay", class: "fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity", "aria-hidden" => "true" do
 
-      script_content = <<SCRIPT
-const button = document.querySelector('##{trigger_id}');
-button.addEventListener('click', toggleModal);
+        end
 
-const overlay = document.querySelector('##{id}-overlay');
-overlay.addEventListener('click', toggleModal);
+        modal_element2 = content_tag :span, class: "hidden sm:inline-block sm:align-middle sm:h-screen", "aria-hidden" => "true" do
+          "&#8203;"
+        end
+
+        modal_element3 = content_tag :div, class: "inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" do
+          yield
+        end
+
+        script_content = <<SCRIPT
+const modal = document.querySelector('##{id}')
+modal.hidden = true
+const triggerButton = document.querySelector('##{trigger_id}')
+triggerButton.addEventListener('click', toggleModal)
+
+const overlay = document.querySelector('##{id}-overlay')
+overlay.addEventListener('click', toggleModal)
+
+const cancelButton = document.getElementById("#{id}").getElementsByClassName("modal-cancel")[0]
+cancelButton.addEventListener('click', function() { modal.hidden = true })
 
 function toggleModal () {
   const modal = document.querySelector('##{id}')
-  modal.classList.toggle('opacity-0')
-  modal.classList.toggle('pointer-events-none')
+  modal.hidden = !modal.hidden
 }
 SCRIPT
 
-      overlay + content + javascript_tag do
-        script_content.html_safe
+        modal_element1 + modal_element2 + modal_element3 + javascript_tag do
+          script_content.html_safe
+        end
       end
     end
   end
