@@ -1,0 +1,34 @@
+<div class="flex justify-center py-8">
+  <div class="w-full max-w-xs">
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" }) do |f| %>
+      <div class="mb-4">
+        <%= f.label :email, "Email", class: "block text-gray-700 mb-2" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+      </div>
+      <div class="mb-6">
+        <%= f.label :password, "Heslo", class: "block text-gray-700 mb-2" %>
+        <%= f.password_field :password, autocomplete: "current-password", class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" %>
+
+        <% if devise_mapping.rememberable? %>
+          <div class="field">
+            <%= f.check_box :remember_me %>
+            <%= f.label :remember_me, "Zapamätaj si ma" %>
+          </div>
+        <% end %>
+
+      </div>
+      <div class="flex items-center justify-between mb-2">
+        <%= f.submit "Prihlásiť", class: "button button-blue" %>
+        <a class="inline-block align-baseline text-blue-500 hover:text-blue-800" href="#">
+          Zabudnuté heslo?
+        </a>
+      </div>
+      <hr>
+      <%= render "devise/shared/links" %>
+    <% end %>
+
+    <p class="text-center text-gray-500 text-xs">
+      &copy;2020 Acme Corp. All rights reserved.
+    </p>
+  </div>
+</div>
