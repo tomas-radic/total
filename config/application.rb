@@ -20,5 +20,6 @@ module Total
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.action_view.form_with_generates_remote_forms = false
+    config.i18n.default_locale = :sk
   end
 end

@@ -13,7 +13,10 @@ Rails.application.routes.draw do
 
 
   namespace :player do
-    resources :matches, only: [:create, :edit, :update]
+    resources :matches, only: [:create, :edit, :update] do
+      get :accept, on: :member
+      get :reject, on: :member
+    end
   end
 
 end

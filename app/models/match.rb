@@ -20,6 +20,7 @@ class Match < ApplicationRecord
   validates :set1_side1_score, :set1_side2_score,
             presence: true, if: Proc.new { |m| m.finished_at }
   validate :player_assignments
+  validate :existing_matches, if: Proc.new { |m| m.single? && m.competitable.is_a?(Season) }
 
 
   # Enums -----
@@ -104,7 +105,34 @@ class Match < ApplicationRecord
     nr_side2_assignments = assignments.select { |a| a.side == 2 }.length
 
     if !nr_assignments.in?([0, 2, 4]) || (nr_side1_assignments != nr_side2_assignments)
-      errors.add(:base, "Incorrect players assignments.")
+      errors.add(:base, "Nesprávny počet hráčov.")
+    end
+
+    if competitable.is_a? Season
+      assignments.each do |a|
+        unless competitable.enrollments.active.find { |e| e.player == a.player }
+          errors.add(:base, "#{a.player.name} nie je prihlásený/á do sezóny.")
+        end
+      end
+    end
+  end
+
+
+  def existing_matches
+    matches = competitable.matches.single.where(finished_at: nil, rejected_at: nil)
+                          .joins(:assignments)
+                          .where(
+                            "assignments.player_id in (?)",
+                            assignments.map(&:player_id))
+                          .includes(:assignments).distinct
+
+    existing_match = matches.find do |m|
+      m.assignments.find { |a| a.player_id == assignments[0].player_id } &&
+        m.assignments.find { |a| a.player_id == assignments[1].player_id }
+    end
+
+    if existing_match
+      errors.add(:base, "Takýto zápas už existuje.")
     end
   end
 

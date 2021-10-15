@@ -59,9 +59,7 @@
       </table>
     </div>
     <p class="text-center pt-6 default-color">
-      <a href="#" class="underline">
-        Všetky zápasy
-      </a>
+      <%= link_to "Všetky zápasy", matches_path, class: "underline" %>
     </p>
   <% else %>
     <p class="p-8 text-center default-color">Žiadne zápasy sa v poslednej dobe nehrali.</p>
@@ -108,9 +106,7 @@
       </table>
     </div>
     <p class="text-center pt-6">
-      <a href="#" class="underline">
-        Všetky zápasy
-      </a>
+      <%= link_to "Všetky zápasy", matches_path, class: "underline" %>
     </p>
   <% else %>
     <p class="p-8 text-center">Nikto neplánuje hrať zápas.</p>
@@ -159,9 +155,7 @@
       Tí šedí, to sú princovia, majú najväčšiu šancu sa do PLAY OFF dostať.
     </p>
     <p class="text-center default-color">
-      <a href="#" class="py-3 px-4 underline">
-        Celý rebríček
-      </a>
+      <% link_to "Celý rebríček", rankings_path, class: "py-3 px-4 underline" %>
     </p>
   <% else %>
     <p class="p-8 text-center default-color">Nie sú prihlásení žiadni hráči.</p>
