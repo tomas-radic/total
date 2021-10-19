@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   get "/rankings", to: "rankings#index", as: "rankings"
 
   resources :tournaments, only: [:index, :show]
-  resources :matches, only: [:index]
+  resources :matches, only: [:index, :show]
   resources :players, only: [:show]
 
 

@@ -7,5 +7,6 @@ class Assignment < ApplicationRecord
 
   # Validations -----
   validates :player_id, uniqueness: { scope: :match_id }
+  validates :side, inclusion: { in: [1, 2] }
 
 end

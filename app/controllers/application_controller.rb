@@ -11,4 +11,9 @@ class ApplicationController < ActionController::Base
     @season ||= Season.sorted.first
   end
 
+
+  def pundit_user
+    current_player
+  end
+
 end

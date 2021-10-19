@@ -1,0 +1,25 @@
+<%= "Match created #{app_date @match.created_at}" %>
+<%= turbo_frame_tag dom_id(@match) do %>
+  <% if policy(@match).update? %>
+    <%= link_to "Zmeniť údaje", edit_player_match_path(@match) %>
+  <% end %>
+
+  <div>
+    <p>Date</p>
+    <p><%= app_date(@match.play_date) if @match.play_date %></p>
+  </div>
+  <div>
+    <p>Time</p>
+    <p><%= @match.play_time %></p>
+  </div>
+  <div>
+    <p>Notes</p>
+    <p><%= @match.notes %></p>
+  </div>
+  <div>
+    <p>Place</p>
+    <p><%= @match.place&.name %></p>
+  </div>
+
+
+<% end %>

@@ -6,7 +6,6 @@ class Player::MatchesController < Player::BaseController
   def create
     @requested_player = Player.find params[:player_id]
 
-
     now = Time.now
     match = selected_season.matches.create(
       requested_at: now,
@@ -28,28 +27,27 @@ class Player::MatchesController < Player::BaseController
 
   def edit
     @match = Match.published.find params[:id]
-    authorize current_player, @match
+    authorize @match
   end
 
 
   def update
     @match = Match.published.find params[:id]
-    authorize current_player, @match
+    authorize @match
 
     if @match.update(whitelisted_params)
       flash[:notice] = "Údaje o zápase boli upravené."
+      redirect_to match_path(@match)
     else
       render :edit
     end
-
-    redirect_back fallback_location: matches_path
   end
 
 
   private
 
   def whitelisted_params
-    params.require(:match).permit(:play_date, :play_time, :note, :place_id)
+    params.require(:match).permit(:play_date, :play_time, :notes, :place_id)
   end
 
 end

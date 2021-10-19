@@ -1,7 +1,11 @@
 class MatchPolicy < ApplicationPolicy
 
+  def edit?
+    update?
+  end
+
   def update?
-    record.players.include? player
+    user && record.players.include?(user)
   end
 
 end

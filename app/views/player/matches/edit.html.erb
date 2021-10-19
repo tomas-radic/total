@@ -1,0 +1,29 @@
+<%= turbo_frame_tag dom_id(@match) do %>
+  <div class="flex justify-center py-8">
+    <%= form_with model: [:player, @match], class: "w-full max-w-lg" do |f| %>
+      <div class="flex flex-wrap -mx-3 mb-6">
+        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <%= f.label :play_date, "Dátum", class: "block tracking-wide mb-2" %>
+          <%= f.date_field :play_date, class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none" %>
+        </div>
+        <div class="w-full md:w-1/2 px-3">
+          <%= f.label :play_time, "Čas", class: "block tracking-wide mb-2" %>
+          <%= f.select :play_time, Match.play_times.keys.map { |pt| [pt, pt] }, class: "block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-gray-500" %>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap -mx-3 mb-6">
+        <div class="w-full md:w-1/2 px-3">
+          <%= f.label :place_id, "Miesto", class: "block tracking-wide mb-2" %>
+          <%= f.select :place_id, Place.all.map { |p| [p.name, p.id] }, { include_blank: "Žiadne" }, class: "block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-gray-500" %>
+        </div>
+        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <%= f.label :notes, "Poznámka", class: "block tracking-wide mb-2" %>
+          <%= f.text_area :notes, rows: 10, class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none" %>
+        </div>
+      </div>
+
+      <%= f.submit "Potvrdiť", class: "button button-blue" %>
+    <% end %>
+  </div>
+<% end %>

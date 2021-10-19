@@ -16,4 +16,9 @@ class MatchesController < ApplicationController
     end
   end
 
+
+  def show
+    @match = Match.published.find params[:id]
+  end
+
 end

@@ -110,7 +110,7 @@ class Match < ApplicationRecord
 
     if competitable.is_a? Season
       assignments.each do |a|
-        unless competitable.enrollments.active.find { |e| e.player == a.player }
+        unless competitable.enrollments.active.find { |e| e.player_id == a.player_id }
           errors.add(:base, "#{a.player.name} nie je prihlásený/á do sezóny.")
         end
       end
@@ -120,6 +120,7 @@ class Match < ApplicationRecord
 
   def existing_matches
     matches = competitable.matches.single.where(finished_at: nil, rejected_at: nil)
+                          .where.not(id: id)
                           .joins(:assignments)
                           .where(
                             "assignments.player_id in (?)",
@@ -132,7 +133,7 @@ class Match < ApplicationRecord
     end
 
     if existing_match
-      errors.add(:base, "Takýto zápas už existuje.")
+      errors.add(:base, "Takáto výzva už existuje.")
     end
   end
 
