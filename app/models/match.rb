@@ -97,6 +97,21 @@ class Match < ApplicationRecord
   end
 
 
+  def date
+    finished_at.presence || play_date.presence
+  end
+
+
+  def requested?
+    requested_at && accepted_at.blank? && rejected_at.blank?
+  end
+
+
+  def closed?
+    finished_at && reviewed_at
+  end
+
+
   private
 
   def player_assignments
