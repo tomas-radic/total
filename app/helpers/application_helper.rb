@@ -23,8 +23,13 @@ module ApplicationHelper
     days = ["pon", "uto", "str", "štv", "pia", "sob", "ned"]
     months = ["jan", "feb", "mar", "apr", "máj", "jún", "júl", "aug", "sep", "okt", "nov", "dec"]
 
+    "#{days[datetime.wday - 1]}, #{datetime.day}. #{months[datetime.month - 1]}."
+  end
+
+
+  def app_date_span(datetime)
     content_tag :span, class: "whitespace-nowrap" do
-      "#{days[datetime.wday - 1]}, #{datetime.day}. #{months[datetime.month - 1]}."
+      app_date datetime
     end
   end
 
