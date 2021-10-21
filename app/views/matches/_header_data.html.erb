@@ -1,0 +1,9 @@
+<p class="default-color p-4 md:text-center">
+  <% if @match.date %>
+    <%= app_date_span @match.date %>
+    <%= @match.play_time %>
+  <% end %>
+  <% if @match.place %>
+    , <%= @match.place.name %>
+  <% end %>
+</p>

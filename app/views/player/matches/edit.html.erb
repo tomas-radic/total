@@ -1,5 +1,5 @@
 <%= turbo_frame_tag dom_id(@match) do %>
-  <div class="flex justify-center py-8">
+  <div id="player-form" class="flex justify-center py-8">
     <%= form_with model: [:player, @match], class: "w-full p-2" do |f| %>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
         <div class="w-full">

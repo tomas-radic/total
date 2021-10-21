@@ -1,0 +1,7 @@
+<%= turbo_stream.replace "match-time-place" do %>
+  <%= render partial: "matches/header_data" %>
+<% end %>
+
+<%= turbo_stream.replace "player-form" do %>
+  <%= render partial: "matches/main_data" %>
+<% end %>

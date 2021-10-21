@@ -1,5 +1,6 @@
 class Player::MatchesController < Player::BaseController
 
+  before_action :load_and_authorize_record, except: [:create]
   after_action :verify_authorized, except: [:create]
 
 
@@ -35,12 +36,36 @@ class Player::MatchesController < Player::BaseController
     @match = Match.published.find params[:id]
     authorize @match
 
-    if @match.update(whitelisted_params)
-      flash[:notice] = "Údaje o zápase boli upravené."
-      redirect_to match_path(@match)
-    else
-      render :edit
+    respond_to do |format|
+      if @match.update(whitelisted_params)
+        format.html do
+          flash[:notice] = "Údaje o zápase boli upravené."
+          redirect_to match_path(@match)
+        end
+
+        format.turbo_stream
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+      end
     end
+  end
+
+
+  def destroy
+    @match.destroy
+    redirect_to root_path
+  end
+
+
+  def accept
+    @match.update(accepted_at: Time.now)
+    redirect_to match_path(@match)
+  end
+
+
+  def reject
+    @match.update(rejected_at: Time.now)
+    redirect_to match_path(@match)
   end
 
 
@@ -48,6 +73,12 @@ class Player::MatchesController < Player::BaseController
 
   def whitelisted_params
     params.require(:match).permit(:play_date, :play_time, :notes, :place_id)
+  end
+
+
+  def load_and_authorize_record
+    @match = Match.published.find params[:id]
+    authorize @match
   end
 
 end
