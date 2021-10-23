@@ -17,10 +17,12 @@ class Match < ApplicationRecord
   validates :accepted_at, absence: true, if: Proc.new { |m| m.rejected_at }
   validates :requested_at, presence: true, if: Proc.new { |m| m.accepted_at || m.rejected_at }
   validates :finished_at, presence: true, if: Proc.new { |m| m.reviewed_at }
+  validates :play_date, :play_time, :place_id,
+            absence: true, if: Proc.new { |m| m.requested_at && m.accepted_at.blank? }
   validates :set1_side1_score, :set1_side2_score,
             presence: true, if: Proc.new { |m| m.finished_at }
   validate :player_assignments
-  validate :existing_matches, if: Proc.new { |m| m.single? && m.competitable.is_a?(Season) }
+  validate :existing_matches, if: Proc.new { |m| m.single? && m.finished_at.blank? && m.competitable.is_a?(Season) }
 
 
   # Enums -----
@@ -55,20 +57,20 @@ class Match < ApplicationRecord
 
 
   def winner
-    return nil if reviewed_at.blank?
+    return nil unless closed?
 
-    assignments.where(side: winner_side)
-               .joins(:player)
-               .includes(:player).map { |a| a.player.name }.join(", ")
+    assignments.select do |a|
+      a.side == winner_side
+    end.map { |a| a.player.name }.join(", ")
   end
 
 
   def looser
-    return nil if reviewed_at.blank?
+    return nil unless closed?
 
-    assignments.where.not(side: winner_side)
-               .joins(:player)
-               .includes(:player).map { |a| a.player.name }.join(", ")
+    assignments.select do |a|
+      a.side != winner_side
+    end.map { |a| a.player.name }.join(", ")
   end
 
 
@@ -91,9 +93,9 @@ class Match < ApplicationRecord
 
 
   def side(side)
-    assignments.where(side: side)
-               .joins(:player)
-               .includes(:player).map { |a| a.player.name }.join(", ")
+    assignments.select do |a|
+      a.side == side
+    end.map { |a| a.player.name }.join(", ")
   end
 
 
@@ -103,7 +105,7 @@ class Match < ApplicationRecord
 
 
   def requested?
-    requested_at && accepted_at.blank? && rejected_at.blank?
+    requested_at && accepted_at.blank? && rejected_at.blank? && finished_at.blank?
   end
 
 

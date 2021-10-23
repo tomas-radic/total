@@ -79,7 +79,7 @@ RSpec.describe "Player::Matches", type: :request do
   describe "PATCH /player/matches/:id" do
     subject { patch player_match_path(match), params: params }
 
-    let!(:match) { create(:match, :requested, competitable: season, ranking_counted: true) }
+    let!(:match) { create(:match, :requested, :accepted, competitable: season, ranking_counted: true) }
     let!(:place) { create(:place) }
     let(:play_date) { Date.tomorrow }
     let(:play_time) { Match.play_times.keys.sample }
@@ -139,7 +139,6 @@ RSpec.describe "Player::Matches", type: :request do
                                kind: "single",
                                winner_side: nil,
                                is_retired: false,
-                               accepted_at: nil,
                                reviewed_at: nil,
                                finished_at: nil,
                                ranking_counted: true,

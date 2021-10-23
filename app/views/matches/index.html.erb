@@ -19,7 +19,7 @@
             <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
               <% if match.play_date.present? %>
                 <%= link_to_match(match) do %>
-                  <%= "#{app_date_span(match.play_date)}<br>#{match.play_time}".html_safe %>
+                  <%= "#{app_date_span(match.date)}<br>#{match.play_time}".html_safe %>
                 <% end %>
               <% else %>
                 <%= link_to_match(match) %>
@@ -58,7 +58,7 @@
               <% end %>
             </td>
             <td>
-              <%= app_date_span match.play_date if match.play_date %>
+              <%= app_date_span match.date if match.date %>
               <% unless match.finished_at %>
                 <%= match.play_time if match.play_date && match.play_time %><br>
                 <%= match.place&.name %>
@@ -72,9 +72,7 @@
   <% else %>
     <p class="p-8 text-center default-color">Žiadne zápasy sa ešte neodohrali.</p>
     <p class="p-2 text-center">
-      <a href="#" class="button button-red">
-        Zavolaj niekoho hrať!
-      </a>
+      <%= link_to "Zavolaj niekoho hrať!", rankings_path, class: "button button-red" %>
     </p>
   <% end %>
 </section>

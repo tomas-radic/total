@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe "Matches", type: :request do
 
+  let!(:season) { create(:season) }
+
   describe "GET /matches" do
     subject { get matches_path }
 

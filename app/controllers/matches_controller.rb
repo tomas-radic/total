@@ -1,24 +1,22 @@
 class MatchesController < ApplicationController
 
   def index
-    @matches = Match.published.ranking_counted
-                    .where(rejected_at: nil)
-                    .order("finished_at desc nulls first")
-                    .order("play_date asc nulls last, play_time asc nulls last")
-                    .includes(assignments: :player)
+    @matches = selected_season.matches.published.ranking_counted
+                              .where(rejected_at: nil)
+                              .order("finished_at desc nulls first")
+                              .order("play_date asc nulls last, play_time asc nulls last")
+                              .includes(assignments: :player)
 
     if player_signed_in?
-      @pending_matches = current_player.matches
-                                       .where.not(requested_at: nil)
-                                       .where(finished_at: nil, rejected_at: nil)
-                                       .order(:requested_at)
-                                       .includes(assignments: :player)
+      @pending_matches = @matches.select do |match|
+        match.assignments.find { |a| a.player_id == current_player.id } && match.requested?
+      end.sort_by { |m| -m.requested_at.to_i }
     end
   end
 
 
   def show
-    @match = Match.published.find params[:id]
+    @match = selected_season.matches.published.find params[:id]
   end
 
 end
