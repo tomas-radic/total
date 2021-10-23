@@ -54,7 +54,7 @@
             <td><%= app_date_span match.finished_at %></td>
             <td><%= match.winner %></td>
             <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
-              <%= link_to_match(match, current_player) do %>
+              <%= link_to_match(match) do %>
                 <%= match.result %>
               <% end %>
             </td>
@@ -102,11 +102,11 @@
             <td><%= match.side 2 %></td>
             <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
               <% if match.play_date.present? %>
-                <%= link_to_match(match, current_player) do %>
+                <%= link_to_match(match) do %>
                   <%= "#{app_date_span(match.play_date)}<br>#{match.play_time}".html_safe %>
                 <% end %>
               <% else %>
-                <%= link_to_match(match, current_player) %>
+                <%= link_to_match(match) %>
               <% end %>
             </td>
             <td><%= match.place&.name %></td>
