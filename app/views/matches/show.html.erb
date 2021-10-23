@@ -7,13 +7,11 @@
     <%= @match.side(2) %>
   </h3>
   <% if @match.date %>
-    <%= turbo_frame_tag "match-time-place" do %>
+    <div id="header-data">
       <%= render "matches/header_data" %>
-    <% end %>
+    </div>
   <% end %>
 </section>
-
-<%= Time.now.to_i %>
 
 <section class="p-2">
   <% if @match.closed? %>
