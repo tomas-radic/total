@@ -42,7 +42,7 @@
       <button type="button" class="modal-cancel button">
         Zrušiť
       </button>
-      <%= form_with url: player_matches_path, class: "inline-block" do |f| %>
+      <%= form_with url: player_matches_path, data: { turbo: false }, class: "inline-block" do |f| %>
         <%= f.hidden_field :player_id, value: @player.id %>
         <%= f.submit "Potvrdiť!",
                      class: "button button-red disabled:opacity-50",

@@ -56,21 +56,26 @@ module ApplicationHelper
         end
 
         script_content = <<SCRIPT
-const modal = document.querySelector('##{id}')
-modal.hidden = true
-const triggerButton = document.querySelector('##{trigger_id}')
-triggerButton.addEventListener('click', toggleModal)
-
-const overlay = document.querySelector('##{id}-overlay')
-overlay.addEventListener('click', toggleModal)
-
-const cancelButton = document.getElementById("#{id}").getElementsByClassName("modal-cancel")[0]
-cancelButton.addEventListener('click', function() { modal.hidden = true })
-
-function toggleModal () {
+document.addEventListener("turbo:load", function() {
   const modal = document.querySelector('##{id}')
-  modal.hidden = !modal.hidden
-}
+  const triggerButton = document.querySelector('##{trigger_id}')
+
+  if (modal && triggerButton) {
+    modal.hidden = true
+    triggerButton.addEventListener('click', toggleModal)
+
+    const overlay = document.querySelector('##{id}-overlay')
+    overlay.addEventListener('click', toggleModal)
+
+    const cancelButton = document.getElementById("#{id}").getElementsByClassName("modal-cancel")[0]
+    cancelButton.addEventListener('click', function() { modal.hidden = true })
+
+    function toggleModal () {
+      const modal = document.querySelector('##{id}')
+      modal.hidden = !modal.hidden
+    }
+  }
+});
 SCRIPT
 
         modal_element1 + modal_element2 + modal_element3 + javascript_tag do

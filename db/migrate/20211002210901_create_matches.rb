@@ -7,7 +7,6 @@ class CreateMatches < ActiveRecord::Migration[6.1]
       t.integer :kind, null: false, default: 0
       t.datetime :published_at
       t.integer :winner_side
-      t.boolean :is_retired, null: false, default: false
       t.datetime :requested_at
       t.datetime :accepted_at
       t.datetime :rejected_at

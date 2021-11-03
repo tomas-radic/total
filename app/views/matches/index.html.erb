@@ -1,3 +1,6 @@
+<%= turbo_stream_from "matches" %>
+<div id="matches_index_reload_notice"></div>
+
 <% if player_signed_in? && @pending_matches.any? %>
   <section class="base-salmon p-8">
     <h2 class="text-5xl p-1 primary-color">Tvoje ďalšie zápasy.</h2>

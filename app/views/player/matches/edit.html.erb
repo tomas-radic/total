@@ -8,7 +8,7 @@
         </div>
         <div class="w-full">
           <%= f.label :play_time, "Čas", class: "block tracking-wide mb-2" %>
-          <%= f.select :play_time, Match.play_times.keys.map { |pt| [pt, pt] }, class: "block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-gray-500" %>
+          <%= f.select :play_time, Match.play_times.keys.map { |pt| [pt, pt] }, { include_blank: "Žiadny" }, class: "block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-gray-500" %>
         </div>
         <div class="w-full">
           <%= f.label :place_id, "Miesto", class: "block tracking-wide mb-2" %>

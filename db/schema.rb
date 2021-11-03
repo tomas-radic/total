@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2021_10_02_211741) do
     t.uuid "player_id", null: false
     t.uuid "match_id", null: false
     t.integer "side", null: false
+    t.boolean "is_retired", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["match_id"], name: "index_assignments_on_match_id"
@@ -43,7 +44,6 @@ ActiveRecord::Schema.define(version: 2021_10_02_211741) do
     t.integer "kind", default: 0, null: false
     t.datetime "published_at"
     t.integer "winner_side"
-    t.boolean "is_retired", default: false, null: false
     t.datetime "requested_at"
     t.datetime "accepted_at"
     t.datetime "rejected_at"

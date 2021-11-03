@@ -7,6 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 ActiveRecord::Base.transaction do
+
   puts "\nCreating season..."
   raise "Existing data" if Season.any?
   season = Season.create!(name: Date.today.year.to_s,
@@ -61,7 +62,7 @@ ActiveRecord::Base.transaction do
   ].each do |name|
     player = Player.create!(
       name: name,
-      email: Faker::Internet.email,
+      email: name == "Tomáš Radič" ? "tomas.radic@gmail.com" : Faker::Internet.email,
       phone_nr: Faker::PhoneNumber.cell_phone,
       birth_year: Date.today.year - rand(20..60),
       password: "asdfasdf"

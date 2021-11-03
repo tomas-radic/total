@@ -1,6 +1,7 @@
 class Match < ApplicationRecord
 
   before_validation :set_defaults
+  after_commit :broadcast, if: Proc.new { |match| match.published_at.present? }
 
 
   # Relations -----
@@ -114,6 +115,11 @@ class Match < ApplicationRecord
   end
 
 
+  def retired?
+    assignments.find { |a| a.is_retired? }
+  end
+
+
   private
 
   def player_assignments
@@ -162,6 +168,17 @@ class Match < ApplicationRecord
     when 4
       self.kind = :double
     end
+  end
+
+
+  def broadcast
+    broadcast_update_to "matches",
+                         target: "matches_index_reload_notice",
+                         partial: "matches/matches_reload_notice"
+
+    broadcast_update_to "matches",
+                        target: "today_index_reload_notice",
+                        partial: "today/matches_reload_notice"
   end
 
 end

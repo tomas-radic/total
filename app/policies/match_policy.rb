@@ -11,16 +11,21 @@ class MatchPolicy < ApplicationPolicy
 
 
   def destroy?
-    user && record.assignments.where(side: 1).find { |a| a.player_id == user.id }
+    user && record.assignments.where(side: 1).find { |a| a.player_id == user.id } && !record.closed?
   end
 
 
   def accept?
-    user && record.assignments.where(side: 2).find { |a| a.player_id == user.id }
+    user && record.assignments.where(side: 2).find { |a| a.player_id == user.id } && !record.closed?
   end
 
 
   def reject?
+    accept?
+  end
+
+
+  def close?
     accept?
   end
 

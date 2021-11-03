@@ -16,13 +16,17 @@ class Player::MatchesController < Player::BaseController
         Assignment.new(player: @requested_player, side: 2)
       ])
 
-    if match.persisted?
-      flash[:notice] = "Výzva bola vytvorená. Kontaktuj vyzvaného súpera a dohodni si čas a miesto zápasu. Nezabudni, že dohodnutý čas a miesto môžeš zverejniť na tomto webe."
-    else
-      flash[:alert] = "#{match.errors.messages.values.flatten.join(' ')}"
-    end
+    respond_to do |format|
+      format.html do
+        if match.persisted?
+          flash[:notice] = "Výzva bola vytvorená. Kontaktuj vyzvaného súpera a dohodni si čas a miesto zápasu. Nezabudni, že dohodnutý čas a miesto môžeš zverejniť na tomto webe."
+        else
+          flash[:alert] = "#{match.errors.messages.values.flatten.join(' ')}"
+        end
 
-    redirect_to player_path(@requested_player)
+        redirect_to player_path(@requested_player)
+      end
+    end
   end
 
 
