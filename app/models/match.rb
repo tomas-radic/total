@@ -111,7 +111,7 @@ class Match < ApplicationRecord
 
 
   def closed?
-    finished_at && reviewed_at
+    finished_at.present? && reviewed_at.present?
   end
 
 

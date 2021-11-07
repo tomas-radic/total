@@ -34,16 +34,16 @@ module ApplicationHelper
   end
 
 
-  def modal_window(id, trigger_id:, &block)
+  def modal_window(id, &block)
     content_tag :div,
-                id: id,
-                class: "fixed z-10 inset-0 overflow-y-auto",
+                id: "modal-window-#{id}",
+                class: "modal-window hidden fixed z-10 inset-0 overflow-y-auto",
                 "aria-labelledby" => "modal-title",
                 role: "dialog",
                 "aria-modal" => true do
 
       content_tag :div, class: "flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0" do
-        modal_element1 = content_tag :div, id: "#{id}-overlay", class: "fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity", "aria-hidden" => "true" do
+        modal_element1 = content_tag :div, id: "modal-overlay-#{id}", class: "modal-overlay fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity", "aria-hidden" => "true" do
 
         end
 
@@ -55,32 +55,7 @@ module ApplicationHelper
           yield
         end
 
-        script_content = <<SCRIPT
-document.addEventListener("turbo:load", function() {
-  const modal = document.querySelector('##{id}')
-  const triggerButton = document.querySelector('##{trigger_id}')
-
-  if (modal && triggerButton) {
-    modal.hidden = true
-    triggerButton.addEventListener('click', toggleModal)
-
-    const overlay = document.querySelector('##{id}-overlay')
-    overlay.addEventListener('click', toggleModal)
-
-    const cancelButton = document.getElementById("#{id}").getElementsByClassName("modal-cancel")[0]
-    cancelButton.addEventListener('click', function() { modal.hidden = true })
-
-    function toggleModal () {
-      const modal = document.querySelector('##{id}')
-      modal.hidden = !modal.hidden
-    }
-  }
-});
-SCRIPT
-
-        modal_element1 + modal_element2 + modal_element3 + javascript_tag do
-          script_content.html_safe
-        end
+        modal_element1 + modal_element2 + modal_element3
       end
     end
   end

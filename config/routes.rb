@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     resources :matches, only: [:create, :edit, :update, :destroy] do
       get :accept, on: :member
       get :reject, on: :member
+      post :close, on: :member
     end
   end
 

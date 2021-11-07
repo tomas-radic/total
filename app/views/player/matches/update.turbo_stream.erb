@@ -1,7 +1,7 @@
-<%= turbo_stream.update "header-data" do %>
-  <%= render partial: "matches/header_data" %>
+<%= turbo_stream.update "header_data" do %>
+  <%= render partial: "matches/header_data", locals: { match: @match } %>
 <% end %>
 
-<%= turbo_stream.replace "player-form" do %>
-  <%= render partial: "matches/main_data" %>
+<%= turbo_stream.replace "main_data" do %>
+  <%= render partial: "matches/main_data", locals: { match: @match } %>
 <% end %>

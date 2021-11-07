@@ -1,3 +1,7 @@
+<%# provide(:turbo_visit_control) do %>
+<!--  <meta name="turbo-visit-control" content="reload">-->
+<%# end %>
+
 <section class="base-green">
   <h1 class="text-6xl p-20 primary-color text-center">
     <%= @player.name %>
@@ -12,11 +16,14 @@
 
 
 <% if player_signed_in? %>
-  <section class="p-2">
-    <%= link_to "Vyzvať hráča", "#", id: "match-request-button", class: "button button-red" %>
-  </section>
+  <div class="p-2">
+    <%= link_to "Vyzvať hráča", "#",
+                id: "modal-trigger-request-match",
+                class: "button button-red modal-trigger-button",
+                target: :_top %>
+  </div>
 
-  <%= modal_window "match-request-window", trigger_id: "match-request-button" do %>
+  <%= modal_window("request-match") do %>
     <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
       <div class="sm:flex sm:items-start">
         <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
@@ -39,9 +46,7 @@
       </div>
     </div>
     <div class="px-4 py-3 sm:px-6 flex justify-center md:justify-end">
-      <button type="button" class="modal-cancel button">
-        Zrušiť
-      </button>
+      <%= link_to "Zrušiť", "#", id: "modal-cancel-request-match", class: "modal-cancel-button button" %>
       <%= form_with url: player_matches_path, data: { turbo: false }, class: "inline-block" do |f| %>
         <%= f.hidden_field :player_id, value: @player.id %>
         <%= f.submit "Potvrdiť!",

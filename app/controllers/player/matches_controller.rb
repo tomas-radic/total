@@ -11,6 +11,7 @@ class Player::MatchesController < Player::BaseController
     match = selected_season.matches.create(
       requested_at: now,
       published_at: now,
+      ranking_counted: true,
       assignments: [
         Assignment.new(player: current_player, side: 1),
         Assignment.new(player: @requested_player, side: 2)
@@ -49,7 +50,13 @@ class Player::MatchesController < Player::BaseController
 
         format.turbo_stream
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html do
+          render :edit
+        end
+
+        format.turbo_stream do
+          render :edit, status: :unprocessable_entity
+        end
       end
     end
   end
