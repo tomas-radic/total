@@ -109,7 +109,7 @@ class Match < ApplicationRecord
 
 
   def date
-    finished_at.presence || play_date.presence
+    play_date.presence || finished_at.presence
   end
 
 

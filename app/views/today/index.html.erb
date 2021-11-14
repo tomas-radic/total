@@ -54,7 +54,7 @@
         <tbody>
         <% @recent_matches.each.with_index do |match, idx| %>
           <tr>
-            <td><%= app_date_span match.finished_at %></td>
+            <td><%= app_date_span match.date %></td>
             <td><%= match.winner %></td>
             <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
               <%= link_to_match(match) do %>
