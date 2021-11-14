@@ -52,7 +52,7 @@
               <%= match.looser || match.side(2) %>
             </td>
             <td class="whitespace-nowrap">
-              <% if match.closed? %>
+              <% if match.reviewed? %>
                 <%= link_to_match match do %>
                   <%= match.result %>
                 <% end %>

@@ -1,9 +1,13 @@
-<% if policy(match).update? %>
-  <div class="text-center underline">
-    <%= link_to "Zmeniť údaje", edit_player_match_path(match) %>
-  </div>
-<% end %>
+<%= turbo_frame_tag "main_data" do %>
+  <% if policy(match).update? %>
+    <div class="text-center underline">
+      <%= link_to "Zmeniť údaje", edit_player_match_path(match) %>
+    </div>
 
-<% if match.notes %>
-  <p><%= match.notes %></p>
+    <%= render partial: "player/matches/modal_finish_match", locals: { match: match } %>
+  <% end %>
+
+  <% if match.notes %>
+    <p><%= match.notes %></p>
+  <% end %>
 <% end %>

@@ -83,7 +83,7 @@ RSpec.describe Match, type: :model do
         let!(:other_match) { create(:match,
                                     competitable: season,
                                     requested_at: Time.now,
-                                    accepted_at: nil,
+                                    accepted_at: Time.now,
                                     rejected_at: nil,
                                     finished_at: Time.now,
                                     winner_side: 1,
@@ -223,6 +223,217 @@ RSpec.describe Match, type: :model do
 
     end
 
+
+    describe "result_state" do
+      subject { build(:match,
+                      competitable: season,
+                      requested_at: Time.now,
+                      accepted_at: Time.now,
+                      rejected_at: nil,
+                      finished_at: Time.now,
+                      winner_side: 2,
+                      assignments: [
+                        build(:assignment, side: 1, player: player1),
+                        build(:assignment, side: 2, player: player2)
+                      ]) }
+
+      let!(:player1) { create(:player, seasons: [season]) }
+      let!(:player2) { create(:player, seasons: [season]) }
+
+
+      context "When none of the players retired the match" do
+
+        context "With sets score 1:2" do
+          before do
+            subject.set1_side1_score = 6
+            subject.set1_side2_score = 3
+            subject.set2_side1_score = 4
+            subject.set2_side2_score = 6
+            subject.set3_side1_score = 1
+            subject.set3_side2_score = 6
+          end
+
+          it "Is valid" do
+            expect(subject).to be_valid
+          end
+        end
+
+        context "With sets score 1:1" do
+          before do
+            subject.set1_side1_score = 6
+            subject.set1_side2_score = 3
+            subject.set2_side1_score = 4
+            subject.set2_side2_score = 6
+          end
+
+          it "Is not valid" do
+            expect(subject).not_to be_valid
+          end
+        end
+      end
+
+      context "When any of the players retired the match" do
+
+        before do
+          subject.assignments.sample.tap do |a|
+            a.is_retired = true
+          end
+        end
+
+        context "With sets score 1:2" do
+          before do
+            subject.set1_side1_score = 6
+            subject.set1_side2_score = 3
+            subject.set2_side1_score = 4
+            subject.set2_side2_score = 6
+            subject.set3_side1_score = 1
+            subject.set3_side2_score = 6
+          end
+
+          it "Is valid" do
+            expect(subject).to be_valid
+          end
+        end
+
+        context "With sets score 1:1" do
+          before do
+            subject.set1_side1_score = 6
+            subject.set1_side2_score = 3
+            subject.set2_side1_score = 4
+            subject.set2_side2_score = 6
+          end
+
+          it "Is valid" do
+            expect(subject).to be_valid
+          end
+        end
+      end
+    end
+
+  end
+
+
+  describe "Instance methods" do
+
+    describe "finish" do
+
+      subject { match.finish attributes }
+
+      let!(:match) { create(:match,
+                            competitable: season,
+                            requested_at: Time.now,
+                            accepted_at: nil,
+                            rejected_at: nil,
+                            finished_at: nil,
+                            assignments: [
+                              build(:assignment, side: 1, player: player1),
+                              build(:assignment, side: 2, player: player2)
+                            ]) }
+
+      let!(:player1) { create(:player, seasons: [season]) }
+      let!(:player2) { create(:player, seasons: [season]) }
+      let!(:place) { create(:place) }
+      let(:play_date) { Date.yesterday }
+      let(:notes) { "Great match." }
+
+
+      context "With accepted match" do
+        before { match.update_column(:accepted_at, Time.now) }
+
+        context "Match has not been retired" do
+          let(:attributes) do
+            {
+              "score" => "6 4 1 6 6 3",
+              "score_side" => 2,
+              "retired_player_id" => "",
+              "play_date" => play_date.to_s,
+              "place_id" => place.id,
+              "notes" => notes
+            }
+          end
+
+          it "Correctly finishes and returns the match" do
+            result = subject
+
+            result.reload
+            expect(result).to be_a(Match)
+            expect(result).to have_attributes(
+                                set1_side1_score: 4,
+                                set1_side2_score: 6,
+                                set2_side1_score: 6,
+                                set2_side2_score: 1,
+                                set3_side1_score: 3,
+                                set3_side2_score: 6,
+                                winner_side: 2,
+                                play_date: play_date,
+                                notes: notes
+                              )
+
+            expect(result.finished_at).not_to be_nil
+            expect(result.reviewed_at).not_to be_nil
+            expect(result.assignments.find { |a| a.is_retired? }).to be_nil
+          end
+        end
+
+        context "Match has been retired" do
+          let(:attributes) do
+            {
+              "score" => "6 4 1 6 5 3",
+              "score_side" => 1,
+              "retired_player_id" => player1.id,
+              "play_date" => play_date.to_s,
+              "place_id" => place.id,
+              "notes" => notes
+            }
+          end
+
+          it "Correctly finishes and returns the match" do
+            result = subject
+
+            result.reload
+            expect(result).to be_a(Match)
+            expect(result).to have_attributes(
+                                set1_side1_score: 6,
+                                set1_side2_score: 4,
+                                set2_side1_score: 1,
+                                set2_side2_score: 6,
+                                set3_side1_score: 5,
+                                set3_side2_score: 3,
+                                winner_side: 2,
+                                play_date: play_date,
+                                notes: notes
+                              )
+
+            expect(result.finished_at).not_to be_nil
+            expect(result.reviewed_at).not_to be_nil
+            expect(result.assignments.find { |a| a.is_retired? }.player_id).to eq(player1.id)
+          end
+        end
+
+        context "With incorrect score attribute" do
+          let(:attributes) do
+            {
+              "score" => "6 4 1 6 5 ",
+              "score_side" => 1,
+              "retired_player_id" => "",
+              "play_date" => play_date.to_s,
+              "place_id" => place.id,
+              "notes" => notes
+            }
+          end
+
+          it "Raises error" do
+            expect { subject }.to raise_error(StandardError)
+          end
+        end
+      end
+
+      context "With unaccepted match" do
+        it "Raises error" do
+          expect { subject }.to raise_error(StandardError)
+        end
+      end
+    end
   end
 
 end

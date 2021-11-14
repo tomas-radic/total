@@ -33,10 +33,10 @@ RSpec.describe "Player::Matches", type: :request do
   end
 
 
-  describe "GET /player/matches/:id" do
+  describe "GET /player/matches/:id/edit" do
     subject { get edit_player_match_path(match) }
 
-    let!(:match) { create(:match, :requested, competitable: season) }
+    let!(:match) { create(:match, :accepted, ranking_counted: true, competitable: season) }
 
     context "When player is logged in" do
       before do

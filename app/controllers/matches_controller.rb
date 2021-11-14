@@ -9,7 +9,9 @@ class MatchesController < ApplicationController
 
     if player_signed_in?
       @pending_matches = @matches.select do |match|
-        match.assignments.find { |a| a.player_id == current_player.id } && match.requested?
+        match.assignments.find { |a| a.player_id == current_player.id } &&
+          match.rejected_at.nil? &&
+          match.finished_at.nil?
       end.sort_by { |m| -m.requested_at.to_i }
     end
   end

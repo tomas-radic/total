@@ -18,10 +18,18 @@ class Match < ApplicationRecord
   validates :accepted_at, absence: true, if: Proc.new { |m| m.rejected_at }
   validates :requested_at, presence: true, if: Proc.new { |m| m.accepted_at || m.rejected_at }
   validates :finished_at, presence: true, if: Proc.new { |m| m.reviewed_at }
+  validates :finished_at, absence: true, if: Proc.new { |m| m.competitable.is_a?(Season) && m.accepted_at.nil? }
   validates :play_date, :play_time, :place_id,
             absence: true, if: Proc.new { |m| m.requested_at && m.accepted_at.blank? }
-  validates :set1_side1_score, :set1_side2_score,
+  validates :winner_side,
             presence: true, if: Proc.new { |m| m.finished_at }
+  validates :set1_side1_score, presence: true, if: Proc.new { |m| m.set1_side2_score.present? }
+  validates :set1_side2_score, presence: true, if: Proc.new { |m| m.set1_side1_score.present? }
+  validates :set2_side1_score, presence: true, if: Proc.new { |m| m.set2_side2_score.present? }
+  validates :set2_side2_score, presence: true, if: Proc.new { |m| m.set2_side1_score.present? }
+  validates :set3_side1_score, presence: true, if: Proc.new { |m| m.set3_side2_score.present? }
+  validates :set3_side2_score, presence: true, if: Proc.new { |m| m.set3_side1_score.present? }
+  validate :result_state, if: Proc.new { |m| m.finished_at }
   validate :player_assignments
   validate :existing_matches, if: Proc.new { |m| m.single? && m.finished_at.blank? && m.competitable.is_a?(Season) }
 
@@ -58,7 +66,7 @@ class Match < ApplicationRecord
 
 
   def winner
-    return nil unless closed?
+    return nil unless reviewed?
 
     assignments.select do |a|
       a.side == winner_side
@@ -67,7 +75,7 @@ class Match < ApplicationRecord
 
 
   def looser
-    return nil unless closed?
+    return nil unless reviewed?
 
     assignments.select do |a|
       a.side != winner_side
@@ -110,13 +118,77 @@ class Match < ApplicationRecord
   end
 
 
-  def closed?
-    finished_at.present? && reviewed_at.present?
+  def reviewed?
+    reviewed_at.present?
   end
 
 
   def retired?
     assignments.find { |a| a.is_retired? }
+  end
+
+
+  def finish(attributes = {})
+    raise "Match has not been accepted." if accepted_at.blank?
+
+    ActiveRecord::Base.transaction do
+      now = Time.now
+      score = attributes["score"].strip.split
+      raise "Invalid attribute: score." if (score.length % 2) != 0
+      side = attributes["score_side"]
+      set_nr = 0
+
+      score.each.with_index do |s, idx|
+        set_nr += 1 if (idx % 2) == 0
+
+        send("set#{set_nr}_side#{side}_score=", s)
+
+        side += 1
+        side = 1 if side > 2
+      end
+
+      if attributes["retired_player_id"].present?
+        retired_assignment = self.assignments.find { |a| a.player_id == attributes["retired_player_id"] }
+        retired_assignment.update(is_retired: true)
+        self.winner_side = retired_assignment.side + 1
+        self.winner_side = 1 if self.winner_side > 2
+      else
+        side1 = 0
+
+        if set1_side1_score.present? || set1_side2_score.present?
+          s1 = set1_side1_score.to_i
+          s2 = set1_side2_score.to_i
+          side1 += (s1 - s2 > 1) ? 1 : -1
+        end
+
+        if set2_side1_score.present? || set2_side2_score.present?
+          s1 = set2_side1_score.to_i
+          s2 = set2_side2_score.to_i
+          side1 += (s1 - s2 > 1) ? 1 : -1
+        end
+
+        if set3_side1_score.present? || set3_side2_score.present?
+          s1 = set3_side1_score.to_i
+          s2 = set3_side2_score.to_i
+          side1 += (s1 - s2 > 1) ? 1 : -1
+        end
+
+        if side1 > 0
+          self.winner_side = 1
+        elsif side1 < 0
+          self.winner_side = 2
+        end
+      end
+
+      self.play_date = attributes["play_date"]
+      self.place_id = attributes["place_id"]
+      self.notes = attributes["notes"]
+      self.finished_at = now
+      self.reviewed_at = now
+      save
+    end
+
+    self
   end
 
 
@@ -157,6 +229,48 @@ class Match < ApplicationRecord
 
     if existing_match
       errors.add(:base, "Takáto výzva už existuje.")
+    end
+  end
+
+
+  def result_state
+    unless assignments.find { |a| a.is_retired? }
+      if (set1_side1_score.present? || set1_side2_score.present?) && (set1_side1_score == set1_side2_score)
+        errors.add(:set1_side2_score, "Skóre v sete nemôže byť pre obe strany rovnaké.")
+      end
+
+      if (set2_side1_score.present? || set2_side2_score.present?) && (set2_side1_score == set2_side2_score)
+        errors.add(:set2_side2_score, "Skóre v sete nemôže byť pre obe strany rovnaké.")
+      end
+
+      if (set3_side1_score.present? || set3_side2_score.present?) && (set3_side1_score == set3_side2_score)
+        errors.add(:set3_side2_score, "Skóre v sete nemôže byť pre obe strany rovnaké.")
+      end
+
+      side1 = 0
+
+      if set1_side1_score.present? || set1_side2_score.present?
+        s1 = set1_side1_score.to_i
+        s2 = set1_side2_score.to_i
+        errors.add(:set1_side2_score, "Skóre v sete nemôže byť pre obe strany rovnaké.") if s1 == s2
+        side1 += (s1 - s2 > 1) ? 1 : -1
+      end
+
+      if set2_side1_score.present? || set2_side2_score.present?
+        s1 = set2_side1_score.to_i
+        s2 = set2_side2_score.to_i
+        errors.add(:set2_side2_score, "Skóre v sete nemôže byť pre obe strany rovnaké.") if s1 == s2
+        side1 += (s1 - s2 > 1) ? 1 : -1
+      end
+
+      if set3_side1_score.present? || set3_side2_score.present?
+        s1 = set3_side1_score.to_i
+        s2 = set3_side2_score.to_i
+        errors.add(:set3_side2_score, "Skóre v sete nemôže byť pre obe strany rovnaké.") if s1 == s2
+        side1 += (s1 - s2 > 1) ? 1 : -1
+      end
+
+      errors.add(:base, "Neplatné skóre.") if side1 == 0
     end
   end
 

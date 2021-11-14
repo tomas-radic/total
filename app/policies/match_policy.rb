@@ -6,20 +6,22 @@ class MatchPolicy < ApplicationPolicy
 
 
   def update?
-    user && record.ranking_counted? &&
+    user &&
+      record.ranking_counted? &&
+      record.accepted_at.present? &&
       record.assignments.find { |a| a.player_id == user.id }
   end
 
 
   def destroy?
     user && record.ranking_counted? &&
-      record.assignments.where(side: 1).find { |a| a.player_id == user.id } && !record.closed?
+      record.assignments.where(side: 1).find { |a| a.player_id == user.id } && !record.reviewed?
   end
 
 
   def accept?
     user && record.ranking_counted? &&
-      record.assignments.where(side: 2).find { |a| a.player_id == user.id } && !record.closed?
+      record.assignments.where(side: 2).find { |a| a.player_id == user.id } && !record.reviewed?
   end
 
 
@@ -28,8 +30,8 @@ class MatchPolicy < ApplicationPolicy
   end
 
 
-  def close?
-    update?
+  def finish?
+    update? && !record.reviewed?
   end
 
 end

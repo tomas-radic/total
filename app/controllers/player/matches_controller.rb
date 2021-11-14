@@ -80,6 +80,25 @@ class Player::MatchesController < Player::BaseController
   end
 
 
+  def finish
+    @match.finish params.slice(
+      "score",
+      "retired_player_id",
+      "play_date",
+      "place_id",
+      "notes"
+    ).merge("score_side" => @match.assignments.find { |a| a.player_id == current_player.id }.side)
+
+    if @match.reload.finished_at.present?
+      flash[:notice] = "Zápas bol ukončený."
+    else
+      flash[:alert] = "#{@match.errors.messages.values.flatten.join(' ')}"
+    end
+
+    redirect_to match_path(@match)
+  end
+
+
   private
 
   def whitelisted_params

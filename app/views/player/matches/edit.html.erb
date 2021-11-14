@@ -19,7 +19,7 @@
       <div class="grid grid-cols-1">
         <div class="w-full">
           <%= f.label :notes, "Poznámka", class: "block tracking-wide mb-2" %>
-          <%= f.text_area :notes, rows: 10, class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none" %>
+          <%= f.text_area :notes, rows: 2, class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none" %>
         </div>
       </div>
 
@@ -29,4 +29,6 @@
       </div>
     <% end %>
   </div>
+
+  <%= render partial: "player/matches/modal_finish_match", locals: { match: @match } %>
 <% end %>

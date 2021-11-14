@@ -1,0 +1,88 @@
+<%= modal_window("finish-match") do %>
+  <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+    <div class="sm:flex sm:items-start">
+      <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+        <h3 class="text-2xl text-center" id="modal-title">
+          Výsledok zápasu
+        </h3>
+        <div id="player-form" class="flex justify-center py-8">
+          <%= form_with url: finish_player_match_path(match), class: "w-full p-2", data: { turbo: false } do |f| %>
+            <div class="grid grid-cols-1 gap-2">
+              <p class="text-center text-3xl p-2" id="score-preview" style="min-height: 54px;">
+
+              </p>
+              <div class="w-full">
+                <%= f.label :score, "Skóre", class: "block tracking-wide mb-2" %>
+                <%= f.text_field :score,
+                                 value: "",
+                                 placeholder: "6 3 6 4",
+                                 class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none" %>
+                <p class="text-sm pb-2">
+                  Skóre zadaj zo svojho pohľadu ako jednoducho po sebe idúce čísla oddelené medzerou, napr.
+                  <code class="border whitespace-nowrap">6 4 6 1</code> ak si vyhral, alebo
+                  <code class="border whitespace-nowrap">2 6 6 7</code> ak si prehral.
+                </p>
+              </div>
+              <div class="w-full">
+                <%= f.label :retired_player_id, "Skrečoval niekto?", class: "block tracking-wide mb-2" %>
+                <%= f.select :retired_player_id, match.players.map { |p| [p.name, p.id] }, { include_blank: "Nie" }, class: "block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-gray-500" %>
+              </div>
+              <div class="w-full">
+                <%= f.label :play_date, "Dátum", class: "block tracking-wide mb-2" %>
+                <%= f.date_field :play_date,
+                                 value: @match.play_date,
+                                 class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none" %>
+              </div>
+              <div class="w-full">
+                <%= f.label :place_id, "Miesto", class: "block tracking-wide mb-2" %>
+                <%= f.select :place_id, Place.all.map { |p| [p.name, p.id] }, { selected: match.place_id, include_blank: "Žiadne" }, class: "block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-gray-500" %>
+              </div>
+              <div class="w-full">
+                <%= f.label :notes, "Poznámka", class: "block tracking-wide mb-2" %>
+                <%= f.text_area :notes, value: match.notes, rows: 2, class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none" %>
+              </div>
+            </div>
+
+            <div class="flex justify-end">
+              <%= link_to "Zrušiť", "#", id: "modal-cancel-finish-match", class: "modal-cancel-button button" %>
+              <%= f.submit "Potvrdiť", class: "button button-red disabled:opacity-50", id: "submit-result" %>
+            </div>
+
+            <script>
+              const scoreInput = document.querySelector("input#score");
+              const scorePreview = document.getElementById("score-preview");
+              const submitButton = document.getElementById("submit-result");
+
+              scoreInput.addEventListener("keyup", updateWindow);
+
+              function updateWindow(e) {
+                let scoreValue = e.target.value.trim().split(/\s+/);
+                let scorePreviewValue = "";
+
+                scoreValue.forEach((e, idx) => {
+                  if ((idx % 2) === 1) {
+                    scorePreviewValue += (":" + e)
+                  } else if (idx === 0) {
+                    scorePreviewValue += e
+                  } else {
+                    scorePreviewValue += (", " + e)
+                  }
+                });
+
+                scorePreview.textContent = scorePreviewValue;
+                if ((scoreValue.length % 2) === 1) {
+                  submitButton.disabled = true;
+                  submitButton.classList.add("opacity-50");
+                } else {
+                  submitButton.disabled = false;
+                  submitButton.classList.remove("opacity-50");
+                }
+
+              }
+            </script>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
