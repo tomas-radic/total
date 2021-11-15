@@ -11,7 +11,6 @@ import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import "../application.css";
 import "./alpine.min"
-import "./modal"
 
 Rails.start()
 // Turbolinks.start()

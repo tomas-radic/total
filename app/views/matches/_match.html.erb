@@ -1,0 +1,60 @@
+<%= render partial: "matches/header", locals: { match: match } %>
+
+<section id="match-buttons" class="p-2">
+  <% if match.reviewed? %>
+    <p class="text-3xl md:text-5xl text-center"><%= match.result %></p>
+  <% elsif match.requested? %>
+    <% if policy(match).accept? %>
+      <div class="flex justify-end md:justify-start">
+        <%= link_to "Odmietnuť",
+                    reject_player_match_path(match),
+                    class: "button",
+                    data: { confirm: "Chceš naozaj odmietnuť túto výzvu?" } %>
+        <%= link_to "Prijať",
+                    accept_player_match_path(match),
+                    class: "button button-blue" %>
+      </div>
+    <% elsif policy(match).destroy? %>
+      <div class="flex justify-end md:justify-start">
+        <%= link_to "Zmazať",
+                    player_match_path(match),
+                    method: :delete,
+                    class: "button button-red",
+                    data: { confirm: "Chceš naozaj zmazať túto výzvu?" } %>
+      </div>
+    <% end %>
+  <% else %>
+    <% if policy(match).finish? %>
+      <%= link_to "Výsledok", finish_init_player_match_path(match),
+                  class: "button button-red" %>
+    <% end %>
+  <% end %>
+</section>
+
+<p id="match-info" class="text-center p-2">
+  <% if match.reviewed? %>
+    <% if match.retired? %>
+      <%= match.looser %> zápas skrečoval<span class="text-sm">/a</span>.
+    <% end %>
+  <% else %>
+    <% if match.requested? %>
+      Na túto výzvu <%= match.side(2) %> zatiaľ nereagoval<span class="text-sm">/a</span>.
+    <% elsif match.accepted_at %>
+      <%= match.side(2) %> akceptoval<span class="text-sm">/a</span> výzvu <%= app_date_span match.accepted_at %>
+    <% elsif match.rejected_at %>
+      <%= match.side(2) %> odmietol<span class="text-sm">/la</span> túto výzvu <%= app_date_span match.rejected_at %>
+    <% end %>
+  <% end %>
+</p>
+
+<div class="p-2">
+  <% if policy(match).update? %>
+    <div class="text-center underline">
+      <%= link_to "Zmeniť údaje", edit_player_match_path(match) %>
+    </div>
+  <% end %>
+
+  <% if match.notes %>
+    <p><%= match.notes %></p>
+  <% end %>
+</div>

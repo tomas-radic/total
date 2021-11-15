@@ -15,11 +15,6 @@ body {
 }
 
 
-.modal {
-  transition: opacity 0.25s ease;
-}
-
-
 .min-h-300px {
   min-height: 300px;
 }

@@ -8,39 +8,26 @@ class Player::MatchesController < Player::BaseController
     @requested_player = Player.find params[:player_id]
 
     now = Time.now
-    match = selected_season.matches.create(
+    @match = selected_season.matches.create(
       requested_at: now,
       published_at: now,
       ranking_counted: true,
       assignments: [
         Assignment.new(player: current_player, side: 1),
         Assignment.new(player: @requested_player, side: 2)
-      ])
+      ]
+    )
 
-    respond_to do |format|
-      format.html do
-        if match.persisted?
-          flash[:notice] = "Výzva bola vytvorená. Kontaktuj vyzvaného súpera a dohodni si čas a miesto zápasu. Nezabudni, že dohodnutý čas a miesto môžeš zverejniť na tomto webe."
-        else
-          flash[:alert] = "#{match.errors.messages.values.flatten.join(' ')}"
-        end
-
-        redirect_to player_path(@requested_player)
-      end
-    end
+    redirect_to player_path(@requested_player)
   end
 
 
   def edit
-    @match = Match.published.find params[:id]
-    authorize @match
+
   end
 
 
   def update
-    @match = Match.published.find params[:id]
-    authorize @match
-
     respond_to do |format|
       if @match.update(whitelisted_params)
         format.html do
@@ -80,6 +67,11 @@ class Player::MatchesController < Player::BaseController
   end
 
 
+  def finish_init
+
+  end
+
+
   def finish
     @match.finish params.slice(
       "score",
@@ -89,11 +81,11 @@ class Player::MatchesController < Player::BaseController
       "notes"
     ).merge("score_side" => @match.assignments.find { |a| a.player_id == current_player.id }.side)
 
-    if @match.reload.finished_at.present?
-      flash[:notice] = "Zápas bol ukončený."
-    else
-      flash[:alert] = "#{@match.errors.messages.values.flatten.join(' ')}"
-    end
+    # if @match.reload.finished_at.present?
+    #   flash[:notice] = "Zápas bol ukončený."
+    # else
+    #   flash[:alert] = "#{@match.errors.messages.values.flatten.join(' ')}"
+    # end
 
     redirect_to match_path(@match)
   end

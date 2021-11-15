@@ -1,0 +1,29 @@
+<section class="base-green">
+  <h1 class="text-6xl p-20 primary-color text-center">
+    <%= player.name %>
+  </h1>
+  <div class="default-color p-4 md:text-center">
+    <p><%= player.phone_nr %></p>
+    <p><%= player.email %></p>
+    <p>Nar.: <%= player.birth_year.presence || '-' %></p>
+  </div>
+</section>
+
+<% if player_signed_in? %>
+  <div class="p-2">
+    <% if player.matches.published.pending
+      .includes(:assignments).find { |m| m.assignments.find { |a| a.player_id == current_player.id } }
+    %>
+      <p class="text-center">S týmto hráčom<span class="text-sm">/kou</span> ťa čaká zápas.</p>
+    <% else %>
+      <%= button_to "Vyzvať hráča", player_matches_path(player_id: player.id),
+                    class: "button button-red disabled:opacity-50",
+                    data: { confirm: "Potvrď, že naozaj chceš vyzvať #{player.name}" },
+                    disabled: !match_request_possible(
+                      current_player,
+                      requested_player: player,
+                      season: Season.sorted.first) %>
+    <% end %>
+
+  </div>
+<% end %>

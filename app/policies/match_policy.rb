@@ -30,6 +30,11 @@ class MatchPolicy < ApplicationPolicy
   end
 
 
+  def finish_init?
+    finish?
+  end
+
+
   def finish?
     update? && !record.reviewed?
   end

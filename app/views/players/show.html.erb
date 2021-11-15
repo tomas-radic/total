@@ -2,60 +2,6 @@
 <!--  <meta name="turbo-visit-control" content="reload">-->
 <%# end %>
 
-<section class="base-green">
-  <h1 class="text-6xl p-20 primary-color text-center">
-    <%= @player.name %>
-  </h1>
-  <div class="default-color p-4 md:text-center">
-    <p><%= @player.phone_nr %></p>
-    <p><%= @player.email %></p>
-    <p>Nar.: <%= @player.birth_year.presence || '-' %></p>
-  </div>
-</section>
-
-
-
-<% if player_signed_in? %>
-  <div class="p-2">
-    <%= link_to "Vyzvať hráča", "#",
-                id: "modal-trigger-request-match",
-                class: "button button-red modal-trigger-button",
-                target: :_top %>
-  </div>
-
-  <%= modal_window("request-match") do %>
-    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-      <div class="sm:flex sm:items-start">
-        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-          <!-- Heroicon name: outline/exclamation -->
-          <svg class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-          </svg>
-        </div>
-        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-          <h3 class="text-2xl" id="modal-title">
-            Výzva pre <%= @player.name %>!
-          </h3>
-          <p class="text-justify mt-4">
-            Ak teraz stlačíš "Potvrdiť!", táto výzva sa stane verejne viditeľná.
-            Ked sa tak rozhodneš, nezabudni to telefonicky oznámiť svojmu súperovi/ke.
-            Súper/ka môže túto výzvu prijať, alebo odmietnuť (stlačením "Prijať", alebo "Odmietnuť").
-            Ak výzvu prijme, pridajte k zápasu údaje o čase a mieste konania.
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="px-4 py-3 sm:px-6 flex justify-center md:justify-end">
-      <%= link_to "Zrušiť", "#", id: "modal-cancel-request-match", class: "modal-cancel-button button" %>
-      <%= form_with url: player_matches_path, data: { turbo: false }, class: "inline-block" do |f| %>
-        <%= f.hidden_field :player_id, value: @player.id %>
-        <%= f.submit "Potvrdiť!",
-                     class: "button button-red disabled:opacity-50",
-                     disabled: !match_request_possible(
-                       current_player,
-                       requested_player: @player,
-                       season: Season.sorted.first) %>
-      <% end %>
-    </div>
-  <% end %>
+<%= turbo_frame_tag dom_id(@player) do %>
+  <%= render partial: "players/player", locals: { player: @player } %>
 <% end %>

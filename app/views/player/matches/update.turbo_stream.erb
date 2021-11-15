@@ -1,7 +1,3 @@
-<%= turbo_stream.update "header_data" do %>
-  <%= render partial: "matches/header_data", locals: { match: @match } %>
-<% end %>
-
-<%= turbo_stream.replace "main_data" do %>
-  <%= render partial: "matches/main_data", locals: { match: @match } %>
+<%= turbo_stream.update dom_id(@match) do %>
+  <%= render partial: "matches/match", locals: { match: @match } %>
 <% end %>
