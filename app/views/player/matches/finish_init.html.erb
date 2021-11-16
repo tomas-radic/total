@@ -1,4 +1,4 @@
-<%= turbo_frame_tag dom_id(@match) do %>
+<%= turbo_frame_tag "match_#{@match.id}" do %>
   <%= render partial: "matches/header", locals: { match: @match } %>
 
   <div class="flex justify-center py-8">

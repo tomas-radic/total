@@ -1,3 +1,7 @@
-<%= turbo_frame_tag dom_id(@match) do %>
+<% if player_signed_in? %>
+  <%= turbo_stream_from "match_#{@match.id}_for_player_#{current_player.id}" %>
+<% end %>
+
+<%= turbo_frame_tag "match_#{@match.id}" do %>
   <%= render partial: "matches/match", locals: { match: @match } %>
 <% end %>

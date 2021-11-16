@@ -1,4 +1,4 @@
-<%= turbo_frame_tag dom_id(@match) do %>
+<%= turbo_frame_tag "match_#{@match.id}" do %>
   <%= render partial: "matches/header", locals: { match: @match } %>
 
   <div id="player-form" class="flex justify-center py-8">
@@ -24,6 +24,13 @@
           <%= f.text_area :notes, rows: 2, class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none" %>
         </div>
       </div>
+
+      <% if @match.errors.any? %>
+        <p class="text-red-500 p-2">
+          Zápas sa nedá uložiť pre nasledovné:
+          <%= "#{@match.errors.messages.values.flatten.join(' ')}" %>
+        </p>
+      <% end %>
 
       <div class="flex justify-end">
         <%= link_to "Zrušiť", match_path(@match), class: "button" %>

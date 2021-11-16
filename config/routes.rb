@@ -14,8 +14,8 @@ Rails.application.routes.draw do
 
   namespace :player do
     resources :matches, only: [:create, :edit, :update, :destroy] do
-      get :accept, on: :member
-      get :reject, on: :member
+      post :accept, on: :member
+      post :reject, on: :member
       get :finish_init, on: :member
       post :finish, on: :member
     end
