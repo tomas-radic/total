@@ -1,27 +1,23 @@
 <%= render partial: "matches/header", locals: { match: match } %>
 
-<section id="match-buttons" class="p-2">
+<section id="match-buttons" class="p-2 text-right md:text-left">
   <% if match.reviewed? %>
     <p class="text-3xl md:text-5xl text-center"><%= match.result %></p>
   <% elsif match.requested? %>
     <% if MatchPolicy.new(current_player, match).accept? %>
-      <div class="flex justify-end md:justify-start">
-        <%= button_to "Odmietnuť",
-                      reject_player_match_path(match),
-                      class: "button",
-                      data: { confirm: "Chceš naozaj odmietnuť túto výzvu?" } %>
-        <%= button_to "Prijať",
-                      accept_player_match_path(match),
-                      class: "button button-blue" %>
-      </div>
+      <%= button_to "Odmietnuť",
+                    reject_player_match_path(match),
+                    class: "button",
+                    data: { confirm: "Chceš naozaj odmietnuť túto výzvu?" } %>
+      <%= button_to "Prijať",
+                    accept_player_match_path(match),
+                    class: "button button-blue" %>
     <% elsif MatchPolicy.new(current_player, match).destroy? %>
-      <div class="flex justify-end md:justify-start">
-        <%= link_to "Zmazať",
-                    player_match_path(match),
-                    method: :delete,
-                    class: "button button-red",
-                    data: { confirm: "Chceš naozaj zmazať túto výzvu?", turbo: false } %>
-      </div>
+      <%= link_to "Zmazať",
+                  player_match_path(match),
+                  method: :delete,
+                  class: "button button-red",
+                  data: { confirm: "Chceš naozaj zmazať túto výzvu?", turbo: false } %>
     <% end %>
   <% else %>
     <% if MatchPolicy.new(current_player, match).finish? %>
@@ -49,12 +45,34 @@
 
 <div class="p-2">
   <% if MatchPolicy.new(current_player, match).update? %>
-    <div class="text-center underline">
-      <%= link_to "Zmeniť údaje", edit_player_match_path(match) %>
+    <div class="text-center pb-2">
+      <%= link_to "Zmeniť údaje", edit_player_match_path(match), class: "underline" %>
+    </div>
+  <% end %>
+
+  <% if match.play_date %>
+    <div class="py-4">
+      <p class="font-black text-2xl">Termín</p>
+      <p>
+        <%= app_date(match.date) %>
+        <%= match.play_time if match.play_time %>
+      </p>
+    </div>
+  <% end %>
+
+  <% if match.place_id %>
+    <div class="py-4">
+      <p class="font-black text-2xl">Miesto</p>
+      <p>
+        <%= match.place.name %>
+      </p>
     </div>
   <% end %>
 
   <% if match.notes %>
-    <p><%= match.notes %></p>
+    <div class="py-4">
+      <p class="font-black text-2xl">Poznámky</p>
+      <p><%= match.notes %></p>
+    </div>
   <% end %>
 </div>

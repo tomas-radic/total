@@ -62,7 +62,7 @@ ActiveRecord::Base.transaction do
   ].each do |name|
     player = Player.create!(
       name: name,
-      email: name == "Tomáš Radič" ? "tomas.radic@gmail.com" : Faker::Internet.email,
+      email: "#{I18n.transliterate(name).downcase.gsub(/\s+/, '.')}@gmail.com",
       phone_nr: Faker::PhoneNumber.cell_phone,
       birth_year: Date.today.year - rand(20..60),
       password: "asdfasdf"

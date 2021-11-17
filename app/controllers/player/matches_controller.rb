@@ -29,16 +29,6 @@ class Player::MatchesController < Player::BaseController
 
   def update
     if @match.update(whitelisted_params)
-      # flash[:notice] = "Údaje boli upravené."
-
-      @match.assignments.each do |assignment|
-        Turbo::StreamsChannel.broadcast_update_to(
-          "match_#{@match.id}_for_player_#{assignment.player.id}",
-          partial: "matches/match", locals: { match: @match, current_player: assignment.player },
-          target: "match_#{@match.id}"
-        )
-      end
-
       redirect_to match_path(@match)
     else
       render :edit, status: :unprocessable_entity
@@ -48,43 +38,18 @@ class Player::MatchesController < Player::BaseController
 
   def destroy
     @match.destroy
-    # flash[:notice] = "Výzva bola zmazaná."
     redirect_to root_path
   end
 
 
   def accept
-    if @match.update(accepted_at: Time.now)
-      # flash[:notice] = "Výzva akceptovaná! Zavolaj súperovi a zverejnite miesto a čas zápasu."
-
-      @match.assignments.each do |assignment|
-        Turbo::StreamsChannel.broadcast_update_to(
-          "match_#{@match.id}_for_player_#{assignment.player.id}",
-          partial: "matches/match", locals: { match: @match, current_player: assignment.player },
-          target: "match_#{@match.id}"
-        )
-      end
-    else
-      # flash[:alert] = "#{@match.errors.messages.values.flatten.join(' ')}"
-    end
-
+    @match.update(accepted_at: Time.now)
     redirect_to match_path(@match)
   end
 
 
   def reject
-    if @match.update(rejected_at: Time.now)
-      # flash[:alert] = "Výzva bola odmietnutá."
-
-      @match.assignments.each do |assignment|
-        Turbo::StreamsChannel.broadcast_update_to(
-          "match_#{@match.id}_for_player_#{assignment.player.id}",
-          partial: "matches/match", locals: { match: @match, current_player: assignment.player },
-          target: "match_#{@match.id}"
-        )
-      end
-    end
-
+    @match.update(rejected_at: Time.now)
     redirect_to match_path(@match)
   end
 
@@ -103,20 +68,7 @@ class Player::MatchesController < Player::BaseController
       "notes"
     ).merge("score_side" => @match.assignments.find { |a| a.player_id == current_player.id }.side)
 
-    if @match.reload.finished_at.present?
-      # flash[:notice] = "Zápas bol ukončený."
-
-      @match.assignments.each do |assignment|
-        Turbo::StreamsChannel.broadcast_update_to(
-          "match_#{@match.id}_for_player_#{assignment.player.id}",
-          partial: "matches/match", locals: { match: @match, current_player: assignment.player },
-          target: "match_#{@match.id}"
-        )
-      end
-    else
-      # flash[:alert] = "#{@match.errors.messages.values.flatten.join(' ')}"
-    end
-
+    @match.reload.finished_at.present?
     redirect_to match_path(@match)
   end
 
