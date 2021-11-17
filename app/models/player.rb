@@ -16,4 +16,16 @@ class Player < ApplicationRecord
   validates :name,
             presence: true, uniqueness: true
 
+
+  def won_matches(season = nil)
+    if season.present?
+      season.matches.reviewed.joins(:assignments)
+            .where("assignments.player_id = ?", id)
+            .where("assignments.side = matches.winner_side").distinct
+    else
+      self.matches.reviewed.joins(:assignments)
+          .where("assignments.player_id = ?", id)
+          .where("assignments.side = matches.winner_side").distinct
+    end
+  end
 end

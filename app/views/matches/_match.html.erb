@@ -50,17 +50,17 @@
     </div>
   <% end %>
 
-  <% if match.play_date %>
+  <% if match.play_date.present? %>
     <div class="py-4">
       <p class="font-black text-2xl">Termín</p>
       <p>
         <%= app_date(match.date) %>
-        <%= match.play_time if match.play_time %>
+        <%= match.play_time if match.play_time.present? %>
       </p>
     </div>
   <% end %>
 
-  <% if match.place_id %>
+  <% if match.place_id.present? %>
     <div class="py-4">
       <p class="font-black text-2xl">Miesto</p>
       <p>
@@ -69,7 +69,7 @@
     </div>
   <% end %>
 
-  <% if match.notes %>
+  <% if match.notes.present? %>
     <div class="py-4">
       <p class="font-black text-2xl">Poznámky</p>
       <p><%= match.notes %></p>

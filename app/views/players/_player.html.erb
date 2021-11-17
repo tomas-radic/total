@@ -2,10 +2,10 @@
   <h1 class="text-6xl p-20 primary-color text-center">
     <%= player.name %>
   </h1>
-  <div class="default-color p-4 md:text-center">
+  <div class="default-color p-4 md:text-center md:text-2xl md:font-bold">
     <p><%= player.phone_nr %></p>
     <p><%= player.email %></p>
-    <p>Nar.: <%= player.birth_year.presence || '-' %></p>
+    <p>Nar. <%= player.birth_year.presence || '-' %></p>
   </div>
 </section>
 
@@ -15,7 +15,7 @@
       .includes(:assignments).find { |m| m.assignments.find { |a| a.player_id == current_player.id } }
     %>
       <p class="text-center">S týmto hráčom<span class="text-sm">/kou</span> ťa čaká zápas.</p>
-    <% else %>
+    <% elsif player != current_player %>
       <%= button_to "Vyzvať hráča", player_matches_path(player_id: player.id),
                     class: "button button-red disabled:opacity-50",
                     data: { confirm: "Potvrď, že naozaj chceš vyzvať #{player.name}" },
@@ -24,6 +24,13 @@
                       requested_player: player,
                       season: Season.sorted.first) %>
     <% end %>
-
   </div>
 <% end %>
+
+<div class="p-2">
+  <p class="md:text-2xl">
+    Vyhraté zápasy <%= player.won_matches.size %>
+    /
+    <%= player.matches.reviewed.size %>
+  </p>
+</div>
