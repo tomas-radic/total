@@ -193,6 +193,15 @@ class Match < ApplicationRecord
   end
 
 
+  def season
+    if competitable.is_a?(Season)
+      competitable
+    elsif competitable.is_a?(Tournament)
+      competitable.season
+    end
+  end
+
+
   private
 
   def player_assignments

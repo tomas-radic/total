@@ -1,36 +1,45 @@
-<section class="base-green">
-  <h1 class="text-6xl p-20 primary-color text-center">
-    <%= player.name %>
-  </h1>
-  <div class="default-color p-4 md:text-center md:text-2xl md:font-bold">
+<section class="header base-green">
+  <div class="dominant-heading-wrapper">
+    <h1 class="dominant-heading primary-color">
+      <%= player.name %>
+    </h1>
+  </div>
+  <div class="secondary-text default-color">
     <p><%= player.phone_nr %></p>
     <p><%= player.email %></p>
     <p>Nar. <%= player.birth_year.presence || '-' %></p>
   </div>
 </section>
 
+
 <% if player_signed_in? %>
-  <div class="p-2">
-    <% if player.matches.published.pending
-      .includes(:assignments).find { |m| m.assignments.find { |a| a.player_id == current_player.id } }
-    %>
-      <p class="text-center">S týmto hráčom<span class="text-sm">/kou</span> ťa čaká zápas.</p>
-    <% elsif player != current_player %>
-      <%= button_to "Vyzvať hráča", player_matches_path(player_id: player.id),
-                    class: "button button-red disabled:opacity-50",
-                    data: { confirm: "Potvrď, že naozaj chceš vyzvať #{player.name}" },
-                    disabled: !match_request_possible(
-                      current_player,
-                      requested_player: player,
-                      season: Season.sorted.first) %>
-    <% end %>
-  </div>
+  <section class="context-buttons">
+    <%= button_to "Vyzvať hráča", player_matches_path(player_id: player.id),
+                  class: "button button-red",
+                  data: { confirm: "Potvrď, že naozaj chceš vyzvať #{player.name}" },
+                  disabled: !match_request_possible(
+                    current_player,
+                    requested_player: player,
+                    season: selected_season) %>
+  </section>
 <% end %>
 
-<div class="p-2">
-  <p class="md:text-2xl">
-    Vyhraté zápasy <%= player.won_matches.size %>
-    /
-    <%= player.matches.reviewed.size %>
-  </p>
-</div>
+
+<section class="page-content">
+  <% if player_signed_in? && current_player.opponents(season: selected_season, pending: true).include?(player) %>
+    <p class="text-center">S týmto hráčom<span class="text-sm">/kou</span> ťa čaká zápas.</p>
+  <% end %>
+
+  <div class="text-center md:text-2xl">
+    <% won_count = player.won_matches.size %>
+    <% total_count = player.matches.reviewed.size %>
+    <p>
+      Vyhraté zápasy / všetky zápasy<br>
+      <span class="<%= text_success_css(won_count, total_count) %>">
+      <%= won_count %>
+        /
+        <%= total_count %>
+    </span>
+    </p>
+  </div>
+</section>

@@ -21,6 +21,16 @@ RSpec.describe "Player::Matches", type: :request do
 
         expect(response).to redirect_to(player_path(requested_player))
       end
+
+      context "With ended season" do
+        before { season.update_column(:ended_at, 24.hours.ago) }
+
+        it "Does not create a match and redirects" do
+          expect { subject }.not_to change { Match.count }
+
+          expect(response).to redirect_to(player_path(requested_player))
+        end
+      end
     end
 
 

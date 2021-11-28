@@ -33,4 +33,15 @@ module ApplicationHelper
     end
   end
 
+
+  def text_success_css(success_count, total_count)
+    half = total_count / 2.0
+
+    if success_count > half
+      "text-green-500"
+    elsif success_count < half
+      "text-red-500"
+    end
+  end
+
 end

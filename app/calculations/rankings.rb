@@ -13,10 +13,10 @@ class Rankings
 
 
   def calculate
-    result = Player.joins(:matches)
-                     .where(enrollments: { season_id: @season.id })
-                     .merge(Enrollment.active)
-                     .includes(:enrollments, matches: :players).map do |player|
+    result = Player.left_joins(:matches)
+                   .where(enrollments: { season_id: @season.id })
+                   .merge(Enrollment.active)
+                   .includes(:enrollments, matches: :players).map do |player|
 
       matches = if @single_matches && @double_matches
                   player.matches

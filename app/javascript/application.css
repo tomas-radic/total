@@ -6,12 +6,22 @@
 
 html {
   scroll-behavior: smooth;
+  position: relative;
+  min-height: 100%;
 }
 
 
 body {
   @apply text-xl md:text-lg;
   font-family: 'Raleway', sans-serif;
+  margin-bottom: 100px;
+}
+
+
+footer {
+  position: absolute;
+  bottom: 0;
+  height: 100px;
 }
 
 
@@ -27,5 +37,9 @@ body {
 
   .md-min-w-360 {
     min-width: 360px;
+  }
+
+  .md-max-w-500px {
+    max-width: 500px;
   }
 }

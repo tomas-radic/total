@@ -30,9 +30,14 @@ ActiveRecord::Base.transaction do
 
   puts "\nCreating tournaments..."
   raise "Existing data" if Tournament.any?
-  4.times do |i|
+  tournaments_to_create = 4
+  tournaments_to_create.times.with_index do |i, idx|
     suffix = rand(0..1) == 0 ? "Open" : "Cup"
-    date = (i < 3) ? rand(2.weeks).seconds.ago.to_date : rand(2.weeks).seconds.from_now.to_date
+    date = if idx < (tournaments_to_create - 1)
+             ((Date.today - 30.days)..(Date.today - 1.day)).to_a.sample
+           else
+             date = Date.today + 5.days
+           end
     main_info = ""
     rand(3..5).times do
       main_info += "#{Faker::Lorem.word}: "

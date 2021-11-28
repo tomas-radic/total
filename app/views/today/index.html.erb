@@ -15,26 +15,34 @@
   </div>
   <% if @requested_matches.any? || @rejected_matches.any? %>
     <div class="text-right">
-      <h3 class="text-2xl primary-color pt-8 pb-2 lg:text-4xl">
+      <h3 class="text-2xl primary-color pt-8 pb-2 md:text-4xl">
         Nepotvrdené výzvy
       </h3>
       <% @requested_matches.each do |match| %>
         <div>
           <%= link_to "#{match.side 1} vyzval/a #{match.side 2}",
                       match_path(match),
-                      class: "underline text-sm px-2 py-1 lg:text-lg #{policy(match).accept? || policy(match).destroy? ? 'font-extrabold bg-red-500 text-white' : 'default-color'}" %>
+                      class: "underline text-sm px-2 py-1 md:text-lg #{policy(match).accept? || policy(match).destroy? ? 'font-extrabold bg-red-500 text-white' : 'default-color'}" %>
         </div>
       <% end %>
-      <div class="pt-2">
-        <% @rejected_matches.each do |match| %>
+      <% @rejected_matches.each do |match| %>
+        <div class="mt-4">
           <div>
             <%= link_to "#{match.side 2} odmietol/la zápas s #{match.side 1}",
                         match_path(match),
-                        class: "underline inline-block text-sm text-gray-300 px-2 lg:text-lg" %>
+                        class: "underline text-sm text-gray-300 px-2 lg:text-lg" %>
           </div>
-        <% end %>
-      </div>
+        </div>
+      <% end %>
     </div>
+  <% end %>
+  <% if @upcoming_tournaments.any? %>
+    <h3 class="text-2xl primary-color pt-8 pb-2 md:text-4xl">
+      Najbližšie turnaje
+    </h3>
+    <% @upcoming_tournaments.each do |tournament| %>
+      <%= render partial: "today/tournament", locals: { tournament: tournament } %>
+    <% end %>
   <% end %>
 </section>
 
@@ -73,9 +81,7 @@
   <% else %>
     <p class="p-8 text-center default-color">Žiadne zápasy sa v poslednej dobe nehrali.</p>
     <p class="p-2 text-center">
-      <a href="#" class="button button-red">
-        Zavolaj niekoho hrať!
-      </a>
+      <%= link_to "Zavolaj niekoho hrať!", rankings_path, class: "button button-red" %>
     </p>
   <% end %>
   <div class="underline pt-6 default-color">

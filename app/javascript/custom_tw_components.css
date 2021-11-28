@@ -64,4 +64,27 @@
   .button-blue {
     @apply bg-blue-500 text-white hover:bg-blue-600;
   }
+  .button:disabled {
+    @apply opacity-50;
+  }
+
+
+  /* Basic page layout */
+  section.header .dominant-heading {
+    @apply text-4xl md:text-6xl text-center;
+  }
+  section.header .dominant-heading-wrapper {
+    @apply py-20;
+  }
+  section.header .secondary-text {
+    @apply p-4 md:text-center md:text-2xl md:font-bold;
+  }
+
+  section.context-buttons {
+    @apply p-2 flex justify-end md:justify-start;
+  }
+
+  section.page-content {
+    @apply p-2;
+  }
 }

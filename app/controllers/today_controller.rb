@@ -13,6 +13,12 @@ class TodayController < ApplicationController
     @rejected_matches = season_matches.ranking_counted.rejected
                                       .where("rejected_at >= ?", last_days)
 
+    begins_in_days = Date.today + 12.days
+    ended_before_days = Date.today - 2.days
+    @upcoming_tournaments = selected_season.tournaments.published
+                                           .where("(begin_date < ? or end_date < ?) and (end_date >= ?)",
+                                                  begins_in_days, begins_in_days, ended_before_days)
+
     @recent_matches = season_matches.reviewed.ranking_counted
                                     .where("finished_at >= ?", last_days)
                                     .order(finished_at: :desc)

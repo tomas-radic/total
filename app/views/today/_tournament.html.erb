@@ -1,0 +1,15 @@
+<%= link_to tournament_path(tournament) do %>
+  <div class="inline-block w-full md-max-w-500px my-1 p-2 md:mr-2 border <%= tournament.color_base_css %>">
+    <p class="primary-color text-center text-xl"><%= tournament.name %></p>
+    <p class="default-color text-center">
+      <%= app_date tournament.begin_date %>
+      <% if tournament.end_date > tournament.begin_date %>
+        -
+        <%= app_date tournament.end_date %>
+      <% end %>
+    </p>
+    <p class="text-center pt-3">
+      <%= link_to "Vstúpiť", tournament_path(tournament), class: "button button-blue" %>
+    </p>
+  </div>
+<% end %>

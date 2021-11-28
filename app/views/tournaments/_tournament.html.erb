@@ -3,10 +3,10 @@
     <%= tournament.name %>
   </h2>
   <p class="text-center primary-color">
-    <%= tournament.begin_date.to_s %>
+    <%= app_date tournament.begin_date %>
     <% if tournament.end_date > tournament.begin_date %>
       -
-      <%= tournament.end_date.to_s %>
+      <%= app_date tournament.end_date %>
     <% end %>
   </p>
   <p class="default-color p-2">

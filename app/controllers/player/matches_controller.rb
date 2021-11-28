@@ -7,6 +7,11 @@ class Player::MatchesController < Player::BaseController
   def create
     @requested_player = Player.find params[:player_id]
 
+    if selected_season.ended_at
+      flash[:notice] = "Sezóna je ukončená."
+      redirect_to player_path(@requested_player) and return
+    end
+
     now = Time.now
     @match = selected_season.matches.create(
       requested_at: now,
@@ -81,7 +86,8 @@ class Player::MatchesController < Player::BaseController
 
 
   def load_and_authorize_record
-    @match = Match.published.find params[:id]
+    @match = Match.published.find_by id: params[:id]
+    redirect_to(root_path) and return if @match.blank?
     authorize @match
   end
 

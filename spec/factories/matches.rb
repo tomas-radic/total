@@ -30,23 +30,23 @@ FactoryBot.define do
     end
 
     trait :finished do
-      accepted_at { nil }
+      accepted_at { Time.now }
       rejected_at { nil }
       finished_at { Time.now }
       reviewed_at { nil }
-      requested_at { nil }
-
+      requested_at { Time.now }
+      winner_side { 1 }
       set1_side1_score { 6 }
       set1_side2_score { 4 }
     end
 
     trait :reviewed do
-      accepted_at { nil }
+      accepted_at { Time.now }
       rejected_at { nil }
       finished_at { Time.now }
       reviewed_at { Time.now }
-      requested_at { nil }
-
+      requested_at { Time.now }
+      winner_side { 1 }
       set1_side1_score { 6 }
       set1_side2_score { 4 }
     end

@@ -28,4 +28,31 @@ class Player < ApplicationRecord
           .where("assignments.side = matches.winner_side").distinct
     end
   end
+
+
+  def opponents(season: nil, pending: false, ranking_counted: false)
+    player_matches = matches
+    player_matches = player_matches.pending if pending
+    player_matches = player_matches.ranking_counted if ranking_counted
+    player_matches = player_matches.joins(:assignments).where("assignments.player_id = ?", id)
+
+    match_ids = []
+
+    if season.nil?
+      match_ids = player_matches.map(&:id)
+    else
+      player_matches.each do |m|
+        case m.competitable_type
+        when "Season"
+          match_ids << m.id if m.competitable_id == season.id
+        when "Tournament"
+          match_ids << m.id if m.competitable.season_id == season.id
+        end
+      end
+    end
+
+    Player.joins(:assignments)
+          .where("assignments.match_id in (?)", match_ids)
+          .where.not(id: id)
+  end
 end

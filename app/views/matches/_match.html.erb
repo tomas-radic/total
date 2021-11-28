@@ -1,9 +1,7 @@
 <%= render partial: "matches/header", locals: { match: match } %>
 
-<section id="match-buttons" class="p-2 text-right md:text-left">
-  <% if match.reviewed? %>
-    <p class="text-3xl md:text-5xl text-center"><%= match.result %></p>
-  <% elsif match.requested? %>
+<section class="context-buttons">
+  <% if match.requested? %>
     <% if MatchPolicy.new(current_player, match).accept? %>
       <%= button_to "Odmietnuť",
                     reject_player_match_path(match),
@@ -27,23 +25,30 @@
   <% end %>
 </section>
 
-<p id="match-info" class="text-center p-2">
-  <% if match.reviewed? %>
-    <% if match.retired? %>
-      <%= match.looser %> zápas skrečoval<span class="text-sm">/a</span>.
-    <% end %>
-  <% else %>
-    <% if match.requested? %>
-      Na túto výzvu <%= match.side(2) %> zatiaľ nereagoval<span class="text-sm">/a</span>.
-    <% elsif match.accepted_at %>
-      <%= match.side(2) %> akceptoval<span class="text-sm">/a</span> výzvu <%= app_date_span match.accepted_at %>
-    <% elsif match.rejected_at %>
-      <%= match.side(2) %> odmietol<span class="text-sm">/la</span> túto výzvu <%= app_date_span match.rejected_at %>
-    <% end %>
-  <% end %>
-</p>
 
-<div class="p-2">
+<section class="page-content">
+  <% if match.reviewed? %>
+    <p class="text-3xl md:text-5xl text-center"><%= match.result %></p>
+    <% if match.retired? %>
+      <p class="text-center">
+        <%= match.looser %> zápas skrečoval<span class="text-sm">/a</span>.
+      </p>
+    <% end %>
+  <% elsif match.requested? %>
+    <p class="text-center">
+      Na túto výzvu <%= match.side(2) %> zatiaľ nereagoval<span class="text-sm">/a</span>.
+    </p>
+  <% elsif match.accepted_at %>
+    <p class="text-center">
+      <%= match.side(2) %> akceptoval<span class="text-sm">/a</span> výzvu <%= app_date_span match.accepted_at %>
+    </p>
+  <% elsif match.rejected_at %>
+    <p class="text-center">
+      <%= match.side(2) %> odmietol<span class="text-sm">/la</span> túto výzvu <%= app_date_span match.rejected_at %>
+    </p>
+  <% end %>
+
+
   <% if MatchPolicy.new(current_player, match).update? %>
     <div class="text-center pb-2">
       <%= link_to "Zmeniť údaje", edit_player_match_path(match), class: "underline" %>
@@ -75,4 +80,4 @@
       <p><%= match.notes %></p>
     </div>
   <% end %>
-</div>
+</section>
