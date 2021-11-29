@@ -6,7 +6,7 @@
       <h3 class="text-2xl text-center">
         Výsledok zápasu
       </h3>
-      <div class="grid grid-cols-1 gap-2">
+      <div class="grid grid-cols-1 gap-2" data-controller="hello">
         <p class="text-center text-3xl p-2" id="score-preview" style="min-height: 54px;">
 
         </p>
@@ -53,10 +53,10 @@
 
   <script>
     document.getElementById("score-input").addEventListener("keyup", function(e) {
-      let scoreValue = e.target.value.trim().split(/\s+/);
+      let scoreValues = e.target.value.trim().split(/\s+/);
       let scorePreviewValue = "";
 
-      scoreValue.forEach((e, idx) => {
+      scoreValues.forEach((e, idx) => {
         if ((idx % 2) === 1) {
           scorePreviewValue += (":" + e)
         } else if (idx === 0) {

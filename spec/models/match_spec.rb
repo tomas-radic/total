@@ -422,15 +422,101 @@ RSpec.describe Match, type: :model do
             }
           end
 
-          it "Raises error" do
-            expect { subject }.to raise_error(StandardError)
+          it "Stores the error and does not finish the match" do
+            result = subject
+
+            result.reload
+            expect(result).to be_a(Match)
+            expect(result).to have_attributes(
+                                set1_side1_score: nil,
+                                set1_side2_score: nil,
+                                set2_side1_score: nil,
+                                set2_side2_score: nil,
+                                set3_side1_score: nil,
+                                set3_side2_score: nil,
+                                finished_at: nil,
+                                reviewed_at: nil,
+                                winner_side: nil,
+                                play_date: nil,
+                                notes: nil
+                              )
+
+            expect(result.errors[:score].first).to eq("Neplatný výsledok zápasu.")
+          end
+        end
+
+        context "When season is ended" do
+          before do
+            season.update_column(:ended_at, Time.now)
+          end
+
+          let(:attributes) do
+            {
+              "score" => "6 4",
+              "score_side" => 1,
+              "retired_player_id" => "",
+              "play_date" => play_date.to_s,
+              "place_id" => place.id,
+              "notes" => notes
+            }
+          end
+
+          it "Stores the error and does not finish the match" do
+            result = subject
+
+            result.reload
+            expect(result).to be_a(Match)
+            expect(result).to have_attributes(
+                                set1_side1_score: nil,
+                                set1_side2_score: nil,
+                                set2_side1_score: nil,
+                                set2_side2_score: nil,
+                                set3_side1_score: nil,
+                                set3_side2_score: nil,
+                                finished_at: nil,
+                                reviewed_at: nil,
+                                winner_side: nil,
+                                play_date: nil,
+                                notes: nil
+                              )
+
+            expect(result.errors[:season].first).to eq("Sezóna je už skončená.")
           end
         end
       end
 
       context "With unaccepted match" do
-        it "Raises error" do
-          expect { subject }.to raise_error(StandardError)
+        let(:attributes) do
+          {
+            "score" => "6 4",
+            "score_side" => 1,
+            "retired_player_id" => "",
+            "play_date" => play_date.to_s,
+            "place_id" => place.id,
+            "notes" => notes
+          }
+        end
+
+        it "Stores the error and does not finish the match" do
+          result = subject
+
+          result.reload
+          expect(result).to be_a(Match)
+          expect(result).to have_attributes(
+                              set1_side1_score: nil,
+                              set1_side2_score: nil,
+                              set2_side1_score: nil,
+                              set2_side2_score: nil,
+                              set3_side1_score: nil,
+                              set3_side2_score: nil,
+                              finished_at: nil,
+                              reviewed_at: nil,
+                              winner_side: nil,
+                              play_date: nil,
+                              notes: nil
+                            )
+
+          expect(result.errors[:status].first).to eq("Zápas nie je akceptovaný súperom.")
         end
       end
     end

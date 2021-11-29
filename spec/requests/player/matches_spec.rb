@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Player::Matches", type: :request do
 
   let!(:season) { create(:season, ended_at: nil) }
-  let!(:player) { create(:player, seasons: [season]) }
+  let!(:player) { create(:player, name: "Player", seasons: [season]) }
 
   describe "POST /player/matches" do
     subject { post player_matches_path, params: { player_id: requested_player.id } }
@@ -89,7 +89,9 @@ RSpec.describe "Player::Matches", type: :request do
   describe "PATCH /player/matches/:id" do
     subject { patch player_match_path(match), params: params }
 
-    let!(:match) { create(:match, :requested, :accepted, competitable: season, ranking_counted: true) }
+    let!(:match) do
+      create(:match, :requested, :accepted, competitable: season, ranking_counted: true)
+    end
     let!(:place) { create(:place) }
     let(:play_date) { Date.tomorrow }
     let(:play_time) { Match.play_times.keys.sample }
@@ -181,6 +183,65 @@ RSpec.describe "Player::Matches", type: :request do
 
     context "When player is NOT logged in" do
       let(:params) { valid_params }
+
+      it "Redirects to login page" do
+        expect(subject).to redirect_to new_player_session_path
+      end
+    end
+  end
+
+
+  describe "POST /player/matches/:id/finish" do
+    subject { post finish_player_match_path(match), params: params }
+
+    let!(:match) { create(:match, :accepted, ranking_counted: true, competitable: season,
+                          assignments: [
+                            build(:assignment, player: player, side: 1),
+                            build(:assignment, player: create(:player, seasons: [season]), side: 2)
+                          ]) }
+    let(:params) do
+      {}
+    end
+
+    context "When player is logged in" do
+
+      before do
+        sign_in player
+      end
+
+      context "When match has been successfully finished" do
+        before do
+          match.update_column(:set1_side1_score, 6)
+          match.update_column(:set1_side1_score, 4)
+          match.update_column(:finished_at, Time.now)
+          expect_any_instance_of(Match).to(
+            receive(:finish).and_return(match))
+        end
+
+        it "Redirects to the match page" do
+          subject
+
+          expect(response).to redirect_to match_path(match)
+        end
+
+      end
+
+      context "When match has not been finished" do
+        before do
+          expect_any_instance_of(Match).to(
+            receive(:finish).and_return(match))
+        end
+
+        it "Renders finish_init" do
+          subject
+
+          expect(response).to render_template(:finish_init)
+        end
+      end
+    end
+
+
+    context "When player is NOT logged in" do
 
       it "Redirects to login page" do
         expect(subject).to redirect_to new_player_session_path

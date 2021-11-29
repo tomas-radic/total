@@ -73,8 +73,11 @@ class Player::MatchesController < Player::BaseController
       "notes"
     ).merge("score_side" => @match.assignments.find { |a| a.player_id == current_player.id }.side)
 
-    @match.reload.finished_at.present?
-    redirect_to match_path(@match)
+    if @match.reload.finished_at.present?
+      redirect_to match_path(@match)
+    else
+      render :finish_init
+    end
   end
 
 

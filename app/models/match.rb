@@ -130,12 +130,31 @@ class Match < ApplicationRecord
 
 
   def finish(attributes = {})
-    raise "Match has not been accepted." if accepted_at.blank?
+    if accepted_at.blank?
+      self.errors.add(:status, "Zápas nie je akceptovaný súperom.")
+      return self
+    end
+
+    season = if competitable.is_a?(Season)
+               competitable
+             elsif competitable.is_a?(Tournament)
+               competitable.season
+             end
+
+    if season.ended_at.present?
+      self.errors.add(:season, "Sezóna je už skončená.")
+      return self
+    end
 
     ActiveRecord::Base.transaction do
-      now = Time.now
       score = attributes["score"].strip.split
-      raise "Invalid attribute: score." if (score.length % 2) != 0
+
+      if (score.length % 2) != 0
+        self.errors.add(:score, "Neplatný výsledok zápasu.")
+        return self
+      end
+
+      now = Time.now
       side = attributes["score_side"]
       set_nr = 0
 
@@ -178,6 +197,11 @@ class Match < ApplicationRecord
           self.winner_side = 1
         elsif side1 < 0
           self.winner_side = 2
+        end
+
+        if self.winner_side.nil?
+          self.errors.add(:score, "Neplatný výsledok zápasu.")
+          return self
         end
       end
 
