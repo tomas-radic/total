@@ -2,11 +2,14 @@
   <%= render partial: "matches/header", locals: { match: @match } %>
 
   <div class="flex justify-center py-8">
-    <%= form_with url: finish_player_match_path(@match), class: "w-full p-2" do |f| %>
+    <%= form_with url: finish_player_match_path(@match),
+                  class: "w-full p-2", id: "finish-form",
+                  data: { controller: "matches", "matches-target" => "finish_form" } do |f| %>
+
       <h3 class="text-2xl text-center">
         Výsledok zápasu
       </h3>
-      <div class="grid grid-cols-1 gap-2" data-controller="hello">
+      <div class="grid grid-cols-1 gap-2">
         <p class="text-center text-3xl p-2" id="score-preview" style="min-height: 54px;">
 
         </p>
@@ -17,7 +20,8 @@
                            placeholder: "6 3 6 4",
                            autocomplete: "off",
                            id: "score-input",
-                           class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none" %>
+                           class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none",
+                           data: { action: "keyup->matches#score_typing" } %>
           <p class="text-sm pb-2">
             Skóre zadaj zo svojho pohľadu ako po sebe idúce čísla oddelené medzerou, napr.
             <code class="border whitespace-nowrap">6 4 6 1</code> ak si vyhral, alebo
@@ -50,30 +54,4 @@
       </div>
     <% end %>
   </div>
-
-  <script>
-    document.getElementById("score-input").addEventListener("keyup", function(e) {
-      let scoreValues = e.target.value.trim().split(/\s+/);
-      let scorePreviewValue = "";
-
-      scoreValues.forEach((e, idx) => {
-        if ((idx % 2) === 1) {
-          scorePreviewValue += (":" + e)
-        } else if (idx === 0) {
-          scorePreviewValue += e
-        } else {
-          scorePreviewValue += (", " + e)
-        }
-      });
-
-      document.getElementById("score-preview").textContent = scorePreviewValue;
-      // if ((scoreValue.length % 2) === 1) {
-      //   submitButton.disabled = true;
-      //   submitButton.classList.add("opacity-50");
-      // } else {
-      //   submitButton.disabled = false;
-      //   submitButton.classList.remove("opacity-50");
-      // }
-    });
-  </script>
 <% end %>
