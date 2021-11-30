@@ -1,3 +1,14 @@
+<section class="header base-red">
+  <div class="dominant-heading-wrapper">
+    <h1 class="dominant-heading primary-color">
+      Profil
+    </h1>
+  </div>
+  <p class="secondary-text default-color">
+    <%= resource.name %>
+  </p>
+</section>
+
 <div class="flex justify-center py-8">
   <div class="w-full max-w-sm">
     <%= form_for resource, as: resource_name, url: registration_path(resource_name),
@@ -6,6 +17,14 @@
 
       <%#= render "player/shared/error_messages", resource: resource %>
 
+      <div class="py-8 text-center">
+        <%= gravatar_image_tag(resource.email, alt: resource.name, class: "inline rounded-full") %>
+        <p class="text-center text-sm py-2">
+          Chceš si pridať foto? Zaregistruj sa touto istou email adresou na
+          <%= link_to "https://gravatar.com", "https://gravatar.com", class: "underline", target: :_blank %>
+          a pridaj si tam fotku. Automaticky bude aj tu!
+        </p>
+      </div>
       <%= render partial: "player/registrations/player_fields",
                  locals: { f: f, resource: resource } %>
 
@@ -58,8 +77,6 @@
 
       <div class="text-center">
         <%= f.submit "Potvrdiť", class: "button button-blue" %>
-        <hr>
-        <%= render "player/shared/links" %>
       </div>
     <% end %>
 
