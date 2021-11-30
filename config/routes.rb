@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
   root to: "today#index"
-  devise_for :players
+  devise_for :player,
+             controllers: {
+               sessions: "player/sessions",
+               registrations: "player/registrations"
+             }
 
   get "/today", to: "today#index", as: "today"
   get "/rankings", to: "rankings#index", as: "rankings"

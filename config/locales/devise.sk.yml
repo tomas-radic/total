@@ -10,7 +10,7 @@
 sk:
   devise:
     confirmations:
-      confirmed: Váš účet bol úspešne overený. Teraz ste prihlásený.
+      confirmed: Registrácia bola overená.
       send_instructions: O niekoľko minút obdržíte email s inštrukciami ako potvrdiť váš účet.
       send_paranoid_instructions: Ak sa váš email nachádza v našej databáze, obdržíte email s inštrukciami ako potvrdiť váš účet.
     failure:
@@ -41,12 +41,12 @@ sk:
       updated_not_active: Vaše heslo bolo úspešne zmenené.
     registrations:
       destroyed: Dovidenia! Váš účet bol úspešne zrušený. Dúfame, že sa čoskoro opäť uvidíme.
-      signed_up: Vitajte! Registrácia bola úspešná.
+      signed_up: Vitaj v tvojej TOtal lige.
       signed_up_but_inactive: Registrácia bola úspešná. Nemohli sme vás prihlásiť, lebo váš účet ešte nebol aktivovaný.
       signed_up_but_locked: Registrácia bola úspešná. Nemohli sme vás prihlásiť, lebo váš účet je uzamknutý.
       signed_up_but_unconfirmed: Správa s potvrdzovacím odkazom bola odoslaná na vašu emailovú adresu. Prosím otvorte odkaz, aby ste aktivovali váš účet.
       update_needs_confirmation: ! 'Váš účet bol úspešne aktualizovaný ale potrebujeme overiť vašu novú emailovú adresu. Prosím skontrolujte si email a kliknite na potvrdzovací odkaz, aby ste potvrdili novú emailovú adresu.'
-      updated: Úspešne ste aktualizovali váš účet.
+      updated: Údaje boli zmenené.
     sessions:
       signed_in: Vitaj v tvojej TOtal lige.
       signed_out: Odhlásil/a si za zo svojho účtu.

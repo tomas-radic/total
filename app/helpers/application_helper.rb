@@ -44,4 +44,13 @@ module ApplicationHelper
     end
   end
 
+
+  def error_for(attribute, object)
+    unless object.errors[attribute].blank?
+      content_tag :p, class: "text-sm text-red-500" do
+        "Chýbajúci, alebo nesprávny údaj."
+      end
+    end
+  end
+
 end

@@ -2,8 +2,8 @@ class ApplicationController < ActionController::Base
 
   include Pundit
 
-  private
 
+  private
 
   helper_method :selected_season
 

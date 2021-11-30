@@ -1,0 +1,68 @@
+<div class="flex justify-center py-8">
+  <div class="w-full max-w-sm">
+    <%= form_for resource, as: resource_name, url: registration_path(resource_name),
+                 html: { method: :put, class: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" },
+                 data: { turbo: false } do |f| %>
+
+      <%#= render "player/shared/error_messages", resource: resource %>
+
+      <%= render partial: "player/registrations/player_fields",
+                 locals: { f: f, resource: resource } %>
+
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <div>
+          Email <%= resource.unconfirmed_email %> zatiaľ nebol potvrdený.
+        </div>
+      <% end %>
+
+      <div class="mb-4">
+        <%= f.label :email, "Email", class: "block mb-2" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email",
+                          class: "shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline",
+                          disabled: true %>
+      </div>
+
+      <hr>
+      <div data-controller="forms">
+        <div class="field py-4">
+          <%= check_box_tag :change_password, "", false,
+                            data: { action: "change->forms#toggleLockFields", "forms-target" => "locker" } %>
+          <%= label_tag :change_password, "Chcem si zmeniť heslo" %>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :password, "* Heslo (aspoň #{@minimum_password_length} znakov)", class: "block mb-2" %>
+          <%= f.password_field :password, autocomplete: "new-password",
+                               class: "shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline",
+                               disabled: true,
+                               data: { "forms-target" => "lockableField" } %>
+          <%= error_for(:password, resource) %>
+        </div>
+        <div class="mb-4">
+          <%= f.label :password_confirmation, "* Heslo znovu", class: "block mb-2" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password",
+                               class: "shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline",
+                               disabled: true,
+                               data: { "forms-target" => "lockableField" } %>
+          <%= error_for(:password_confirmation, resource) %>
+        </div>
+        <div class="mb-4">
+          <%= f.label :current_confirmation, "* Súčasné heslo", class: "block mb-2" %>
+          <%= f.password_field :current_password, autocomplete: "current-password",
+                               class: "shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline",
+                               disabled: true,
+                               data: { "forms-target" => "lockableField" } %>
+          <%= error_for(:current_confirmation, resource) %>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <%= f.submit "Potvrdiť", class: "button button-blue" %>
+        <hr>
+        <%= render "player/shared/links" %>
+      </div>
+    <% end %>
+
+    <%= render "player/shared/devise_footer" %>
+  </div>
+</div>
