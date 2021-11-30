@@ -4,7 +4,7 @@
   <div class="flex justify-center py-8">
     <%= form_with url: finish_player_match_path(@match),
                   class: "w-full p-2", id: "finish-form",
-                  data: { controller: "matches", "matches-target" => "finish_form" } do |f| %>
+                  data: { controller: "matches", "matches-target" => "finishForm" } do |f| %>
 
       <h3 class="text-2xl text-center">
         Výsledok zápasu
@@ -22,6 +22,7 @@
                            id: "score-input",
                            class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none",
                            data: { action: "keyup->matches#score_typing" } %>
+          <%= error_for(:score, @match) %>
           <p class="text-sm pb-2">
             Skóre zadaj zo svojho pohľadu ako po sebe idúce čísla oddelené medzerou, napr.
             <code class="border whitespace-nowrap">6 4 6 1</code> ak si vyhral, alebo
