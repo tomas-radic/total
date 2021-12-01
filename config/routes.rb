@@ -23,6 +23,8 @@ Rails.application.routes.draw do
       get :finish_init, on: :member
       post :finish, on: :member
     end
+
+    post "players/anonymize"
   end
 
 end

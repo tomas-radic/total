@@ -5,7 +5,7 @@ class Player::MatchesController < Player::BaseController
 
 
   def create
-    @requested_player = Player.find params[:player_id]
+    @requested_player = Player.where(anonymized_at: nil).find params[:player_id]
 
     if selected_season.ended_at
       flash[:notice] = "Sezóna je ukončená."

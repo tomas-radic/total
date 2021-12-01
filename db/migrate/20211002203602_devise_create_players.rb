@@ -10,6 +10,7 @@ class DeviseCreatePlayers < ActiveRecord::Migration[6.1]
       t.string :name, null: false
       t.string :phone_nr
       t.integer :birth_year
+      t.datetime :anonymized_at
 
       ## Recoverable
       t.string   :reset_password_token

@@ -31,6 +31,14 @@ RSpec.describe "Player::Matches", type: :request do
           expect(response).to redirect_to(player_path(requested_player))
         end
       end
+
+      context "When requested player is anonymized" do
+        before { requested_player.update_column(:anonymized_at, Time.now) }
+
+        it "Raises error" do
+          expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+      end
     end
 
 

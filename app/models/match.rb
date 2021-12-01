@@ -237,13 +237,18 @@ class Match < ApplicationRecord
       errors.add(:base, "Nesprávny počet hráčov.")
     end
 
-    if competitable.is_a? Season
-      assignments.each do |a|
+    assignments.each do |a|
+      if finished_at.nil? && a.player.anonymized_at.present?
+        errors.add(:base, "#{a.player.name} si zrušil/a registráciu.")
+      end
+
+      if competitable.is_a? Season
         unless competitable.enrollments.active.find { |e| e.player_id == a.player_id }
           errors.add(:base, "#{a.player.name} nie je prihlásený/á do sezóny.")
         end
       end
     end
+
   end
 
 

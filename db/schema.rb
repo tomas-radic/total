@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 2021_10_02_211741) do
     t.string "name", null: false
     t.string "phone_nr"
     t.integer "birth_year"
+    t.datetime "anonymized_at"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

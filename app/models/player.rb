@@ -55,4 +55,21 @@ class Player < ApplicationRecord
           .where("assignments.match_id in (?)", match_ids)
           .where.not(id: id)
   end
+
+
+  def anonymize!
+    ActiveRecord::Base.transaction do
+      matches.where(finished_at: nil).destroy_all
+
+      update!(
+        anonymized_at: Time.now,
+        email: "#{SecureRandom.hex}@anonymized.player",
+        name: "(zmazaný hráč)",
+        phone_nr: nil,
+        birth_year: nil
+      )
+    end
+
+    self
+  end
 end

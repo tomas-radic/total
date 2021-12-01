@@ -80,6 +80,39 @@
       </div>
     <% end %>
 
+    <section class="hide-toggler-wrapper" data-controller="forms">
+      <div class="field py-4">
+        <%= check_box_tag :anonymize, "", false,
+                          data: { action: "change->forms#toggleHidden", "forms-target" => "hideToggler" } %>
+        <%= label_tag :anonymize, "Chcem zmazať svoju registráciu" %>
+      </div>
+
+      <%= form_with url: player_players_anonymize_path,
+                    class: "invisible hide-toggleable" do %>
+
+        <p>
+          Ak potvrdíš toto rozhodnutie, stratíš príslušnosť ku všetkým zápasom, ktoré si tu
+          odohral/a a ku všetkým bodom, ktoré si získal/a. Tento účet sa ti stane neprístupný.
+          Na potvrdenie tohto rozhodnutia je potrebné napísať svoju emailovú adresu do
+          políčka nižšie a stlačiť "Odísť".
+        </p>
+        <div class="pt-4" data-controller="players">
+          <%= email_field_tag :confirmation_email,
+                              nil,
+                              class: "shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline",
+                              placeholder: resource.email,
+                              data: {
+                                action: "keyup->players#confirmAnonymize",
+                                "confirmation-email" => resource.email,
+                                "players-target" => "anonymizeEmail"
+                              } %>
+          <div class="text-center">
+            <%= submit_tag "Odísť", class: "button button-red", disabled: true %>
+          </div>
+        </div>
+      <% end %>
+    </section>
+
     <%= render "player/shared/devise_footer" %>
   </div>
 </div>

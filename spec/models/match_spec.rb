@@ -187,6 +187,42 @@ RSpec.describe Match, type: :model do
             expect(subject).not_to be_valid
           end
         end
+
+        context "When assigned player is anonymized" do
+          before do
+            player1.update_column(:anonymized_at, Time.now)
+            season.players << player1
+            season.players << player2
+          end
+
+          let(:assignments) do
+            [
+              build(:assignment, side: 1, player: player1),
+              build(:assignment, side: 2, player: player2)
+            ]
+          end
+
+          context "And the match is not finished yet" do
+
+            it "Is not valid" do
+              expect(subject).not_to be_valid
+            end
+          end
+
+          context "And the match is finished" do
+            before do
+              subject.accepted_at = Time.now
+              subject.finished_at = Time.now
+              subject.set1_side1_score = 6
+              subject.set1_side2_score = 4
+              subject.winner_side = 1
+            end
+
+            it "Is valid" do
+              expect(subject).to be_valid
+            end
+          end
+        end
       end
 
       context "When match belongs to a tournament and players are not enrolled to the season" do
@@ -216,11 +252,42 @@ RSpec.describe Match, type: :model do
           it "Is not valid" do
             expect(subject).not_to be_valid
           end
-
         end
 
-      end
+        context "When assigned player is anonymized" do
+          before do
+            player1.update_column(:anonymized_at, Time.now)
+          end
 
+          let(:assignments) do
+            [
+              build(:assignment, side: 1, player: player1),
+              build(:assignment, side: 2, player: player2)
+            ]
+          end
+
+          context "And the match is not finished yet" do
+
+            it "Is not valid" do
+              expect(subject).not_to be_valid
+            end
+          end
+
+          context "And the match is finished" do
+            before do
+              subject.accepted_at = Time.now
+              subject.finished_at = Time.now
+              subject.set1_side1_score = 6
+              subject.set1_side2_score = 4
+              subject.winner_side = 1
+            end
+
+            it "Is valid" do
+              expect(subject).to be_valid
+            end
+          end
+        end
+      end
     end
 
 

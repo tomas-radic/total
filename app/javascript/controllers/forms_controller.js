@@ -1,7 +1,9 @@
 import { Controller } from "stimulus"
 
 export default class extends Controller {
-  static targets = ["lockableField", "locker"]
+  static targets = [
+      "lockableField", "locker", "hideToggler", "hideToggleable"
+  ]
 
   connect() {
 
@@ -14,27 +16,15 @@ export default class extends Controller {
     })
   }
 
-  score_typing() {
-    this.finish_formTargets.forEach((element, index) => {
 
-      var scoreInputField = element.querySelector("#score-input")
-      var scorePreviewField = element.querySelector("#score-preview")
-      var submitButton = element.querySelector("input[type='submit']")
-      var scoreValues = scoreInputField.value.trim().split(/\s+/)
-      var scorePreviewValue = ""
+  toggleHidden() {
+    var hideToggleable = this.hideTogglerTarget.closest(".hide-toggler-wrapper")
+        .querySelector(".hide-toggleable")
 
-      scoreValues.forEach((e, idx) => {
-        if ((idx % 2) === 1) {
-          scorePreviewValue += (":" + e)
-        } else if (idx === 0) {
-          scorePreviewValue += e
-        } else {
-          scorePreviewValue += (", " + e)
-        }
-      });
-
-      scorePreviewField.textContent = scorePreviewValue
-      submitButton.disabled = (scoreValues.length % 2) === 1
-    });
+    if (this.hideTogglerTarget.checked) {
+      hideToggleable.classList.remove("invisible")
+    } else {
+      hideToggleable.classList.add("invisible")
+    }
   }
 }

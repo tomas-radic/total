@@ -13,7 +13,7 @@ class Rankings
 
 
   def calculate
-    result = Player.left_joins(:matches)
+    result = Player.where(anonymized_at: nil).left_joins(:matches)
                    .where(enrollments: { season_id: @season.id })
                    .merge(Enrollment.active)
                    .includes(:enrollments, matches: :players).map do |player|
