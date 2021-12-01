@@ -12,6 +12,7 @@ class TodayController < ApplicationController
 
     @rejected_matches = season_matches.ranking_counted.rejected
                                       .where("rejected_at >= ?", last_days)
+                                      .includes(assignments: :player)
 
     begins_in_days = Date.today + 12.days
     ended_before_days = Date.today - 2.days
@@ -27,7 +28,7 @@ class TodayController < ApplicationController
     @planned_matches = season_matches.accepted.ranking_counted
                                      .where(finished_at: nil)
                                      .order(:play_date, :play_time)
-                                     .includes(assignments: :player)
+                                     .includes(:place, assignments: :player)
 
     @top_rankings = Rankings.calculate(selected_season, single_matches: true)
                             .slice(0, selected_season.play_off_size + 2)

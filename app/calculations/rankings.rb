@@ -28,7 +28,7 @@ class Rankings
                   Match.none
                 end
 
-      matches = matches.published.reviewed.ranking_counted
+      matches = matches.published.reviewed.ranking_counted.includes(:assignments)
       points = 0
       nr_matches = matches.length
       nr_won_matches = 0
