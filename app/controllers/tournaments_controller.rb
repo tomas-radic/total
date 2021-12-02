@@ -1,7 +1,9 @@
 class TournamentsController < ApplicationController
 
   def index
-    @tournaments = Tournament.published.sorted
+    if selected_season.present?
+      @tournaments = Tournament.published.sorted
+    end
   end
 
 

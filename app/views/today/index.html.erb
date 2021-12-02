@@ -13,30 +13,39 @@
     <div class="py-1"><a href="#planned-matches">Zápasy na pláne</a></div>
     <div class="py-1"><a href="#race">Nominácie PLAY OFF</a></div>
   </div>
-  <% if @requested_matches.any? || @rejected_matches.any? %>
-    <div class="text-right">
-      <h3 class="text-2xl primary-color pt-8 pb-2 md:text-4xl">
-        Nepotvrdené výzvy
-      </h3>
-      <% @requested_matches.each do |match| %>
-        <div>
-          <%= link_to "#{match.side 1} vyzval/a #{match.side 2}",
-                      match_path(match),
-                      class: "underline text-sm px-2 py-1 md:text-lg #{policy(match).accept? || policy(match).destroy? ? 'font-extrabold bg-red-500 text-white' : 'default-color'}" %>
-        </div>
-      <% end %>
-      <% @rejected_matches.each do |match| %>
-        <div class="mt-4">
+  <% if selected_season.present? %>
+    <!-- Requested matches -->
+    <% if @requested_matches.any? || @rejected_matches.any? %>
+      <div class="text-right">
+        <h3 class="text-2xl primary-color pt-8 pb-2 md:text-4xl">
+          Nepotvrdené výzvy
+        </h3>
+        <% @requested_matches.each do |match| %>
           <div>
-            <%= link_to "#{match.side 2} odmietol/la zápas s #{match.side 1}",
+            <%= link_to "#{match.side 1} vyzval/a #{match.side 2}",
                         match_path(match),
-                        class: "underline text-sm text-gray-300 px-2 lg:text-lg" %>
+                        class: "underline text-sm px-2 py-1 md:text-lg #{policy(match).accept? || policy(match).destroy? ? 'font-extrabold bg-red-500 text-white' : 'default-color'}" %>
           </div>
-        </div>
-      <% end %>
-    </div>
+        <% end %>
+        <% @rejected_matches.each do |match| %>
+          <div class="mt-4">
+            <div>
+              <%= link_to "#{match.side 2} odmietol/la zápas s #{match.side 1}",
+                          match_path(match),
+                          class: "underline text-sm text-gray-300 px-2 lg:text-lg" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  <% else %>
+    <h3 class="text-right text-2xl primary-color pt-8 pb-2 md:text-4xl">
+      Nie je sezóna. Všetci netrpezlivo čakáme.
+    </h3>
   <% end %>
-  <% if @upcoming_tournaments.any? %>
+
+  <!-- Upcoming tournaments -->
+  <% if selected_season && @upcoming_tournaments.any? %>
     <h3 class="text-2xl primary-color pt-8 pb-2 md:text-4xl">
       Najbližšie turnaje
     </h3>
@@ -47,42 +56,46 @@
 </section>
 
 <section id="recent-matches" class="base-yellow min-h-screen p-8">
-  <% if @recent_matches.any? %>
-    <h2 class="text-6xl p-1 primary-color">Čo sa najnovšie odohralo?</h2>
-    <div class="table-container default-color">
-      <table>
-        <thead>
-        <tr>
-          <th></th>
-          <th>Víťaz</th>
-          <th>Výsledok</th>
-          <th>Porazený</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @recent_matches.each.with_index do |match, idx| %>
+  <h2 class="text-6xl p-1 primary-color">Čo sa najnovšie odohralo?</h2>
+  <% if selected_season.present? %>
+    <% if @recent_matches.any? %>
+      <div class="table-container default-color">
+        <table>
+          <thead>
           <tr>
-            <td><%= app_date_span match.date %></td>
-            <td><%= match.winner %></td>
-            <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
-              <%= link_to_match(match) do %>
-                <%= match.result %>
-              <% end %>
-            </td>
-            <td><%= match.looser %></td>
+            <th></th>
+            <th>Víťaz</th>
+            <th>Výsledok</th>
+            <th>Porazený</th>
           </tr>
-        <% end %>
-        </tbody>
-      </table>
-    </div>
-    <p class="text-center pt-6 default-color">
-      <%= link_to "Všetky zápasy", matches_path, class: "underline" %>
-    </p>
+          </thead>
+          <tbody>
+          <% @recent_matches.each.with_index do |match, idx| %>
+            <tr>
+              <td><%= app_date_span match.date %></td>
+              <td><%= match.winner %></td>
+              <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
+                <%= link_to_match(match) do %>
+                  <%= match.result %>
+                <% end %>
+              </td>
+              <td><%= match.looser %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-center pt-6 default-color">
+        <%= link_to "Všetky zápasy", matches_path, class: "underline" %>
+      </p>
+    <% else %>
+      <p class="p-8 text-center default-color">Žiadne zápasy sa v poslednej dobe nehrali.</p>
+      <p class="p-2 text-center">
+        <%= link_to "Zavolaj niekoho hrať!", rankings_path, class: "button button-red" %>
+      </p>
+    <% end %>
   <% else %>
-    <p class="p-8 text-center default-color">Žiadne zápasy sa v poslednej dobe nehrali.</p>
-    <p class="p-2 text-center">
-      <%= link_to "Zavolaj niekoho hrať!", rankings_path, class: "button button-red" %>
-    </p>
+    <p class="p-8 text-center default-color">Nič, pretože nie je sezóna. Čakáme kým začne.</p>
   <% end %>
   <div class="underline pt-6 default-color">
     <div class="py-1"><a href="#navbar">Hore</a></div>
@@ -92,48 +105,52 @@
 </section>
 
 <section id="planned-matches" class="base-salmon min-h-screen p-8">
-  <% if @planned_matches.any? %>
-    <h2 class="text-5xl p-1 primary-color text-right">Zápasy, ktoré uvidíme.</h2>
-    <div class="table-container">
-      <table>
-        <thead>
-        <tr>
-          <th class="">Vyzývateľ</th>
-          <th class="">Vyzvaný</th>
-          <th class="">Info</th>
-          <th class=""></th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @planned_matches.each.with_index do |match, idx| %>
+  <h2 class="text-5xl p-1 primary-color text-right">Zápasy, ktoré uvidíme.</h2>
+  <% if selected_season.present? %>
+    <% if @planned_matches.any? %>
+      <div class="table-container">
+        <table>
+          <thead>
           <tr>
-            <td><%= match.side 1 %></td>
-            <td><%= match.side 2 %></td>
-            <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
-              <% if match.play_date.present? %>
-                <%= link_to_match(match) do %>
-                  <%= "#{app_date_span(match.play_date)}<br>#{match.play_time}".html_safe %>
-                <% end %>
-              <% else %>
-                <%= link_to_match(match) %>
-              <% end %>
-            </td>
-            <td><%= match.place&.name %></td>
+            <th class="">Vyzývateľ</th>
+            <th class="">Vyzvaný</th>
+            <th class="">Info</th>
+            <th class=""></th>
           </tr>
-        <% end %>
-        </tbody>
-      </table>
-    </div>
-    <p class="text-center pt-6">
-      <%= link_to "Všetky zápasy", matches_path, class: "underline" %>
-    </p>
+          </thead>
+          <tbody>
+          <% @planned_matches.each.with_index do |match, idx| %>
+            <tr>
+              <td><%= match.side 1 %></td>
+              <td><%= match.side 2 %></td>
+              <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
+                <% if match.play_date.present? %>
+                  <%= link_to_match(match) do %>
+                    <%= "#{app_date_span(match.play_date)}<br>#{match.play_time}".html_safe %>
+                  <% end %>
+                <% else %>
+                  <%= link_to_match(match) %>
+                <% end %>
+              </td>
+              <td><%= match.place&.name %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-center pt-6">
+        <%= link_to "Všetky zápasy", matches_path, class: "underline" %>
+      </p>
+    <% else %>
+      <p class="p-8 text-center">Nikto neplánuje hrať zápas.</p>
+      <p class="p-2 text-center">
+        <a href="#" class="button button-red">
+          Vyzvi niekoho!
+        </a>
+      </p>
+    <% end %>
   <% else %>
-    <p class="p-8 text-center">Nikto neplánuje hrať zápas.</p>
-    <p class="p-2 text-center">
-      <a href="#" class="button button-red">
-        Vyzvi niekoho!
-      </a>
-    </p>
+    <p class="p-8 text-center">Zatiaľ neuvidíme žiadne, pretože nie je sezóna.</p>
   <% end %>
   <div class="underline pt-6">
     <div class="py-1"><a href="#navbar">Hore</a></div>
@@ -142,49 +159,55 @@
   </div>
 </section>
 
+
 <section id="race" class="base-red min-h-screen p-8">
-  <% if @top_rankings.any? %>
-    <h2 class="text-5xl p-1 primary-color">Najväčší králi.</h2>
-    <div class="table-container default-color">
-      <table>
-        <thead>
-        <tr>
-          <th></th>
-          <th></th>
-          <th>Body</th>
-          <th>% výhier</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @top_rankings.each.with_index(1) do |ranking, position| %>
-          <tr class="<%= ranking_row_css(selected_season, position) %>">
-            <td class="<%= 'border-yellow-400 border-solid border-t-4' if position > 1 %>">
-              <%= "#{position}." %>
-            </td>
-            <td><%= link_to ranking[:name], player_path(ranking[:id]), class: "underline" %></td>
-            <td><%= ranking[:points] %></td>
-            <td><%= "#{(ranking[:percentage] / 100.0).round(2)}%" %></td>
+  <h2 class="text-5xl p-1 primary-color">Najväčší králi.</h2>
+  <% if selected_season.present? %>
+    <% if @top_rankings.any? %>
+
+      <div class="table-container default-color">
+        <table>
+          <thead>
+          <tr>
+            <th></th>
+            <th></th>
+            <th>Body</th>
+            <th>% výhier</th>
           </tr>
-        <% end %>
-        </tbody>
-      </table>
-    </div>
-    <p class="p-2 text-center default-color lg:pt-4">
-      Králi s bielou farbou sú aktuálne nominovaní na PLAY OFF.
-      Tí šedí, to sú princovia, majú najväčšiu šancu sa do PLAY OFF dostať.
-    </p>
-    <p class="text-center default-color">
-      <% link_to "Celý rebríček", rankings_path, class: "py-3 px-4 underline" %>
-    </p>
-  <% else %>
-    <p class="p-8 text-center default-color">Nie sú prihlásení žiadni hráči.</p>
-    <% if true # manager_signed_in? %>
-      <p class="p-2 text-center">
-        <a href="#" class="button button-red">
-          Administrácia
-        </a>
+          </thead>
+          <tbody>
+          <% @top_rankings.each.with_index(1) do |ranking, position| %>
+            <tr class="<%= ranking_row_css(selected_season, position) %>">
+              <td class="<%= 'border-yellow-400 border-solid border-t-4' if position > 1 %>">
+                <%= "#{position}." %>
+              </td>
+              <td><%= link_to ranking[:name], player_path(ranking[:id]), class: "underline" %></td>
+              <td><%= ranking[:points] %></td>
+              <td><%= "#{(ranking[:percentage] / 100.0).round(2)}%" %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+      <p class="p-2 text-center default-color lg:pt-4">
+        Králi s bielou farbou sú aktuálne nominovaní na PLAY OFF.
+        Tí šedí, to sú princovia, majú najväčšiu šancu sa do PLAY OFF dostať.
       </p>
+      <p class="text-center default-color">
+        <% link_to "Celý rebríček", rankings_path, class: "py-3 px-4 underline" %>
+      </p>
+    <% else %>
+      <p class="p-8 text-center default-color">V rebríčku nie je nikto.</p>
+      <% if true # manager_signed_in? %>
+        <p class="p-2 text-center">
+          <a href="#" class="button button-red">
+            Administrácia
+          </a>
+        </p>
+      <% end %>
     <% end %>
+  <% else %>
+    <p class="p-8 text-center default-color">V rebríčku nie je nikto, pretože nie je sezóna.</p>
   <% end %>
   <div class="underline pt-6 default-color">
     <div class="py-1"><a href="#navbar">Hore</a></div>

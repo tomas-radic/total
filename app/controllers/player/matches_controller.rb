@@ -7,7 +7,7 @@ class Player::MatchesController < Player::BaseController
   def create
     @requested_player = Player.where(anonymized_at: nil).find params[:player_id]
 
-    if selected_season.ended_at
+    if selected_season.blank? || selected_season.ended_at
       flash[:notice] = "Sezóna je ukončená."
       redirect_to player_path(@requested_player) and return
     end

@@ -26,7 +26,7 @@
 
 
 <section class="page-content">
-  <% if player_signed_in? && current_player.opponents(season: selected_season, pending: true).include?(player) %>
+  <% if selected_season.present? && player_signed_in? && current_player.opponents(season: selected_season, pending: true).include?(player) %>
     <p class="text-center">S týmto hráčom<span class="text-sm">/kou</span> ťa čaká zápas.</p>
   <% end %>
 
