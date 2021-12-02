@@ -9,11 +9,14 @@ class MatchesController < ApplicationController
                                 .includes(:place, assignments: :player)
 
       if player_signed_in?
-        @pending_matches = @matches.select do |match|
-          match.assignments.find { |a| a.player_id == current_player.id } &&
-            match.rejected_at.nil? &&
-            match.finished_at.nil?
-        end.sort_by { |m| -m.requested_at.to_i }
+        @pending_matches = @matches.joins(:assignments)
+                      .where(assignments: { player_id: current_player.id }).distinct
+                      .where(matches: {
+                        rejected_at: nil,
+                        finished_at: nil
+                      })
+                      .order("matches.requested_at desc")
+                      .includes(assignments: :player)
       end
     end
   end

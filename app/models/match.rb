@@ -69,7 +69,7 @@ class Match < ApplicationRecord
   def winner
     return nil unless reviewed?
 
-    assignments.includes(:player).select do |a|
+    assignments.select do |a|
       a.side == winner_side
     end.map { |a| a.player.name }.join(", ")
   end
@@ -78,7 +78,7 @@ class Match < ApplicationRecord
   def looser
     return nil unless reviewed?
 
-    assignments.includes(:player).select do |a|
+    assignments.select do |a|
       a.side != winner_side
     end.map { |a| a.player.name }.join(", ")
   end
@@ -103,7 +103,7 @@ class Match < ApplicationRecord
 
 
   def side(side)
-    assignments.includes(:player).select do |a|
+    assignments.select do |a|
       a.side == side
     end.map { |a| a.player.name }.join(", ")
   end
