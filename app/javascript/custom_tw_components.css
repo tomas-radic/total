@@ -2,13 +2,14 @@
 
   /* Table */
   .table-container {
-    @apply overflow-x-auto lg:flex lg:justify-center lg:pt-9;
+    @apply overflow-x-auto pt-9 text-center;
   }
   .table-container table {
-    @apply table-auto mt-4 text-center md:text-lg md:w-1/2;
+    @apply table-auto mt-4 text-center text-sm md:text-xl;
+    margin: 0 auto;
   }
   .table-container table th, .table-container table td {
-    @apply p-2;
+    @apply p-1 md:px-4;
   }
 
 
