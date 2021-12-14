@@ -63,7 +63,6 @@
         <table>
           <thead>
           <tr>
-            <th></th>
             <th>Víťaz</th>
             <th>Výsledok</th>
             <th>Porazený</th>
@@ -72,14 +71,26 @@
           <tbody>
           <% @recent_matches.each.with_index do |match, idx| %>
             <tr>
-              <td><%= app_date_span match.date %></td>
-              <td><%= match.winner %></td>
-              <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
-                <%= link_to_match(match) do %>
-                  <%= match.result %>
-                <% end %>
+              <td>
+                <div class="fat-row">
+                  <%= match.winner %>
+                </div>
               </td>
-              <td><%= match.looser %></td>
+              <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
+                <div class="fat-row">
+                  <%= link_to_match(match) do %>
+                    <b><%= match.result %></b>
+                    <% if match.date %>
+                      <br><%= app_date match.date %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </td>
+              <td>
+                <div class="fat-row">
+                  <%= match.looser %>
+                </div>
+              </td>
             </tr>
           <% end %>
           </tbody>
@@ -112,27 +123,35 @@
         <table>
           <thead>
           <tr>
-            <th class="">Vyzývateľ</th>
-            <th class="">Vyzvaný</th>
-            <th class="">Info</th>
-            <th class=""></th>
+            <th>Vyzývateľ</th>
+            <th>Vyzvaný</th>
+            <th></th>
           </tr>
           </thead>
           <tbody>
           <% @planned_matches.each.with_index do |match, idx| %>
             <tr>
-              <td><%= match.side 1 %></td>
-              <td><%= match.side 2 %></td>
-              <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
-                <% if match.play_date.present? %>
-                  <%= link_to_match(match) do %>
-                    <%= "#{app_date_span(match.play_date)}<br>#{match.play_time}".html_safe %>
-                  <% end %>
-                <% else %>
-                  <%= link_to_match(match) %>
-                <% end %>
+              <td>
+                <div class="fat-row">
+                  <%= match.side 1 %>
+                </div>
               </td>
-              <td><%= match.place&.name %></td>
+              <td>
+                <div class="fat-row">
+                  <%= match.side 2 %>
+                </div>
+              </td>
+              <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
+                <div class="fat-row">
+                  <% if match.play_date.present? %>
+                    <%= link_to_match(match) do %>
+                      <%= "#{app_date_span(match.play_date)}<br>#{match.play_time}<br>#{match.place&.name}".html_safe %>
+                    <% end %>
+                  <% else %>
+                    <%= link_to_match(match) %>
+                  <% end %>
+                </div>
+              </td>
             </tr>
           <% end %>
           </tbody>

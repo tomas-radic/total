@@ -11,24 +11,32 @@
           <th class="">Vyzývateľ</th>
           <th class="">Vyzvaný</th>
           <th class="">Info</th>
-          <th class=""></th>
         </tr>
         </thead>
         <tbody>
         <% @pending_matches.each.with_index do |match, idx| %>
           <tr>
-            <td><%= match.side 1 %></td>
-            <td><%= match.side 2 %></td>
-            <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
-              <% if match.play_date.present? %>
-                <%= link_to_match(match) do %>
-                  <%= "#{app_date_span(match.date)}<br>#{match.play_time}".html_safe %>
-                <% end %>
-              <% else %>
-                <%= link_to_match(match) %>
-              <% end %>
+            <td>
+              <div class="fat-row">
+                <%= match.side 1 %>
+              </div>
             </td>
-            <td><%= match.place&.name %></td>
+            <td>
+              <div class="fat-row">
+                <%= match.side 2 %>
+              </div>
+            </td>
+            <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
+              <div class="fat-row">
+                <% if match.play_date.present? %>
+                  <%= link_to_match(match) do %>
+                    <%= "#{app_date_span(match.date)}<br>#{match.play_time}<br>#{match.place&.name}".html_safe %>
+                  <% end %>
+                <% else %>
+                  <%= link_to_match(match) %>
+                <% end %>
+              </div>
+            </td>
           </tr>
         <% end %>
         </tbody>
@@ -46,34 +54,37 @@
           <tbody>
           <% @matches.each.with_index do |match, idx| %>
             <tr>
-              <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
-                <%= match.winner || match.side(1) %>
-              </td>
-              <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
-
-                <%= match.looser || match.side(2) %>
+              <td>
+                <div class="fat-row">
+                  <%= match.winner || match.side(1) %>
+                </div>
               </td>
               <td>
-                <% if match.reviewed? %>
-                  <%= link_to_match match do %>
-                    <%= match.result %>
-                  <% end %>
-                <% else %>
-                  <%= link_to_match match %>
-                <% end %>
+                <div class="fat-row">
+                  <%= match.looser || match.side(2) %>
+                </div>
               </td>
-              <td>
-                <%= app_date_span match.date if match.date %>
-                <% unless match.finished_at %>
-                  <% if match.play_date && match.play_time %>
-                    <br>
-                    <%= match.play_time %>
-                    <% if match.place %>
-                      <br>
-                      <%= match.place.name %>
+              <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
+                <div class="fat-row">
+                  <% if match.reviewed? %>
+                    <%= link_to_match match do %>
+                      <b><%= match.result %></b>
+                      <% if match.date %>
+                        <br><%= app_date match.date %>
+                      <% end %>
                     <% end %>
+
+                  <% elsif match.date %>
+                    <%= link_to_match match do %>
+                      <%= app_date match.date %>
+                      <% if match.place %>
+                        <br><%= match.place.name %>
+                      <% end %>
+                    <% end %>
+                  <% else %>
+                    <%= link_to_match match %>
                   <% end %>
-                <% end %>
+                </div>
               </td>
             </tr>
           <% end %>
