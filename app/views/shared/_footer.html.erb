@@ -1,3 +1,14 @@
 <footer class="text-green-300 bg-gray-700 w-full p-4 text-center">
-  Footer
+  <p class="pt-2">
+    <%= gravatar_image_tag("tomas.radic@gmail.com", alt: "Tomáš Radič", class: "inline rounded-full") %>
+  </p>
+  <p class="pt-2">
+    Tomáš Radič<br>
+    autor webu<br>
+  </p>
+  <p class="pt-2">
+    <%= link_to "Github", "https://github.com/tomas-radic", class: "underline", target: :_blank %><br>
+    <%= link_to 'tomas.radic@gmail.com', 'mailto:tomas.radic@gmail.com', class: "underline" %><br>
+    <%= link_to '0905 289 248', 'tel:0905289248', class: "underline" %>
+  </p>
 </footer>

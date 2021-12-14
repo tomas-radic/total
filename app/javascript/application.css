@@ -14,7 +14,7 @@ html {
 body {
   @apply text-xl md:text-lg;
   font-family: 'Raleway', sans-serif;
-  margin-bottom: 100px;
+  margin-bottom: 250px;
 }
 
 
@@ -26,7 +26,8 @@ body {
 footer {
   position: absolute;
   bottom: 0;
-  height: 100px;
+  height: 250px;
+  @apply text-sm;
 }
 
 
