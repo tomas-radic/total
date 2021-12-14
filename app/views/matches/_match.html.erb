@@ -1,28 +1,36 @@
 <%= render partial: "matches/header", locals: { match: match } %>
 
 <section class="context-buttons">
+
   <% if match.requested? %>
-    <% if MatchPolicy.new(current_player, match).accept? %>
-      <%= button_to "Odmietnuť",
-                    reject_player_match_path(match),
-                    class: "button",
-                    data: { confirm: "Chceš naozaj odmietnuť túto výzvu?" } %>
-      <%= button_to "Prijať",
-                    accept_player_match_path(match),
-                    class: "button button-blue" %>
-    <% elsif MatchPolicy.new(current_player, match).destroy? %>
-      <%= link_to "Zmazať",
-                  player_match_path(match),
-                  method: :delete,
-                  class: "button button-red",
-                  data: { confirm: "Chceš naozaj zmazať túto výzvu?", turbo: false } %>
+    <div>
+      <%= link_to "Domov", root_path, class: "underline", target: :_top %>
+      /
+      <%= link_to "Zápasy", matches_path, class: "underline", target: :_top %>
+    </div>
+    <div>
+      <% if MatchPolicy.new(current_player, match).accept? %>
+        <%= button_to "Odmietnuť",
+                      reject_player_match_path(match),
+                      class: "button",
+                      data: { confirm: "Chceš naozaj odmietnuť túto výzvu?" } %>
+        <%= button_to "Prijať",
+                      accept_player_match_path(match),
+                      class: "button button-blue" %>
+      <% elsif MatchPolicy.new(current_player, match).destroy? %>
+        <%= link_to "Zmazať",
+                    player_match_path(match),
+                    method: :delete,
+                    class: "button button-red",
+                    data: { confirm: "Chceš naozaj zmazať túto výzvu?", turbo: false } %>
+      <% end %>
+    <% else %>
+      <% if MatchPolicy.new(current_player, match).finish? %>
+        <%= link_to "Výsledok", finish_init_player_match_path(match),
+                    class: "button button-red" %>
+      <% end %>
     <% end %>
-  <% else %>
-    <% if MatchPolicy.new(current_player, match).finish? %>
-      <%= link_to "Výsledok", finish_init_player_match_path(match),
-                  class: "button button-red" %>
-    <% end %>
-  <% end %>
+  </div>
 </section>
 
 

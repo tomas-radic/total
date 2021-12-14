@@ -91,7 +91,7 @@
   }
 
   section.context-buttons {
-    @apply p-2 flex justify-end md:justify-start;
+    @apply p-2 text-right md:text-left;
   }
 
   section.page-content {

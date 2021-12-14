@@ -14,8 +14,15 @@
 </section>
 
 <section class="context-buttons">
-  <%= link_to "Pavúk", "#", class: "button button-blue" %>
-  <%= link_to "Rozvrh", "#", class: "button button-blue" %>
+  <div>
+    <%= link_to "Domov", root_path, class: "underline", target: :_top %>
+    /
+    <%= link_to "Turnaje", tournaments_path, class: "underline", target: :_top %>
+  </div>
+  <div>
+    <%= link_to "Pavúk", "#", class: "button button-blue" %>
+    <%= link_to "Rozvrh", "#", class: "button button-blue" %>
+  </div>
 </section>
 
 
