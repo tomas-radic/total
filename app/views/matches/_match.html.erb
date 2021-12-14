@@ -1,13 +1,13 @@
 <%= render partial: "matches/header", locals: { match: match } %>
 
 <section class="context-buttons">
-
+  <div>
+    <%= link_to "Domov", root_path, class: "underline", target: :_top %>
+    /
+    <%= link_to "Zápasy", matches_path, class: "underline", target: :_top %>
+  </div>
+  
   <% if match.requested? %>
-    <div>
-      <%= link_to "Domov", root_path, class: "underline", target: :_top %>
-      /
-      <%= link_to "Zápasy", matches_path, class: "underline", target: :_top %>
-    </div>
     <div>
       <% if MatchPolicy.new(current_player, match).accept? %>
         <%= button_to "Odmietnuť",
