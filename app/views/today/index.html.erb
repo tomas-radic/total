@@ -2,7 +2,7 @@
 <div id="today_index_reload_notice"></div>
 
 <section id="intro" class="px-4 py-8 md:px-8 base-green">
-  <h2 class="text-4xl text-right primary-color py-2 lg:text-6xl lg:text-center">
+  <h2 class="page-heading text-right primary-color py-2 lg:text-center">
     Topoľčianska tenisová<br>amatérska liga.
   </h2>
   <div class="text-5xl text-left pt-8 lg:py-12 lg:text-center lg:text-7xl">
@@ -56,7 +56,7 @@
 </section>
 
 <section id="recent-matches" class="base-yellow min-h-screen px-2 py-8 md:px-8">
-  <h2 class="text-4xl md:text-6xl p-1 primary-color">Čo sa najnovšie odohralo?</h2>
+  <h2 class="page-heading primary-color">Čo sa najnovšie odohralo?</h2>
   <% if selected_season.present? %>
     <% if @recent_matches.any? %>
       <div class="table-container default-color">
@@ -105,7 +105,7 @@
 </section>
 
 <section id="planned-matches" class="base-salmon min-h-screen px-2 py-8 md:px-8">
-  <h2 class="text-4xl md:text-6xl p-1 primary-color text-right">Zápasy, ktoré uvidíme.</h2>
+  <h2 class="page-heading primary-color text-right">Zápasy, ktoré uvidíme.</h2>
   <% if selected_season.present? %>
     <% if @planned_matches.any? %>
       <div class="table-container">
@@ -161,7 +161,7 @@
 
 
 <section id="race" class="base-red min-h-screen px-2 py-8 md:px-8">
-  <h2 class="text-4xl md:text-6xl p-1 primary-color">Najväčší králi.</h2>
+  <h2 class="page-heading primary-color">Najväčší králi.</h2>
   <% if selected_season.present? %>
     <% if @top_rankings.any? %>
 

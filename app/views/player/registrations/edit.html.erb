@@ -9,6 +9,14 @@
   </p>
 </section>
 
+<% if selected_season.present? && !selected_season.enrollments.active.where(player: resource).exists? %>
+  <p class="text-center text-sm text-red-500 py-2">
+    Nie si zapísaný<span class="text-sm">/á</span>
+    do sezóny <%= selected_season.name %>.<br>
+    Kontaktuj organizátora súťaže.
+  </p>
+<% end %>
+
 <div class="flex justify-center py-8">
   <div class="w-full max-w-sm">
     <%= form_for resource, as: resource_name, url: registration_path(resource_name),

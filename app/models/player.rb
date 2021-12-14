@@ -72,4 +72,5 @@ class Player < ApplicationRecord
 
     self
   end
+
 end

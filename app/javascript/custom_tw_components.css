@@ -8,8 +8,16 @@
     @apply table-auto mt-4 text-center text-sm md:text-xl;
     margin: 0 auto;
   }
+  table.min-row-height td {
+    min-height: 48px;
+  }
   .table-container table th, .table-container table td {
     @apply p-1 md:px-4;
+  }
+  @media only screen and (min-width: 768px) {
+    table.min-row-height td {
+      min-height: 64px;
+    }
   }
 
 
@@ -88,8 +96,5 @@
   section.page-content {
     @apply p-2;
   }
-
-
-  /* Forms */
 
 }

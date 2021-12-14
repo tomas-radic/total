@@ -3,7 +3,7 @@
 
 <% if selected_season.present? && player_signed_in? && @pending_matches.any? %>
   <section class="base-salmon p-8">
-    <h2 class="text-5xl p-1 primary-color">Tvoje ďalšie zápasy.</h2>
+    <h2 class="page-heading primary-color">Tvoje ďalšie zápasy.</h2>
     <div class="table-container">
       <table>
         <thead>
@@ -38,11 +38,11 @@
 <% end %>
 
 <section class="base-yellow min-h-screen p-8">
-  <h2 class="text-6xl p-1 primary-color text-right">Všetky zápasy sezóny.</h2>
+  <h2 class="page-heading primary-color text-right">Všetky zápasy sezóny.</h2>
   <% if selected_season.present? %>
     <% if @matches.any? %>
       <div class="table-container default-color">
-        <table>
+        <table class="min-row-height">
           <tbody>
           <% @matches.each.with_index do |match, idx| %>
             <tr>
@@ -50,9 +50,10 @@
                 <%= match.winner || match.side(1) %>
               </td>
               <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
+
                 <%= match.looser || match.side(2) %>
               </td>
-              <td class="whitespace-nowrap">
+              <td>
                 <% if match.reviewed? %>
                   <%= link_to_match match do %>
                     <%= match.result %>
@@ -64,8 +65,14 @@
               <td>
                 <%= app_date_span match.date if match.date %>
                 <% unless match.finished_at %>
-                  <%= match.play_time if match.play_date && match.play_time %><br>
-                  <%= match.place&.name %>
+                  <% if match.play_date && match.play_time %>
+                    <br>
+                    <%= match.play_time %>
+                    <% if match.place %>
+                      <br>
+                      <%= match.place.name %>
+                    <% end %>
+                  <% end %>
                 <% end %>
               </td>
             </tr>

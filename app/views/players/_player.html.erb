@@ -26,9 +26,21 @@
 
 
 <section class="page-content">
-  <% if selected_season.present? && player_signed_in? && current_player.opponents(season: selected_season, pending: true).include?(player) %>
-    <p class="text-center">S týmto hráčom<span class="text-sm">/kou</span> ťa čaká zápas.</p>
+  <% if selected_season.present? %>
+    <% unless selected_season.enrollments.active.where(player: player).exists? %>
+      <p class="text-center">
+        Hráč<span class="text-sm">/ka</span> nie je zapísaný<span class="text-sm">/á</span>
+        do sezóny <%= selected_season.name %>.
+      </p>
+    <% end %>
+
+    <% if player_signed_in? && current_player.opponents(season: selected_season, pending: true).include?(player) %>
+      <p class="text-center">
+        S týmto hráčom<span class="text-sm">/kou</span> ťa čaká zápas.
+      </p>
+    <% end %>
   <% end %>
+
 
   <div class="text-center md:text-2xl">
     <% won_count = player.won_matches.size %>
