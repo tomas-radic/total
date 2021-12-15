@@ -24,6 +24,20 @@
           </button>
           <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg md:w-48">
             <div class="px-2 py-2 rounded-md shadow">
+
+              <div id="toggle_open_to_play" class="px-4 py-2 mt-2 text-sm font-semibold bg-gray-700 md:mt-0">
+                <%= turbo_frame_tag "toggle_open_to_play" do %>
+                  <%= form_with url: player_players_toggle_open_to_play_path do %>
+                    <%= check_box_tag :open_to_play_since,
+                                      "1",
+                                      current_player.open_to_play_since.present?,
+                                      onclick: 'this.closest("form").requestSubmit()' %>
+
+                    <%= label_tag :open_to_play_since, "Hľadám súpera" %>
+                  <% end %>
+              <% end %>
+              </div>
+
               <%= link_to "Profil", edit_player_registration_path, class: "block px-4 py-2 mt-2 text-sm font-semibold bg-gray-700 hover:underline md:mt-0" %>
               <%= link_to "Odhlásiť sa", destroy_player_session_path, method: :delete, class: "block px-4 py-2 mt-2 text-sm font-semibold bg-gray-700 hover:underline md:mt-0" %>
             </div>

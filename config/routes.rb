@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       post :finish, on: :member
     end
 
+    post "players/toggle_open_to_play"
     post "players/anonymize"
   end
 
