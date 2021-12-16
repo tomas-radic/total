@@ -168,6 +168,13 @@
         </a>
       </p>
     <% end %>
+
+    <%= turbo_stream_from "players_open_to_play" %>
+    <div id="players_open_to_play" class="text-center">
+      <%= render partial: "shared/players_open_to_play",
+                 locals: { players: @players_open_to_play } %>
+    </div>
+
   <% else %>
     <p class="p-8 text-center">Zatiaľ neuvidíme žiadne, pretože nie je sezóna.</p>
   <% end %>

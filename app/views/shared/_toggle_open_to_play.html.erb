@@ -1,0 +1,8 @@
+<%= form_with url: player_players_toggle_open_to_play_path do %>
+  <%= check_box_tag :open_to_play_since,
+                    "1",
+                    player.open_to_play_since.present?,
+                    onclick: 'this.closest("form").requestSubmit()' %>
+
+  <%= label_tag :open_to_play_since, "Hľadám súpera" %>
+<% end %>

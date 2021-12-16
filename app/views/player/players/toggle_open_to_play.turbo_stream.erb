@@ -1,0 +1,11 @@
+<%= turbo_stream.update "players_open_to_play",
+                        partial: "shared/toggle_open_to_play",
+                        locals: { player: current_player } %>
+
+<% if selected_season.present? %>
+  <%= turbo_stream.update("players_open_to_play",
+                          partial: "shared/players_open_to_play",
+                          locals: { players: selected_season.players
+                                                            .where.not(open_to_play_since: nil)
+                                                            .order(open_to_play_since: :desc) }) %>
+<% end %>

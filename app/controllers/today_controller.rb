@@ -33,6 +33,10 @@ class TodayController < ApplicationController
 
       @top_rankings = Rankings.calculate(selected_season, single_matches: true)
                               .slice(0, selected_season.play_off_size + 2)
+
+      @players_open_to_play = selected_season.players
+                                             .where.not(open_to_play_since: nil)
+                                             .order(open_to_play_since: :desc)
     end
   end
 

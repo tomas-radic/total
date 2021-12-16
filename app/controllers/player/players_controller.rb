@@ -5,8 +5,11 @@ class Player::PlayersController < Player::BaseController
                            Time.now
                          end
 
-    current_player.update(open_to_play_since: open_to_play_since)
-    render partial: "shared/navbar"
+    if current_player.update(open_to_play_since: open_to_play_since)
+      respond_to do |format|
+        format.turbo_stream
+      end
+    end
   end
 
 
