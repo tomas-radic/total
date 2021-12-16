@@ -23,6 +23,11 @@ body {
 }
 
 
+.breadcrumbs {
+  @apply text-sm;
+}
+
+
 footer {
   position: absolute;
   bottom: 0;

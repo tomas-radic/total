@@ -215,6 +215,128 @@ RSpec.describe "Player::Matches", type: :request do
   end
 
 
+  describe "POST /player/matches/:id/accept" do
+    subject { post accept_player_match_path(match) }
+
+    let!(:match) do
+      create(:match, :requested, competitable: build(:season), ranking_counted: true)
+    end
+    let!(:player1) { create(:player, open_to_play_since: Time.now, seasons: [match.season]) }
+    let!(:player2) { create(:player, open_to_play_since: Time.now, seasons: [match.season]) }
+    let!(:another_player) { create(:player, seasons: [match.season]) }
+
+    before do
+      match.assignments = [
+        build(:assignment, side: 1, player: player1),
+        build(:assignment, side: 2, player: player2)
+      ]
+
+      match.save!
+    end
+
+    context "When logged in player is a side 2 player of the match" do
+      before do
+        sign_in player2
+      end
+
+      it "Accepts the match and cancels open_to_play_since flag of both players" do
+        subject
+
+        expect(match.reload.accepted_at).not_to be_nil
+        expect(player1.reload.open_to_play_since).to be_nil
+        expect(player2.reload.open_to_play_since).to be_nil
+      end
+    end
+
+    context "When logged in player is a side 1 player of the match" do
+      before do
+        sign_in player1
+      end
+
+      it "Raises error" do
+        expect { subject }.to raise_error(Pundit::NotAuthorizedError)
+      end
+    end
+
+    context "When logged in player is not a player of the match" do
+      before do
+        sign_in another_player
+      end
+
+      it "Raises error" do
+        expect { subject }.to raise_error(Pundit::NotAuthorizedError)
+      end
+    end
+
+    context "When player is NOT logged in" do
+      it "Redirects to login page" do
+        expect(subject).to redirect_to new_player_session_path
+      end
+    end
+  end
+
+
+  describe "POST /player/matches/:id/reject" do
+    subject { post reject_player_match_path(match) }
+
+    let!(:match) do
+      create(:match, :requested, competitable: build(:season), ranking_counted: true)
+    end
+    let!(:player1) { create(:player, open_to_play_since: Time.now, seasons: [match.season]) }
+    let!(:player2) { create(:player, open_to_play_since: Time.now, seasons: [match.season]) }
+    let!(:another_player) { create(:player, seasons: [match.season]) }
+
+    before do
+      match.assignments = [
+        build(:assignment, side: 1, player: player1),
+        build(:assignment, side: 2, player: player2)
+      ]
+
+      match.save!
+    end
+
+    context "When logged in player is a side 2 player of the match" do
+      before do
+        sign_in player2
+      end
+
+      it "Rejects the match and preserves open_to_play_since flag of both players" do
+        subject
+
+        expect(match.reload.rejected_at).not_to be_nil
+        expect(player1.reload.open_to_play_since).not_to be_nil
+        expect(player2.reload.open_to_play_since).not_to be_nil
+      end
+    end
+
+    context "When logged in player is a side 1 player of the match" do
+      before do
+        sign_in player1
+      end
+
+      it "Raises error" do
+        expect { subject }.to raise_error(Pundit::NotAuthorizedError)
+      end
+    end
+
+    context "When logged in player is not a player of the match" do
+      before do
+        sign_in another_player
+      end
+
+      it "Raises error" do
+        expect { subject }.to raise_error(Pundit::NotAuthorizedError)
+      end
+    end
+
+    context "When player is NOT logged in" do
+      it "Redirects to login page" do
+        expect(subject).to redirect_to new_player_session_path
+      end
+    end
+  end
+
+
   describe "POST /player/matches/:id/finish" do
     subject { post finish_player_match_path(match), params: params }
 

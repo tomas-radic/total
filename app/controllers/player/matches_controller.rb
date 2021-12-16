@@ -48,7 +48,26 @@ class Player::MatchesController < Player::BaseController
 
 
   def accept
-    @match.update(accepted_at: Time.now)
+    ActiveRecord::Base.transaction do
+      @match.update(accepted_at: Time.now)
+      @match.players.update_all(open_to_play_since: nil)
+
+      @players_open_to_play = Player.where.not(open_to_play_since: nil)
+                                    .order(open_to_play_since: :desc)
+
+      Turbo::StreamsChannel.broadcast_update_to "players_open_to_play",
+                                                target: "players_open_to_play",
+                                                partial: "shared/players_open_to_play",
+                                                locals: { players: @players_open_to_play }
+
+      Turbo::StreamsChannel.broadcast_update_to "players_open_to_play",
+                                                target: "players_open_to_play_top",
+                                                partial: "shared/players_open_to_play",
+                                                locals: { players: @players_open_to_play }
+    end
+
+
+
     redirect_to match_path(@match)
   end
 
