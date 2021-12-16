@@ -1,4 +1,6 @@
 <%= turbo_stream_from "matches" %>
+<%= turbo_stream_from "players_open_to_play" %>
+
 <div id="today_index_reload_notice"></div>
 
 <section id="intro" class="px-4 py-8 md:px-8 base-green">
@@ -17,27 +19,38 @@
     <!-- Requested matches -->
     <% if @requested_matches.any? || @rejected_matches.any? %>
       <div class="text-right">
-        <h3 class="text-2xl primary-color pt-8 pb-2 md:text-4xl">
-          Nepotvrdené výzvy
-        </h3>
-        <% @requested_matches.each do |match| %>
-          <div>
-            <%= link_to "#{match.side 1} vyzval/a #{match.side 2}",
-                        match_path(match),
-                        class: "underline text-sm px-2 py-1 md:text-lg #{policy(match).accept? || policy(match).destroy? ? 'font-extrabold bg-red-500 text-white' : 'default-color'}" %>
-          </div>
-        <% end %>
-        <% @rejected_matches.each do |match| %>
-          <div class="mt-4">
-            <div>
-              <%= link_to "#{match.side 2} odmietol/la zápas s #{match.side 1}",
-                          match_path(match),
-                          class: "underline text-sm text-gray-300 px-2 lg:text-lg" %>
-            </div>
-          </div>
-        <% end %>
+        <div class="inline-block">
+          <h3 class="text-2xl primary-color pt-8 pb-2 md:text-4xl">
+            Nepotvrdené výzvy
+          </h3>
+          <ul class="text-left">
+            <% @requested_matches.each do |match| %>
+              <li>
+                <%= link_to "#{match.side 1} vyzval/a #{match.side 2}",
+                            match_path(match),
+                            class: "underline text-sm px-2 py-1 md:text-lg #{policy(match).accept? || policy(match).destroy? ? 'font-extrabold bg-red-500 text-white' : 'default-color'}" %>
+              </li>
+            <% end %>
+          </ul>
+          <ul class="text-left mt-4">
+            <% @rejected_matches.each do |match| %>
+              <li>
+                  <%= link_to "#{match.side 2} odmietol/la zápas s #{match.side 1}",
+                              match_path(match),
+                              class: "underline text-sm text-gray-300 px-2 lg:text-lg" %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
       </div>
     <% end %>
+
+    <!-- Players open to play -->
+    <div id="players_open_to_play_top" class="text-right">
+      <%= render partial: "shared/players_open_to_play",
+                 locals: { players: @players_open_to_play } %>
+    </div>
+
   <% else %>
     <h3 class="text-right text-2xl primary-color pt-8 pb-2 md:text-4xl">
       Nie je sezóna. Všetci netrpezlivo čakáme.
@@ -169,7 +182,6 @@
       </p>
     <% end %>
 
-    <%= turbo_stream_from "players_open_to_play" %>
     <div id="players_open_to_play" class="text-center">
       <%= render partial: "shared/players_open_to_play",
                  locals: { players: @players_open_to_play } %>

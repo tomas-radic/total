@@ -1,9 +1,9 @@
-<% if players.any? %>
-  <h3 class="inline-block text-xl md:text-2xl text-white pt-2 mt-8 border-t border-white">
-    Niekto hľadá súpera na zápas!
-  </h3>
-  <div class="text-sm md:text-lg text-center pt-2">
-    <ul>
+<% if selected_season.present? && players.any? %>
+  <div class="inline-block">
+    <h3 class="text-xl md:text-2xl pt-2 mt-8 border-t border-white text-white">
+      Niekto hľadá súpera na zápas!
+    </h3>
+    <ul class="text-sm md:text-lg text-left text-white pt-2">
       <% players.each do |player| %>
         <li>
           <%= link_to player.name, player_path(player), class: "underline" %>
