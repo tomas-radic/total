@@ -23,7 +23,7 @@
           <h3 class="text-2xl primary-color pt-8 pb-2 md:text-4xl">
             Nepotvrdené výzvy
           </h3>
-          <ul class="text-left">
+          <ul class="text-right md:text-center">
             <% @requested_matches.each do |match| %>
               <li>
                 <%= link_to "#{match.side 1} vyzval/a #{match.side 2}",
@@ -32,7 +32,7 @@
               </li>
             <% end %>
           </ul>
-          <ul class="text-left mt-4">
+          <ul class="text-right md:text-center mt-4">
             <% @rejected_matches.each do |match| %>
               <li>
                   <%= link_to "#{match.side 2} odmietol/la zápas s #{match.side 1}",

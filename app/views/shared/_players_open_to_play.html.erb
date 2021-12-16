@@ -3,7 +3,7 @@
     <h3 class="text-xl md:text-2xl pt-2 mt-8 border-t border-white text-white">
       Niekto hľadá súpera na zápas!
     </h3>
-    <ul class="text-sm md:text-lg text-left text-white pt-2">
+    <ul class="text-sm md:text-lg text-center text-white pt-2">
       <% players.each do |player| %>
         <li>
           <%= link_to player.name, player_path(player), class: "underline" %>
