@@ -27,6 +27,10 @@
                              class: "shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline" %>
         <%= error_for(:password_confirmation, resource) %>
       </div>
+      <p class="text-sm text-center py-6">
+        S cookies súhlasíš, to je jasné. Ak nie, tak vodprejsk!
+        <%= f.submit "Jop!", class: "underline" %>
+      </p>
       <div class="text-center">
         <%= f.submit "Registrovať", class: "button button-blue" %>
         <hr>
