@@ -63,22 +63,32 @@ ActiveRecord::Base.transaction do
     "Michal Bihary", "Branislav Lištiak", "Michal Dovalovský", "Slavo Kutňanský", "Ivan Šlosár",
     "Ľuboš Hollan", "Marek Bednárik", "Andrej Jančovič", "Jarik Šípoš", "Tomáš Dobek", "Ľuboš Barborík",
     "Igor Malinka", "Braňo Milata", "Michal Kollár", "Juro Sulík", "Peter Klačanský", "Tomáš Korytár",
-    "Marek Kúdela", "Rasťo Kováč", "Tomáš Radič"
+    "Marek Kúdela", "Rasťo Kováč"
   ].each do |name|
     player = Player.create!(
       name: name,
       email: "#{I18n.transliterate(name).downcase.gsub(/\s+/, '.')}@total.online",
       phone_nr: Faker::PhoneNumber.cell_phone,
       birth_year: Date.today.year - rand(20..60),
-      password: "asdfasdf"
+      password: "hesielko"
     )
 
     season.players << player
   end
 
+  season.players << Player.create!(
+    name: "Tomáš Radič",
+    email: "tomas.radic@gmail.com",
+    phone_nr: "0905289248",
+    birth_year: 1980,
+    password: "Wimbledon"
+  )
+
 
   puts "\nCreating matches..."
   raise "Existing data" if Match.any?
+
+  # Finished & reviewed matches
   16.times do
     players = Player.all.sample(2)
     match_time = rand(2.weeks).seconds.ago.to_date
@@ -105,9 +115,12 @@ ActiveRecord::Base.transaction do
     )
   end
 
+  # Accepted matches
+  players = Player.all.to_a
   3.times do
-    players = Player.all.sample(2)
-    match_time = rand(2.weeks).seconds.ago.to_date
+    player1 = players.delete(players.sample)
+    player2 = players.delete(players.sample)
+    match_time = rand(2.weeks).seconds.from_now.to_date
 
     Match.create!(
       published_at: match_time,
@@ -117,47 +130,55 @@ ActiveRecord::Base.transaction do
       play_time: Match.play_times.values.sample,
       competitable: season,
       assignments: [
-        Assignment.new(side: 1, player: players[0]),
-        Assignment.new(side: 2, player: players[1])
+        Assignment.new(side: 1, player: player1),
+        Assignment.new(side: 2, player: player2)
       ]
     )
   end
 
-  2.times do
-    players = Player.all.sample(2)
+  player1 = players.delete(players.sample)
+  player2 = players.delete(players.sample)
 
-    Match.create!(
-      requested_at: rand(3.days).seconds.ago.to_datetime,
-      published_at: Time.now,
-      competitable: season,
-      assignments: [
-        Assignment.new(side: 1, player: players[0]),
-        Assignment.new(side: 2, player: players[1])
-      ]
-    )
-  end
-
-  players = Player.all.sample(2)
   Match.create!(
     requested_at: rand(3.days).seconds.ago.to_datetime,
     accepted_at: Time.now,
     published_at: Time.now,
     competitable: season,
     assignments: [
-      Assignment.new(side: 1, player: players[0]),
-      Assignment.new(side: 2, player: players[1])
+      Assignment.new(side: 1, player: player1),
+      Assignment.new(side: 2, player: player2)
     ]
   )
 
-  players = Player.all.sample(2)
+  # Requested matches
+  2.times do
+    player1 = players.delete(players.sample)
+    player2 = players.delete(players.sample)
+
+    Match.create!(
+      requested_at: rand(3.days).seconds.ago.to_datetime,
+      published_at: Time.now,
+      competitable: season,
+      assignments: [
+        Assignment.new(side: 1, player: player1),
+        Assignment.new(side: 2, player: player2)
+      ]
+    )
+  end
+
+  # Rejected matches
+  players = Player.all.to_a
+  player1 = players.delete(players.sample)
+  player2 = players.delete(players.sample)
+
   Match.create!(
     requested_at: rand(3.days).seconds.ago.to_datetime,
     rejected_at: Time.now,
     published_at: Time.now,
     competitable: season,
     assignments: [
-      Assignment.new(side: 1, player: players[0]),
-      Assignment.new(side: 2, player: players[1])
+      Assignment.new(side: 1, player: player1),
+      Assignment.new(side: 2, player: player2)
     ]
   )
 end
