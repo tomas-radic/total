@@ -12,13 +12,13 @@
 </section>
 
 
-<% if player_signed_in? %>
-  <section class="context-buttons">
-    <div class="breadcrumbs">
-      <%= link_to "Domov", root_path, class: "underline", target: :_top %>
-      /
-      <%= link_to "Rebríček", rankings_path, class: "underline", target: :_top %>
-    </div>
+<section class="context-buttons">
+  <div class="breadcrumbs">
+    <%= link_to "Domov", root_path, class: "underline", target: :_top %>
+    /
+    <%= link_to "Rebríček", rankings_path, class: "underline", target: :_top %>
+  </div>
+  <% if player_signed_in? %>
     <% if match_request_possible(current_player, requested_player: player, season: selected_season) %>
       <div>
         <%= link_to "Vyzvať hráča",
@@ -28,8 +28,8 @@
                     data: { confirm: "Potvrď, že naozaj chceš vyzvať #{player.name}" } %>
       </div>
     <% end %>
-  </section>
-<% end %>
+  <% end %>
+</section>
 
 
 <section class="page-content">
@@ -48,17 +48,48 @@
     <% end %>
   <% end %>
 
+  <% if selected_season && @all_matches.any? %>
+    <div class="text-center md:text-2xl">
+      <% won_count = @won_matches.size %>
+      <% all_count = @all_matches.size %>
+      <p>
+        Vyhraté zápasy / všetky zápasy<br>
+        <span class="<%= text_success_css(won_count, all_count) %>">
+          <%= won_count %> / <%= all_count %>
+        </span>
+      </p>
 
-  <div class="text-center md:text-2xl">
-    <% won_count = player.won_matches.size %>
-    <% total_count = player.matches.reviewed.size %>
-    <p>
-      Vyhraté zápasy / všetky zápasy<br>
-      <span class="<%= text_success_css(won_count, total_count) %>">
-      <%= won_count %>
-        /
-        <%= total_count %>
-    </span>
-    </p>
-  </div>
+      <div class="text-sm md:text-xl">
+        <% @all_matches.each do |match| %>
+          <% side = match.assignments.find { |a| a.player_id == player.id }.side %>
+          <% other_side = (side == 1) ? 2 : 1 %>
+          <% if side == match.winner_side %>
+            <p>
+              <%= app_date(match.finished_at) %>
+              Výhra s
+              <%= match.side(other_side) %>
+              <span class="text-green-500 text-xl"><%= match.result(side: side) %></span>
+              <% if match.retired? %>
+                (skreč)
+              <% end %>
+            </p>
+          <% else %>
+            <p>
+              <%= app_date(match.finished_at) %>
+              Prehra s
+              <%= match.side(other_side) %>
+              <span class="text-red-500 text-base"><%= match.result(side: side) %></span>
+              <% if match.retired? %>
+                (skreč)
+              <% end %>
+            </p>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <p>Žiadne odohraté zápasy v sezóne <%= selected_season.name %>.</p>
+  <% end %>
+
+
 </section>

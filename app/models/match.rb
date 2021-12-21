@@ -49,6 +49,7 @@ class Match < ApplicationRecord
 
 
   # Scopes
+  scope :sorted, -> { order(finished_at: :desc) }
   scope :published, -> { where.not(published_at: nil) }
   scope :requested, -> { where.not(requested_at: nil).where(accepted_at: nil, rejected_at: nil) }
   scope :accepted, -> { where.not(accepted_at: nil) }
