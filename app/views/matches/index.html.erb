@@ -50,16 +50,19 @@
   <% if selected_season.present? %>
     <% if @matches.any? %>
       <div class="table-container default-color">
-        <table class="min-row-height">
+        <table>
           <tbody>
+          <% last_match_reviewed = false %>
           <% @matches.each.with_index do |match, idx| %>
+            <% full_border = !last_match_reviewed && match.reviewed? %>
+            <% last_match_reviewed = true if match.reviewed? %>
             <tr>
-              <td>
+              <td class="<%= 'border-white border-solid border-t-4' if idx > 0 && full_border %>">
                 <div class="fat-row">
                   <%= match.winner || match.side(1) %>
                 </div>
               </td>
-              <td>
+              <td class="<%= 'border-white border-solid border-t-4' if idx > 0 && full_border %>">
                 <div class="fat-row">
                   <%= match.looser || match.side(2) %>
                 </div>
