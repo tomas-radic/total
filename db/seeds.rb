@@ -63,7 +63,7 @@ ActiveRecord::Base.transaction do
     "Michal Bihary", "Branislav Lištiak", "Michal Dovalovský", "Slavo Kutňanský", "Ivan Šlosár",
     "Ľuboš Hollan", "Marek Bednárik", "Andrej Jančovič", "Jarik Šípoš", "Tomáš Dobek", "Ľuboš Barborík",
     "Igor Malinka", "Braňo Milata", "Michal Kollár", "Juro Sulík", "Peter Klačanský", "Tomáš Korytár",
-    "Marek Kúdela", "Rasťo Kováč"
+    "Marek Kúdela", "Rasťo Kováč", "Lucia Machová"
   ].each do |name|
     player = Player.create!(
       name: name,
