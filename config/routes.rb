@@ -28,4 +28,27 @@ Rails.application.routes.draw do
     post "players/anonymize"
   end
 
+
+  # MANAGERS ---------------------------------
+
+  devise_for :manager,
+             controllers: {
+               sessions: "manager/sessions",
+               registrations: "manager/registrations"
+             }
+
+  namespace :manager do
+    root to: "pages#dashboard"
+
+    get "pages/dashboard"
+
+    resources :seasons, only: [:new, :create, :edit, :update]
+
+    resources :players, only: [:edit, :update] do
+      post :deny_access, on: :member
+      post :grant_access, on: :member
+    end
+
+    post "enrollments/toggle", to: "enrollments#toggle", as: "toggle_enrollment"
+  end
 end

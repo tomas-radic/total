@@ -44,6 +44,7 @@ RSpec.describe Match, type: :model do
         context "In another season" do
           let!(:competitable) { create(:season,
                                        name: "#{Date.today.year - 1}",
+                                       ended_at: 1.year.ago,
                                        players: [player1, player2]) }
 
           it "Is valid" do

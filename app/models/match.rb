@@ -58,8 +58,8 @@ class Match < ApplicationRecord
   scope :finished, -> { where.not(finished_at: nil) }
   scope :reviewed, -> { where.not(reviewed_at: nil) }
   scope :ranking_counted, -> { where(ranking_counted: true) }
-  scope :single, -> { where(kind: "single") }
-  scope :double, -> { where(kind: "double") }
+  scope :singles, -> { where(kind: "single") }
+  scope :doubles, -> { where(kind: "double") }
 
 
   def played_3rd_set?
@@ -117,6 +117,16 @@ class Match < ApplicationRecord
 
   def requested?
     requested_at && accepted_at.blank? && rejected_at.blank? && finished_at.blank?
+  end
+
+
+  def accepted?
+    accepted_at.present?
+  end
+
+
+  def rejected?
+    rejected_at.present?
   end
 
 
@@ -254,7 +264,7 @@ class Match < ApplicationRecord
 
 
   def existing_matches
-    matches = competitable.matches.single.where(finished_at: nil, rejected_at: nil)
+    matches = competitable.matches.singles.where(finished_at: nil, rejected_at: nil)
                           .where.not(id: id)
                           .joins(:assignments)
                           .where(

@@ -1,7 +1,7 @@
 class Player::MatchesController < Player::BaseController
 
   before_action :load_and_authorize_record, except: [:create]
-  after_action :verify_authorized, except: [:create]
+  after_action :verify_authorized
 
 
   def create
@@ -13,7 +13,7 @@ class Player::MatchesController < Player::BaseController
     end
 
     now = Time.now
-    @match = selected_season.matches.create(
+    @match = selected_season.matches.new(
       requested_at: now,
       published_at: now,
       ranking_counted: true,
@@ -23,6 +23,8 @@ class Player::MatchesController < Player::BaseController
       ]
     )
 
+    authorize @match
+    @match.save
     redirect_to player_path(@requested_player)
   end
 
@@ -66,8 +68,6 @@ class Player::MatchesController < Player::BaseController
                                                 locals: { players: @players_open_to_play }
     end
 
-
-
     redirect_to match_path(@match)
   end
 
@@ -84,7 +84,7 @@ class Player::MatchesController < Player::BaseController
 
 
   def finish
-    @match.finish params.slice(
+    finished_match = @match.finish params.slice(
       "score",
       "retired_player_id",
       "play_date",
@@ -92,7 +92,7 @@ class Player::MatchesController < Player::BaseController
       "notes"
     ).merge("score_side" => @match.assignments.find { |a| a.player_id == current_player.id }.side)
 
-    if @match.reload.finished_at.present?
+    if finished_match.finished_at.present?
       redirect_to match_path(@match)
     else
       render :finish_init

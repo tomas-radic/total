@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_15_174652) do
+ActiveRecord::Schema.define(version: 2021_12_27_112439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -35,6 +35,21 @@ ActiveRecord::Schema.define(version: 2021_12_15_174652) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["player_id"], name: "index_enrollments_on_player_id"
     t.index ["season_id"], name: "index_enrollments_on_season_id"
+  end
+
+  create_table "managers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.datetime "access_denied_since"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_managers_on_email", unique: true
   end
 
   create_table "matches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -79,6 +94,7 @@ ActiveRecord::Schema.define(version: 2021_12_15_174652) do
     t.string "phone_nr"
     t.integer "birth_year"
     t.datetime "anonymized_at"
+    t.datetime "access_denied_since"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

@@ -21,9 +21,9 @@ class Rankings
       matches = if @single_matches && @double_matches
                   player.matches
                 elsif @single_matches && !@double_matches
-                  player.matches.single
+                  player.matches.singles
                 elsif !@single_matches && @double_matches
-                  player.matches.double
+                  player.matches.doubles
                 else
                   Match.none
                 end

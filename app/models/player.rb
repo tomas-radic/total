@@ -16,6 +16,9 @@ class Player < ApplicationRecord
   validates :name,
             presence: true, uniqueness: true
 
+  # Scopes -----
+  scope :sorted, -> { order(created_at: :desc) }
+
 
   def won_matches(season = nil)
     if season.present?

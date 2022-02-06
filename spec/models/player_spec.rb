@@ -107,7 +107,7 @@ RSpec.describe Player, type: :model do
                ])
       end
 
-      let!(:another_season) { create(:season, name: Date.today.year - 1) }
+      let!(:another_season) { create(:season, name: Date.today.year - 1, ended_at: 6.months.ago) }
       let!(:match11) do
         create(:match, :accepted, competitable: another_season,
                assignments: [

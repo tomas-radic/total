@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Total</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%#= yield :turbo_visit_control if :turbo_visit_control %>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbo-track': 'reload' %>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+  </head>
+
+  <body>
+    <%= render "manager/shared/navbar" %>
+    <%= render "shared/flash_message" %>
+    <%= yield %>
+    <%= render "shared/footer" %>
+  </body>
+</html>

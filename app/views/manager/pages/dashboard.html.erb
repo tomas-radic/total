@@ -1,0 +1,199 @@
+<%#= turbo_stream_from "dashboard_player" %>
+
+<%= Time.now.to_f %>
+<section class="page-content">
+
+  <section class="managed-season">
+    <% if @managed_season %>
+
+      <h2>Prebieha sezóna</h2>
+      <h2><%= @managed_season.name %></h2>
+      <p>Začiatok - <%= app_date @managed_season.created_at %></p>
+
+      <div class="managed-season__players">
+        <% if @players.any? %>
+          <h2 class="text-3xl text-center py-4 text-green-700">
+            Registrovaní hráči
+          </h2>
+
+          <table>
+            <thead>
+            <tr>
+              <th>Meno</th>
+              <th>Sezóna <%= @managed_season.name %></th>
+              <th>Prístup</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @players.each do |player| %>
+              <%= render partial: "manager/pages/dashboard_season_player_row",
+                         locals: { player: player, season: @managed_season } %>
+            <% end %>
+            </tbody>
+          </table>
+
+        <% else %>
+          <p class="text-3xl text-center py-4 text-red-400">
+            Žiadni hráči nie sú registrovaní.
+          </p>
+        <% end %>
+      </div>
+
+
+      <div class="managed-season__details">
+        <h2 class="text-3xl text-center py-4 text-green-700">
+          Manažment sezóny
+          <%= @managed_season.name %>.
+        </h2>
+
+        <ul>
+          <li>
+            Sezóna bola vytvorená
+            <span class="text-green-500 font-extrabold">
+          <%= app_date @managed_season.created_at %>
+        </span>
+          </li>
+          <li>
+            Prihlásení hráči:
+            <span class="text-green-500 font-extrabold">
+          <%= @managed_season.players.count %>
+        </span>
+          </li>
+          <li>
+            Odohraté zápasy:
+            <span class="text-green-500 font-extrabold">
+          <%= @managed_season.matches.published.reviewed.count %>
+        </span>
+          </li>
+          <li>
+            Turnaje:
+            <span class="text-green-500 font-extrabold">
+          <%= @managed_season.tournaments.published.count %>
+        </span>
+          </li>
+          <% if @managed_season.ended_at.present? %>
+            <li>
+              Sezóna skončila
+              <%= app_date @managed_season.ended_at %>
+            </li>
+          <% else %>
+            <li>
+              Táto sezóna trvá už
+              <span class="text-green-500 font-extrabold">
+            <%= (Date.today - @managed_season.created_at.to_date).to_i + 1 %>
+          </span>
+              dní.
+            </li>
+          <% end %>
+
+          <hr class="my-4">
+
+          <li>
+            Počet hráčov do PLAY-OFF:
+            <span class="text-green-500 font-extrabold">
+          <%= @managed_season.play_off_size %>
+        </span>
+          </li>
+          <li>
+            Body za výhru 2:0 v 2hre:
+            <span class="text-green-500 font-extrabold">
+          <%= @managed_season.points_single_20 %>
+        </span>
+          </li>
+          <li>
+            Body za výhru 2:1 v 2hre:
+            <span class="text-green-500 font-extrabold">
+          <%= @managed_season.points_single_21 %>
+        </span>
+          </li>
+          <li>
+            Body za prehru 0:2 v 2hre:
+            <span class="text-green-500 font-extrabold">
+          <%= @managed_season.points_single_02 %>
+        </span>
+          </li>
+          <li>
+            Body za prehru 1:2 v 2hre:
+            <span class="text-green-500 font-extrabold">
+          <%= @managed_season.points_single_12 %>
+        </span>
+          </li>
+          <li>
+            Body za výhru 2:0 vo 4hre:
+            <span class="text-green-500 font-extrabold">
+          <%= @managed_season.points_double_20 %>
+        </span>
+          </li>
+          <li>
+            Body za výhru 2:1 vo 4hre:
+            <span class="text-green-500 font-extrabold">
+          <%= @managed_season.points_double_21 %>
+        </span>
+          </li>
+          <li>
+            Body za prehru 0:2 vo 4hre:
+            <span class="text-green-500 font-extrabold">
+          <%= @managed_season.points_double_02 %>
+        </span>
+          </li>
+          <li>
+            Body za prehru 1:2 vo 4hre:
+            <span class="text-green-500 font-extrabold">
+          <%= @managed_season.points_double_12 %>
+        </span>
+          </li>
+        </ul>
+        <div class="text-center py-2">
+          <%= link_to "Zmeniť údaje",
+                      edit_manager_season_path(@managed_season),
+                      class: "underline" %>
+        </div>
+      </div>
+
+
+    <% else %>
+      <% if @previous_season %>
+        <p>Posledná sezóna skončila <%= app_date(@previous_season.ended_at) %>.</p>
+      <% end %>
+
+      <div>
+        <%= link_to "Začať sezónu", new_manager_season_path %>
+      </div>
+
+      <div class="managed-season__players">
+        <% if @players.any? %>
+          <h2 class="text-3xl text-center py-4 text-green-700">
+            Registrovaní hráči
+          </h2>
+
+          <table>
+            <thead>
+            <tr>
+              <th>Meno</th>
+              <th>Prístup</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @players.each do |player| %>
+              <%= render partial: "manager/pages/dashboard_player_row",
+                         locals: { player: player } %>
+            <% end %>
+            </tbody>
+          </table>
+
+        <% else %>
+          <p class="text-3xl text-center py-4 text-red-400">
+            Žiadni hráči nie sú registrovaní.
+          </p>
+        <% end %>
+
+      </div>
+
+    <% end %>
+  </section>
+
+  <%= link_to "Odhlásiť sa z manažmentu",
+              destroy_manager_session_path,
+              method: :delete,
+              class: "underline" %>
+</section>

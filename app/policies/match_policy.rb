@@ -1,27 +1,47 @@
 class MatchPolicy < ApplicationPolicy
 
+  def create?
+    return false unless user.present?
+    return false if season_ended?(record)
+
+    player_enrolled?(user, record)
+  end
+
+
   def edit?
     update?
   end
 
 
   def update?
-    user &&
-      record.ranking_counted? &&
-      record.accepted_at.present? &&
-      record.assignments.find { |a| a.player_id == user.id }
+    return false unless user.present?
+    return false if season_ended?(record)
+    return false unless record.ranking_counted?
+    return false unless record.accepted_at.present?
+
+    record.assignments.find { |a| a.player_id == user.id }
   end
 
 
   def destroy?
-    user && record.ranking_counted? &&
-      record.assignments.where(side: 1).find { |a| a.player_id == user.id } && !record.reviewed?
+    return false unless user.present?
+    return false if season_ended?(record)
+    return false unless record.ranking_counted?
+    return false if record.accepted? || record.rejected? || record.reviewed?
+
+    record.assignments.where(side: 1)
+          .find { |a| a.player_id == user.id }
   end
 
 
   def accept?
-    user && record.ranking_counted? &&
-      record.assignments.where(side: 2).find { |a| a.player_id == user.id } && !record.reviewed?
+    return false unless user.present?
+    return false if season_ended?(record)
+    return false unless record.ranking_counted?
+    return false if record.reviewed?
+
+    record.assignments.where(side: 2)
+          .find { |a| a.player_id == user.id }
   end
 
 
@@ -36,7 +56,20 @@ class MatchPolicy < ApplicationPolicy
 
 
   def finish?
-    update? && !record.reviewed?
+    update? && !record.rejected? && !record.reviewed?
+  end
+
+
+  private
+
+  def player_enrolled?(player, match)
+    player.enrollments.active.where(season_id: match.season&.id).exists?
+  end
+
+
+  def season_ended?(record)
+    season = record.season
+    season&.ended_at.present?
   end
 
 end

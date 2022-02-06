@@ -11,6 +11,7 @@ class DeviseCreatePlayers < ActiveRecord::Migration[6.1]
       t.string :phone_nr
       t.integer :birth_year
       t.datetime :anonymized_at
+      t.datetime :access_denied_since
 
       ## Recoverable
       t.string   :reset_password_token

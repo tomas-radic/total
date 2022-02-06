@@ -97,7 +97,7 @@
         </div>
 
         <%= form_with url: player_players_anonymize_path,
-                      class: "invisible hide-toggleable" do %>
+                      class: "hidden hide-toggleable" do %>
 
           <p>
             Ak potvrdíš toto rozhodnutie, stratíš príslušnosť ku všetkým zápasom, ktoré si tu
@@ -124,5 +124,13 @@
 
       <%= render "player/shared/devise_footer" %>
     </div>
+  </div>
+
+  <div class="text-center">
+    <% if manager_signed_in? %>
+      <%= link_to "Manažment", manager_root_path, class: "button button-red" %>
+    <% else %>
+      <%= link_to "Prihlásiť ako manažér", new_manager_session_path, class: "underline" %>
+    <% end %>
   </div>
 </section>

@@ -184,4 +184,16 @@ ActiveRecord::Base.transaction do
 end
 
 
+puts "\nCreating managers..."
+raise "Existing data" if Manager.any?
+[
+  "tomas.radic@gmail.com"
+].each do |email|
+  Manager.create!(
+    email: email,
+    password: "hesielko"
+  )
+end
+
+
 puts "\nDone."

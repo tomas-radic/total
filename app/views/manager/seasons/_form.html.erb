@@ -1,0 +1,71 @@
+<div class="flex justify-center py-8">
+  <%= form_with model: [:manager, season], class: "w-full p-2" do |f| %>
+    <div class="pt-4 grid grid-cols-1 md:grid-cols-2 gap-2">
+      <div class="w-full">
+        <%= f.label :name, "Názov", class: "block tracking-wide mb-2" %>
+        <%= f.text_field :name, class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none" %>
+        <%= error_for(:name, season) %>
+      </div>
+      <div class="w-full">
+        <%= f.label :play_off_size, "Počet pre play-off", class: "block tracking-wide mb-2" %>
+        <%= f.number_field :play_off_size, step: 1, class: "block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-gray-500" %>
+        <%= error_for(:play_off_size, season) %>
+      </div>
+    </div>
+
+
+    <p class="pt-4 pb-2 text-2xl text-center">Body za výsledok vo 2-hre</p>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+      <div class="w-full">
+        <%= f.label :points_single_20, "Výhra 2:0", class: "block tracking-wide mb-2" %>
+        <%= f.number_field :points_single_20, step: 1, class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none" %>
+        <%= error_for(:points_single_20, season) %>
+      </div>
+      <div class="w-full">
+        <%= f.label :points_single_21, "Výhra 2:1", class: "block tracking-wide mb-2" %>
+        <%= f.number_field :points_single_21, step: 1, class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none" %>
+        <%= error_for(:points_single_21, season) %>
+      </div>
+      <div class="w-full">
+        <%= f.label :points_single_02, "Prehra 0:2", class: "block tracking-wide mb-2" %>
+        <%= f.number_field :points_single_02, step: 1, class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none" %>
+        <%= error_for(:points_single_02, season) %>
+      </div>
+      <div class="w-full">
+        <%= f.label :points_single_12, "Prehra 1:2", class: "block tracking-wide mb-2" %>
+        <%= f.number_field :points_single_12, step: 1, class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none" %>
+        <%= error_for(:points_single_12, season) %>
+      </div>
+    </div>
+
+
+    <p class="pt-4 pb-2 text-2xl text-center">Body za výsledok vo 4-hre</p>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+      <div class="w-full">
+        <%= f.label :points_double_20, "Výhra 2:0", class: "block tracking-wide mb-2" %>
+        <%= f.number_field :points_double_20, step: 1, class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none" %>
+        <%= error_for(:points_double_20, season) %>
+      </div>
+      <div class="w-full">
+        <%= f.label :points_double_21, "Výhra 2:1", class: "block tracking-wide mb-2" %>
+        <%= f.number_field :points_double_21, step: 1, class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none" %>
+        <%= error_for(:points_single_21, season) %>
+      </div>
+      <div class="w-full">
+        <%= f.label :points_double_02, "Prehra 0:2", class: "block tracking-wide mb-2" %>
+        <%= f.number_field :points_double_02, step: 1, class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none" %>
+        <%= error_for(:points_double_02, season) %>
+      </div>
+      <div class="w-full">
+        <%= f.label :points_double_12, "Prehra 1:2", class: "block tracking-wide mb-2" %>
+        <%= f.number_field :points_double_12, step: 1, class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none" %>
+        <%= error_for(:points_double_12, season) %>
+      </div>
+    </div>
+
+    <div class="flex justify-end">
+      <%= link_to "Zrušiť", manager_pages_dashboard_path, class: "button" %>
+      <%= f.submit "Potvrdiť", class: "button button-blue" %>
+    </div>
+  <% end %>
+</div>

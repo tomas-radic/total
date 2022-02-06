@@ -1,0 +1,19 @@
+<tr id="dashboard_player_<%= player.id %>">
+  <td>
+    <%= player.name %>
+  </td>
+  <td>
+    <%= turbo_frame_tag "player_access_#{player.id}" do %>
+      <% if player.access_denied_since.present? %>
+        <%= form_with url: grant_access_manager_player_path(player) do |f| %>
+          <%= f.submit "blokovaný", class: "underline text-red-400 text-sm" %>
+        <% end %>
+      <% else %>
+        <%= form_with url: deny_access_manager_player_path(player) do |f| %>
+          <%= f.submit "povolený", class: "underline text-green-600 text-sm" %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </td>
+
+</tr>

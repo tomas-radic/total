@@ -19,6 +19,8 @@
                            value: "",
                            placeholder: "6 3 6 4",
                            autocomplete: "off",
+                           pattern: "[0-9\s]*",
+                           inputmode: "numeric",
                            id: "score-input",
                            class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none",
                            data: { action: "keyup->matches#score_typing" } %>

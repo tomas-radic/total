@@ -4,6 +4,22 @@
 @import "custom_tw_components.css";
 
 
+/* RESET */
+input {
+  font: inherit;
+  border: none;
+  background-color: initial;
+}
+
+
+button {
+  border: none;
+  background-color: initial;
+  outline: none;
+}
+/* RESET (end) */
+
+
 html {
   scroll-behavior: smooth;
   position: relative;
