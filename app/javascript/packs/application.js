@@ -9,7 +9,8 @@ import { Controller } from "@hotwired/stimulus"
 import "@hotwired/turbo-rails"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
-import "../application.css";
+import "bootstrap";
+import "../stylesheets/application";
 import "./alpine.min"
 
 Rails.start()

@@ -1,0 +1,83 @@
+
+@import "bootstrap";
+
+$color-navbar-bg: #374251;
+$color-navbar-fr: #6EE7B7;
+$color-white: #FFFFFF;
+
+
+// RESET -----------------
+
+input {
+  font: inherit;
+  border: none;
+  background-color: initial;
+}
+
+
+button {
+  border: none;
+  background-color: initial;
+  outline: none;
+}
+
+
+// BASE STYLES ----------------
+
+html {
+  // font-size: 100%; // 100% is 16px if browser font size is the default value, so normally 1rem = 16px
+  font-size: 100%; // 62.5% of 16px = 10px, so 1rem = 10px
+  scroll-behavior: smooth;
+}
+
+.page {
+  font-family: 'Raleway', sans-serif;
+  // font-size: 14px;
+  // font-size: 0.875rem;
+  font-size: 1.2rem;
+  //color: #fff;
+  //display: flex;
+  //justify-content: center;
+}
+
+
+// STYLES ------------------
+
+.navigation {
+  background-color: $color-navbar-bg;
+
+  .navbar-dark .navbar-brand {
+    color: $color-navbar-fr;
+  }
+
+  .navbar-dark .navbar-nav .nav-link {
+    color: $color-white;
+  }
+
+  .dropdown-menu {
+    background-color: $color-navbar-bg;
+    font-size: inherit;
+  }
+
+  .dropdown-item {
+    color: $color-white;
+
+    &:hover {
+      background-color: inherit;
+    }
+  }
+
+  .dropdown-divider {
+    color: $color-white;
+  }
+
+  &__brand {
+    font-size: 1.5rem;
+
+    @media (min-width: 992px) {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
+  }
+}

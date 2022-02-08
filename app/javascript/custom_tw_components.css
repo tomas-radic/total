@@ -1,102 +1,102 @@
-@layer components {
+/*@layer components {*/
 
-  /* Table */
-  .table-container {
-    @apply overflow-x-auto pt-9 text-center;
-  }
-  .table-container table {
-    @apply table-auto mt-4 text-center text-sm md:text-xl;
-    margin: 0 auto;
-  }
-  td div.fat-row {
-    min-height: 60px;
-    @apply flex items-center;
-  }
-  .table-container table th, .table-container table td {
-    @apply p-1 md:px-4;
-  }
-  @media only screen and (min-width: 768px) {
-    td div.fat-row {
-      min-height: 64px;
-    }
-  }
-
-
-  /* Bases */
-  .base-green {
-    @apply bg-green-600;
-  }
-  .base-green .bg-accent {
-    @apply bg-green-700 text-white;
-  }
-  .base-green .primary-color {
-    @apply text-yellow-400;
-  }
-  .base-green .default-color {
-    @apply text-white;
-  }
-
-  .base-yellow {
-    @apply bg-yellow-400;
-  }
-  .base-yellow .primary-color {
-    @apply text-green-600;
-  }
-  .base-yellow .default-color {
-    @apply text-red-900;
-  }
-
-  .base-salmon {
-    @apply bg-red-300;
-  }
-  .base-salmon .primary-color {
-    @apply text-white;
-  }
-
-  .base-red {
-    @apply bg-red-800;
-  }
-  .base-red .primary-color {
-    @apply text-yellow-400;
-  }
-  .base-red .default-color {
-    @apply text-white;
-  }
+/*  !* Table *!*/
+/*  .table-container {*/
+/*    @apply overflow-x-auto pt-9 text-center;*/
+/*  }*/
+/*  .table-container table {*/
+/*    @apply table-auto mt-4 text-center text-sm md:text-xl;*/
+/*    margin: 0 auto;*/
+/*  }*/
+/*  td div.fat-row {*/
+/*    min-height: 60px;*/
+/*    @apply flex items-center;*/
+/*  }*/
+/*  .table-container table th, .table-container table td {*/
+/*    @apply p-1 md:px-4;*/
+/*  }*/
+/*  @media only screen and (min-width: 768px) {*/
+/*    td div.fat-row {*/
+/*      min-height: 64px;*/
+/*    }*/
+/*  }*/
 
 
-  /* Buttons */
-  .button {
-    @apply inline-block text-sm md:text-base mr-1 my-2 px-3 py-2 rounded;
-  }
-  .button-red {
-    @apply bg-red-600 text-white hover:bg-red-700;
-  }
-  .button-blue {
-    @apply bg-blue-500 text-white hover:bg-blue-600;
-  }
-  .button:disabled {
-    @apply opacity-50;
-  }
+/*  !* Bases *!*/
+/*  .base-green {*/
+/*    @apply bg-green-600;*/
+/*  }*/
+/*  .base-green .bg-accent {*/
+/*    @apply bg-green-700 text-white;*/
+/*  }*/
+/*  .base-green .primary-color {*/
+/*    @apply text-yellow-400;*/
+/*  }*/
+/*  .base-green .default-color {*/
+/*    @apply text-white;*/
+/*  }*/
+
+/*  .base-yellow {*/
+/*    @apply bg-yellow-400;*/
+/*  }*/
+/*  .base-yellow .primary-color {*/
+/*    @apply text-green-600;*/
+/*  }*/
+/*  .base-yellow .default-color {*/
+/*    @apply text-red-900;*/
+/*  }*/
+
+/*  .base-salmon {*/
+/*    @apply bg-red-300;*/
+/*  }*/
+/*  .base-salmon .primary-color {*/
+/*    @apply text-white;*/
+/*  }*/
+
+/*  .base-red {*/
+/*    @apply bg-red-800;*/
+/*  }*/
+/*  .base-red .primary-color {*/
+/*    @apply text-yellow-400;*/
+/*  }*/
+/*  .base-red .default-color {*/
+/*    @apply text-white;*/
+/*  }*/
 
 
-  /* Basic page layout */
-  section.header .dominant-heading {
-    @apply text-4xl md:text-6xl text-center;
-  }
-  section.header .dominant-heading-wrapper {
-    @apply py-20;
-  }
-  section.header .secondary-text {
-    @apply p-4 md:text-center md:text-2xl md:font-bold;
-  }
+/*  !* Buttons *!*/
+/*  .button {*/
+/*    @apply inline-block text-sm md:text-base mr-1 my-2 px-3 py-2 rounded;*/
+/*  }*/
+/*  .button-red {*/
+/*    @apply bg-red-600 text-white hover:bg-red-700;*/
+/*  }*/
+/*  .button-blue {*/
+/*    @apply bg-blue-500 text-white hover:bg-blue-600;*/
+/*  }*/
+/*  .button:disabled {*/
+/*    @apply opacity-50;*/
+/*  }*/
 
-  section.context-buttons {
-    @apply p-2 text-right md:text-left;
-  }
 
-  section.page-content {
-    @apply p-2;
-    min-height: 400px;
-  }
+/*  !* Basic page layout *!*/
+/*  section.header .dominant-heading {*/
+/*    @apply text-4xl md:text-6xl text-center;*/
+/*  }*/
+/*  section.header .dominant-heading-wrapper {*/
+/*    @apply py-20;*/
+/*  }*/
+/*  section.header .secondary-text {*/
+/*    @apply p-4 md:text-center md:text-2xl md:font-bold;*/
+/*  }*/
 
-}
+/*  section.context-buttons {*/
+/*    @apply p-2 text-right md:text-left;*/
+/*  }*/
+
+/*  section.page-content {*/
+/*    @apply p-2;*/
+/*    min-height: 400px;*/
+/*  }*/
+
+/*}*/
