@@ -1,15 +1,17 @@
-<%= link_to tournament_path(tournament) do %>
-  <div class="inline-block w-full md-max-w-500px my-1 p-2 md:mr-2 border <%= tournament.color_base_css %>">
-    <p class="primary-color text-center text-xl"><%= tournament.name %></p>
-    <p class="default-color text-center">
-      <%= app_date tournament.begin_date %>
-      <% if tournament.end_date > tournament.begin_date %>
-        -
-        <%= app_date tournament.end_date %>
-      <% end %>
-    </p>
-    <p class="text-center pt-3">
-      <%= link_to "Vstúpiť", tournament_path(tournament), class: "button button-blue" %>
-    </p>
-  </div>
+<%= content_tag :div, class: "today__tournaments__tiles__tile #{tournament.color_base_css}" do %>
+  <%= link_to tournament_path(tournament), class: "today__tournaments__tiles__tile__link" do %>
+    <div>
+      <p class="accent-color today__tournaments__tiles__tile__name"><%= tournament.name %></p>
+      <p class="default-color today__tournaments__tiles__tile__date">
+        <%= app_date tournament.begin_date %>
+        <% if tournament.end_date > tournament.begin_date %>
+          -
+          <%= app_date tournament.end_date %>
+        <% end %>
+      </p>
+      <p class="today_tournaments__tiles__tile__enter">
+        <%= link_to "Vstúpiť", tournament_path(tournament), class: "btn btn-success" %>
+      </p>
+    </div>
+  <% end %>
 <% end %>

@@ -4,6 +4,13 @@
 $color-navbar-bg: #374251;
 $color-navbar-fr: #6EE7B7;
 $color-white: #FFFFFF;
+$color-red: #F13B3B;
+$color-base-green-bg: #079768;
+$color-base-green-accent: #FBBF23;
+$color-base-yellow-bg: #FBBF23;
+$color-base-yellow-accent: #079768;
+$color-brand-bg: #057856;
+$color-silver: #D1D5DA;
 
 
 // RESET -----------------
@@ -21,6 +28,12 @@ button {
   outline: none;
 }
 
+ul li {
+  margin: 0;
+  padding: 0;
+  text-indent: 0;
+  list-style-type: none;
+}
 
 // BASE STYLES ----------------
 
@@ -38,6 +51,10 @@ html {
   //color: #fff;
   //display: flex;
   //justify-content: center;
+
+  &__content {
+    padding: 1rem;
+  }
 }
 
 
@@ -80,4 +97,219 @@ html {
     }
 
   }
+}
+
+.reload-matches-notice {
+  background-color: $color-red;
+  color: $color-white;
+  text-align: center;
+}
+
+.base-green {
+  background-color: $color-base-green-bg;
+
+  .accent-color {
+    color: $color-base-green-accent;
+  }
+
+  .default-color {
+    color: $color-white;
+  }
+}
+
+.base-yellow {
+  background-color: $color-base-yellow-bg;
+
+  .accent-color {
+    color: $color-base-yellow-accent;
+  }
+
+  .default-color {
+    color: $color-navbar-bg;
+  }
+}
+
+.today {
+  min-height: calc(100vh - 62px);
+
+  &__heading {
+    font-size: 2.6rem;
+    text-align: right;
+    line-height: 2.8rem;
+    padding: 3rem 1rem;
+
+    @media (min-width: 992px) {
+      font-size: 4rem;
+      text-align: center;
+      line-height: 3.8rem;
+    }
+  }
+
+  &__brand {
+    display: flex;
+
+    h2 {
+      display: inline-block;
+      box-shadow: 7px 5px 10px rgb(0 0 0 / 20%);
+      padding: 0.4rem 0.6rem;
+      background-color: $color-brand-bg;
+      color: $color-white;
+      font-size: 3rem;
+    }
+
+    @media (min-width: 992px) {
+      justify-content: center;
+
+      h2 {
+        font-size: 3.6rem;
+      }
+    }
+  }
+
+  &__navigation {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  &__main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .content {
+      width: 100%;
+
+      @media (min-width: 992px) {
+        width: initial;
+        padding-right: 4rem;
+      }
+    }
+
+    .unconfirmed-matches {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+
+      h3 {
+        font-size: 2rem;
+        text-align: center;
+
+        @media (min-width: 992px) {
+          text-align: right;
+          font-size: 2.8rem;
+        }
+      }
+
+      .text {
+        font-size: 0.95rem;
+
+        @media (min-width: 992px) {
+          font-size: 1.5rem;
+        }
+      }
+    }
+
+    .available-players {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+
+      h3 {
+        text-align: center;
+        font-size: 1.2rem;
+        font-style: italic;
+
+        @media (min-width: 992px) {
+          text-align: right;
+          font-size: 1.7rem;
+        }
+      }
+
+      .text {
+        display: inline-block;
+        font-size: 0.95rem;
+        color: $color-white;
+
+        @media (min-width: 992px) {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+
+  &__tournaments {
+    margin-top: 1rem;
+
+    &__heading {
+      font-size: 2rem;
+      text-align: center;
+
+      @media (min-width: 992px) {
+        font-size: 2.8rem;
+        text-align: left;
+      }
+    }
+
+    &__tiles {
+      @media (min-width: 720px) {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+      }
+
+      &__tile {
+        border: 1px solid $color-white;
+        padding: 1rem;
+        margin-top: 0.5rem;
+        text-align: center;
+
+        @media (min-width: 720px) {
+          width: 360px;
+          margin-left: 0.25rem;
+          margin-right: 0.25rem;
+        }
+
+        &__link {
+          text-decoration: none;
+        }
+
+        &__name {
+          text-decoration: none;
+          font-size: 2.7rem;
+          font-weight: 900;
+        }
+
+        &__date {
+          text-decoration: none;
+        }
+
+        &__enter {
+
+        }
+      }
+    }
+  }
+
+  &__no-season {
+    text-align: center;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+
+// UTILITY CLASSES
+
+.u-white {
+  color: $color-white;
+
+  &:hover {
+    color: $color-white;
+  }
+}
+
+.u-silver {
+  color: $color-silver;
+}
+
+.u-red-bg {
+  background-color: $color-red;
 }
