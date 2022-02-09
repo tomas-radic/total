@@ -53,4 +53,9 @@ module ApplicationHelper
     end
   end
 
+
+  def break_whitespace(text)
+    text.gsub(/\s+/, "<br>").html_safe
+  end
+
 end
