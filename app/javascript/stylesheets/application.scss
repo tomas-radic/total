@@ -7,8 +7,9 @@ $color-white: #FFFFFF;
 $color-red: #F13B3B;
 $color-base-green-bg: #079768;
 $color-base-green-accent: #FBBF23;
-$color-base-yellow-bg: #FBBF23;
+$color-base-yellow-bg: #F5C54A;     // #F5C54A
 $color-base-yellow-accent: #079768;
+$color-base-salmon-bg: #FCA5A5;
 $color-brand-bg: #057856;
 $color-silver: #D1D5DA;
 
@@ -127,6 +128,18 @@ html {
 
   .accent-color {
     color: $color-base-yellow-accent;
+  }
+
+  .default-color {
+    color: $color-navbar-bg;
+  }
+}
+
+.base-salmon {
+  background-color: $color-base-salmon-bg;
+
+  .accent-color {
+    color: $color-white;
   }
 
   .default-color {
@@ -341,9 +354,25 @@ html {
 }
 
 .today-recent {
+  min-height: 100vh;
+
   &__heading {
     font-size: 2rem;
     margin-bottom: 2rem;
+
+    @media (min-width: $breakpoint-lg) {
+      font-size: 2.8rem;
+    }
+  }
+}
+
+.today-planned {
+  min-height: 100vh;
+
+  &__heading {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: right;
 
     @media (min-width: $breakpoint-lg) {
       font-size: 2.8rem;

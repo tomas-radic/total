@@ -112,51 +112,48 @@
     </div>
   </section>
 
-  <section id="planned-matches" class="base-salmon min-h-screen px-2 py-8 md:px-8">
-    <h2 class="page-heading primary-color text-right">Zápasy, ktoré uvidíme.</h2>
-    <% if selected_season.present? %>
+  <section id="planned-matches" class="today-planned base-salmon">
+    <div class="page__content">
+      <h3 class="today-planned__heading accent-color">Zápasy, ktoré uvidíme.</h3>
+
       <% if @planned_matches.any? %>
-        <div class="table-container">
-          <table>
-            <thead>
-            <tr>
-              <th>Vyzývateľ</th>
-              <th>Vyzvaný</th>
-              <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <% @planned_matches.each.with_index do |match, idx| %>
-              <tr>
-                <td>
-                  <div class="fat-row">
-                    <%= match.side 1 %>
-                  </div>
-                </td>
-                <td>
-                  <div class="fat-row">
-                    <%= match.side 2 %>
-                  </div>
-                </td>
-                <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
-                  <div class="fat-row">
-                    <% if match.play_date.present? %>
-                      <%= link_to_match(match) do %>
-                        <%= "#{app_date_span(match.play_date)}<br>#{match.play_time}<br>#{match.place&.name}".html_safe %>
-                      <% end %>
-                    <% else %>
-                      <%= link_to_match(match) %>
+        <table class="centered-table">
+          <thead>
+          <tr class="text-center centered-table__heading-row">
+            <th>Vyzývateľ</th>
+            <th>Vyzvaný</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @planned_matches.each do |match| %>
+            <tr class="text-center">
+              <td><%= break_whitespace(match.side 1) %></td>
+              <td><%= break_whitespace(match.side 2) %></td>
+              <td class="centered-table__bordered">
+                <% if match.date.present? %>
+                  <%= link_to match_path(match), class: "default-color" do %>
+                    <%= app_date(match.date) %>
+                    <% if match.play_time.present? %>
+                      <br><%= match.play_time %>
                     <% end %>
-                  </div>
-                </td>
-              </tr>
-            <% end %>
-            </tbody>
-          </table>
-        </div>
-        <p class="text-center pt-6">
-          <%= link_to "Všetky zápasy", matches_path, class: "underline" %>
+                    <% if match.place %>
+                      <br><%= match.place.name %>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <%= link_to "(plánuje sa)", match_path(match), class: "default-color" %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+
+        <p class="text-center my-4">
+          <%= link_to "Všetky zápasy", matches_path, class: "default-color" %>
         </p>
+
       <% else %>
         <p class="p-8 text-center">Nikto neplánuje hrať zápas.</p>
         <p class="p-2 text-center">
@@ -171,13 +168,9 @@
                    locals: { players: @players_open_to_play } %>
       </div>
 
-    <% else %>
-      <p class="p-8 text-center">Zatiaľ neuvidíme žiadne, pretože nie je sezóna.</p>
-    <% end %>
-    <div class="underline pt-6">
-      <div class="py-1"><a href="#navbar">Hore</a></div>
-      <div class="py-1"><a href="#recent-matches">Posledné zápasy</a></div>
-      <div class="py-1"><a href="#race">Nominácie PLAY OFF</a></div>
+      <p class="my-2">
+        <%= render "today/navigation" %>
+      </p>
     </div>
   </section>
 
