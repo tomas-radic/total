@@ -256,6 +256,9 @@ html {
       }
 
       &__tile {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         border: 1px solid $color-white;
         padding: 1rem;
         margin-top: 0.5rem;
@@ -269,6 +272,7 @@ html {
 
         &__link {
           text-decoration: none;
+          cursor: pointer;
         }
 
         &__name {
