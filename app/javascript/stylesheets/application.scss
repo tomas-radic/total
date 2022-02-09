@@ -10,8 +10,11 @@ $color-base-green-accent: #FBBF23;
 $color-base-yellow-bg: #F5C54A;     // #F5C54A
 $color-base-yellow-accent: #079768;
 $color-base-salmon-bg: #FCA5A5;
+$color-base-red-bg: #991B1B;
+$color-base-red-accent: #FBBF23;
 $color-brand-bg: #057856;
 $color-silver: #D1D5DA;
+$color-grey: #95989B;
 
 $breakpoint-lg: 992px;
 
@@ -144,6 +147,18 @@ html {
 
   .default-color {
     color: $color-navbar-bg;
+  }
+}
+
+.base-red {
+  background-color: $color-base-red-bg;
+
+  .accent-color {
+    color: $color-base-red-accent;
+  }
+
+  .default-color {
+    color: $color-white;
   }
 }
 
@@ -380,6 +395,19 @@ html {
   }
 }
 
+.today-race {
+  min-height: 100vh;
+
+  &__heading {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+
+    @media (min-width: $breakpoint-lg) {
+      font-size: 2.8rem;
+    }
+  }
+}
+
 
 // UTILITY CLASSES
 
@@ -393,6 +421,14 @@ html {
 
 .u-silver {
   color: $color-silver;
+
+  &:hover {
+    color: $color-silver;
+  }
+}
+
+.u-grey {
+  color: $color-grey;
 }
 
 .u-red-bg {

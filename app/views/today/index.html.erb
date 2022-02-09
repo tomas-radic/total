@@ -12,9 +12,10 @@
 
     <% if selected_season.present? %>
       <div class="today__main">
-
-        <div class="my-4">
-          <%= render "today/navigation" %>
+        <div class="today-navigation my-4">
+          <div><a href="#recent-matches" class="default-color">Posledné zápasy</a></div>
+          <div><a href="#planned-matches" class="default-color">Zápasy na pláne</a></div>
+          <div><a href="#race" class="default-color">Nominácie PLAY OFF</a></div>
         </div>
 
         <div class="today__content">
@@ -103,14 +104,20 @@
           <%= link_to "Všetky zápasy", matches_path, class: "default-color" %>
         </p>
       <% else %>
-        <p class="p-8 text-center default-color">Žiadne zápasy sa v poslednej dobe nehrali.</p>
-        <p class="p-2 text-center">
-          <%= link_to "Zavolaj niekoho hrať!", rankings_path, class: "button button-red" %>
+        <p class="py-8 text-center default-color">Žiadne zápasy sa v poslednej dobe nehrali.</p>
+        <p class="py-2 text-center">
+          <%= link_to "Zavolaj niekoho hrať!", rankings_path, class: "btn btn-success btn-lg" %>
         </p>
       <% end %>
-      <%= render "today/navigation" %>
+      <div class="today-navigation">
+        <div><a href="#navbar" class="default-color">Hore</a></div>
+        <div><a href="#planned-matches" class="default-color">Zápasy na pláne</a></div>
+        <div><a href="#race" class="default-color">Nominácie PLAY OFF</a></div>
+      </div>
+
     </div>
   </section>
+
 
   <section id="planned-matches" class="today-planned base-salmon">
     <div class="page__content">
@@ -155,9 +162,9 @@
         </p>
 
       <% else %>
-        <p class="p-8 text-center">Nikto neplánuje hrať zápas.</p>
-        <p class="p-2 text-center">
-          <a href="#" class="button button-red">
+        <p class="py-8 text-center">Nikto neplánuje hrať zápas.</p>
+        <p class="py-2 text-center">
+          <a href="#" class="btn btn-success btn-lg">
             Vyzvi niekoho!
           </a>
         </p>
@@ -168,66 +175,66 @@
                    locals: { players: @players_open_to_play } %>
       </div>
 
-      <p class="my-2">
-        <%= render "today/navigation" %>
-      </p>
+      <div class="today-navigation my-2">
+        <div><a href="#navbar" class="default-color">Hore</a></div>
+        <div><a href="#recent-matches" class="default-color">Posledné zápasy</a></div>
+        <div><a href="#race" class="default-color">Nominácie PLAY OFF</a></div>
+      </div>
     </div>
   </section>
 
 
-  <section id="race" class="base-red min-h-screen px-2 py-8 md:px-8">
-    <h2 class="page-heading primary-color">Najväčší králi.</h2>
-    <% if selected_season.present? %>
-      <% if @top_rankings.any? %>
+  <section id="race" class="today-race base-red">
+    <div class="page__content">
+      <h3 class="today-race__heading accent-color">Najväčší králi.</h3>
 
-        <div class="table-container default-color">
-          <table>
-            <thead>
+      <% if @top_rankings.any? %>
+        <table class="centered-table default-color">
+          <thead>
+          <tr class="centered-table__heading-row">
+            <th class="text-center"></th>
+            <th></th>
+            <th>Body</th>
+            <th>% výhier</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @top_rankings.each.with_index(1) do |ranking, position| %>
+            <% color_class = position <= selected_season.play_off_size.to_i ? "default-color" : "u-grey" %>
             <tr>
-              <th></th>
-              <th></th>
-              <th>Body</th>
-              <th>% výhier</th>
+              <%= content_tag :td, class: "text-center #{color_class}" do %>
+                <%= "#{position}." %>
+              <% end %>
+              <%= content_tag :td do %>
+                <%= link_to ranking[:name], player_path(ranking[:id]), class: color_class %>
+              <% end %>
+              <%= content_tag :td, class: color_class do %>
+                <%= ranking[:points] %>
+              <% end %>
+              <%= content_tag :td, class: color_class do %>
+                <%= "#{(ranking[:percentage] / 100.0).round(2)}%" %>
+              <% end %>
             </tr>
-            </thead>
-            <tbody>
-            <% @top_rankings.each.with_index(1) do |ranking, position| %>
-              <tr class="<%= ranking_row_css(selected_season, position) %>">
-                <td class="<%= 'border-yellow-400 border-solid border-t-4' if position > 1 %>">
-                  <%= "#{position}." %>
-                </td>
-                <td><%= link_to ranking[:name], player_path(ranking[:id]), class: "underline" %></td>
-                <td><%= ranking[:points] %></td>
-                <td><%= "#{(ranking[:percentage] / 100.0).round(2)}%" %></td>
-              </tr>
-            <% end %>
-            </tbody>
-          </table>
-        </div>
-        <p class="p-2 text-center default-color lg:pt-4">
+          <% end %>
+          </tbody>
+        </table>
+
+        <p class="py-4 text-center default-color">
           Králi s bielou farbou sú aktuálne nominovaní na PLAY OFF.
           Tí šedí, to sú princovia, majú najväčšiu šancu sa do PLAY OFF dostať.
         </p>
-        <p class="text-center default-color">
-          <%= link_to "Celý rebríček", rankings_path, class: "py-3 px-4 underline" %>
+        <p class="text-center my-4">
+          <%= link_to "Celý rebríček", rankings_path, class: "default-color" %>
         </p>
       <% else %>
-        <p class="p-8 text-center default-color">V rebríčku nie je nikto.</p>
-        <% if true # manager_signed_in? %>
-          <p class="p-2 text-center">
-            <a href="#" class="button button-red">
-              Administrácia
-            </a>
-          </p>
-        <% end %>
+        <p class="py-8 text-center default-color">V rebríčku nie je nikto.</p>
       <% end %>
-    <% else %>
-      <p class="p-8 text-center default-color">V rebríčku nie je nikto, pretože nie je sezóna.</p>
-    <% end %>
-    <div class="underline pt-6 default-color">
-      <div class="py-1"><a href="#navbar">Hore</a></div>
-      <div class="py-1"><a href="#recent-matches">Posledné zápasy</a></div>
-      <div class="py-1"><a href="#planned-matches">Zápasy na pláne</a></div>
+
+      <div class="today-navigation my-2">
+        <div><a href="#navbar" class="default-color">Hore</a></div>
+        <div><a href="#recent-matches" class="default-color">Posledné zápasy</a></div>
+        <div><a href="#planned-matches" class="default-color">Zápasy na pláne</a></div>
+      </div>
     </div>
   </section>
 <% end %>
