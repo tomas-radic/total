@@ -1,8 +1,8 @@
 
 @import "bootstrap";
 
-$color-navbar-bg: #374251;
-$color-navbar-fr: #6EE7B7;
+$color-nav-grey: #374251;
+$color-nav-green: #6EE7B7;
 $color-white: #FFFFFF;
 $color-red: #F13B3B;
 $color-base-green-bg: #079768;
@@ -45,35 +45,40 @@ ul li {
 }
 
 
-// KEYFRAMES -----------------
-
-@keyframes jump-off {
-
-}
-
-
 // BASE STYLES ----------------
 
 html {
-  // font-size: 100%; // 100% is 16px if browser font size is the default value, so normally 1rem = 16px
-  font-size: 100%; // 62.5% of 16px = 10px, so 1rem = 10px
+  font-size: 100%; // 100% is 16px if browser font size is the default value, so normally 1rem = 16px, or 62.5% of 16px = 10px, so 1rem = 10px
   scroll-behavior: smooth;
 }
 
 .page {
   font-family: 'Raleway', sans-serif;
-  // font-size: 14px;
-  // font-size: 0.875rem;
-  //color: #fff;
-  //display: flex;
-  //justify-content: center;
 
   @media (min-width: $breakpoint-lg) {
     font-size: 1.2rem;
   }
 
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    min-height: calc(100vh - $navbar-height);
+  }
+
+  &__main {
+
+  }
+
   &__content {
     padding: 1rem;
+  }
+
+  &__footer {
+    background-color: $color-nav-grey;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
 }
 
@@ -81,10 +86,10 @@ html {
 // STYLES ------------------
 
 .navigation {
-  background-color: $color-navbar-bg;
+  background-color: $color-nav-grey;
 
   .navbar-dark .navbar-brand {
-    color: $color-navbar-fr;
+    color: $color-nav-green;
   }
 
   .navbar-dark .navbar-nav .nav-link {
@@ -92,7 +97,7 @@ html {
   }
 
   .dropdown-menu {
-    background-color: $color-navbar-bg;
+    background-color: $color-nav-grey;
     font-size: inherit;
   }
 
@@ -145,7 +150,7 @@ html {
   }
 
   .default-color {
-    color: $color-navbar-bg;
+    color: $color-nav-grey;
   }
 }
 
@@ -157,7 +162,7 @@ html {
   }
 
   .default-color {
-    color: $color-navbar-bg;
+    color: $color-nav-grey;
   }
 }
 
@@ -222,7 +227,7 @@ html {
 }
 
 .today {
-  min-height: calc(100vh - $navbar-height);
+  //min-height: calc(100vh - $navbar-height);
 
   &__heading {
     font-size: 2.6rem;
@@ -480,6 +485,10 @@ html {
 
 .u-grey {
   color: $color-grey;
+}
+
+.u-nav-green {
+  color: $color-nav-green;
 }
 
 .u-red-bg {

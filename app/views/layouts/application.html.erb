@@ -18,7 +18,9 @@
   <body class="page">
     <%= render "shared/navbar" %>
     <%= render "shared/flash_message" %>
-    <%= yield %>
-    <%= render "shared/footer" %>
+    <div class="page__wrapper">
+      <div class="page__main"><%= yield %></div>
+      <div class="page__footer"><%= render "shared/footer" %></div>
+    </div>
   </body>
 </html>
