@@ -1,9 +1,12 @@
 <% if selected_season.present? && @tournaments.any? %>
-  <div class="flex flex-wrap w-full">
-    <% @tournaments.each.with_index do |tournament, idx| %>
-      <%= render "tournaments/tournament", tournament: tournament %>
-    <% end %>
+  <div class="tournaments">
+    <div class="tournaments__tiles">
+      <% @tournaments.each do |tournament| %>
+        <%= render "tournaments/tournament", tournament: tournament %>
+      <% end %>
+    </div>
   </div>
+
 <% else %>
-  <p class="p-8 text-center">Nie su vypísané zatiaľ žiadne turnaje.</p>
+  <p class="py-8 text-center">Nie sú vypísané zatiaľ žiadne turnaje.</p>
 <% end %>
