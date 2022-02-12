@@ -5,66 +5,67 @@
 
 <section class="today base-green">
   <div class="page__content">
-    <h1 class="today__heading accent-color">Topoľčianska tenisová<br>amatérska liga.</h1>
-    <div class="today__brand">
-      <h2>TOtal.</h2>
-    </div>
-
-    <% if selected_season.present? %>
-      <div class="today__main">
-        <div class="today-navigation my-4">
-          <div><a href="#recent-matches" class="default-color">Posledné zápasy</a></div>
-          <div><a href="#planned-matches" class="default-color">Zápasy na pláne</a></div>
-          <div><a href="#race" class="default-color">Nominácie PLAY OFF</a></div>
-        </div>
-
-        <div class="today__content">
-          <!-- Requested matches -->
-          <% if @requested_matches.any? || @rejected_matches.any? %>
-            <div class="unconfirmed-matches">
-              <h3 class="accent-color">Nepotvrdené výzvy</h3>
-              <% @requested_matches.each do |match| %>
-                <div class="today__request-link">
-                  <%= link_to "#{match.side 1} vyzval/a #{match.side 2}",
-                              match_path(match),
-                              class: "default-color #{'u-red-bg' if policy(match).accept? || policy(match).destroy?}" %>
-                </div>
-              <% end %>
-
-              <div class="mt-3">
-                <% @rejected_matches.each do |match| %>
-                  <div class="today__request-link">
-                    <%= link_to "#{match.side 2} odmietol/la zápas s #{match.side 1}",
-                                match_path(match),
-                                class: "u-silver" %>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-          <% end %>
-
-          <!-- Players open to play -->
-          <div id="players_open_to_play_top">
-            <%= render partial: "shared/players_open_to_play",
-                       locals: { players: @players_open_to_play } %>
-          </div>
-        </div>
+    <div class="today__facade">
+      <h1 class="today__heading accent-color">Topoľčianska tenisová<br>amatérska liga.</h1>
+      <div class="today__brand">
+        <a href="#recent-matches" class="today__brand__link">TOtal.</a>
       </div>
 
-      <!-- Upcoming tournaments -->
-      <% if @upcoming_tournaments.any? %>
-        <div class="today__tournaments">
-          <h3 class="accent-color today__tournaments__heading">Turnaje teraz</h3>
-          <div class="today__tournaments__tiles">
-            <% @upcoming_tournaments.each do |tournament| %>
-              <%= render partial: "today/tournament", locals: { tournament: tournament } %>
+      <% if selected_season.present? %>
+        <div class="today__main">
+          <div class="today-navigation my-4">
+            <div><a href="#recent-matches" class="default-color">Posledné zápasy</a></div>
+            <div><a href="#planned-matches" class="default-color">Zápasy na pláne</a></div>
+            <div><a href="#race" class="default-color">Nominácie PLAY OFF</a></div>
+          </div>
+
+          <div class="today__content">
+            <!-- Requested matches -->
+            <% if @requested_matches.any? || @rejected_matches.any? %>
+              <div class="unconfirmed-matches">
+                <h3 class="accent-color">Nepotvrdené výzvy</h3>
+                <% @requested_matches.each do |match| %>
+                  <div class="today__request-link">
+                    <%= link_to "#{match.side 1} vyzval/a #{match.side 2}",
+                                match_path(match),
+                                class: "default-color #{'u-red-bg' if policy(match).accept? || policy(match).destroy?}" %>
+                  </div>
+                <% end %>
+
+                <div class="mt-3">
+                  <% @rejected_matches.each do |match| %>
+                    <div class="today__request-link">
+                      <%= link_to "#{match.side 2} odmietol/la zápas s #{match.side 1}",
+                                  match_path(match),
+                                  class: "u-silver" %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
             <% end %>
+
+            <!-- Players open to play -->
+            <div id="players_open_to_play_top">
+              <%= render partial: "shared/players_open_to_play",
+                         locals: { players: @players_open_to_play } %>
+            </div>
           </div>
         </div>
+      <% else %>
+        <h3 class="today__no-season default-color">Nie je sezóna.<br>Všetci netrpezlivo čakáme.</h3>
       <% end %>
+    </div>
 
-    <% else %>
-      <h3 class="today__no-season default-color">Nie je sezóna.<br>Všetci netrpezlivo čakáme.</h3>
+    <!-- Upcoming tournaments -->
+    <% if selected_season.present? && @upcoming_tournaments.any? %>
+      <div class="today__tournaments">
+        <h3 class="accent-color today__tournaments__heading">Turnaje teraz</h3>
+        <div class="today__tournaments__tiles">
+          <% @upcoming_tournaments.each do |tournament| %>
+            <%= render partial: "today/tournament", locals: { tournament: tournament } %>
+          <% end %>
+        </div>
+      </div>
     <% end %>
   </div>
 </section>
@@ -126,18 +127,18 @@
       <% if @planned_matches.any? %>
         <table class="centered-table">
           <thead>
-          <tr class="text-center centered-table__heading-row">
-            <th>Vyzývateľ</th>
-            <th>Vyzvaný</th>
+          <tr class="centered-table__heading-row">
+            <th class="text-center">Vyzývateľ</th>
+            <th class="text-center">Vyzvaný</th>
             <th></th>
           </tr>
           </thead>
           <tbody>
           <% @planned_matches.each do |match| %>
-            <tr class="text-center">
-              <td><%= break_whitespace(match.side 1) %></td>
-              <td><%= break_whitespace(match.side 2) %></td>
-              <td class="centered-table__bordered">
+            <tr>
+              <td class="text-center"><%= break_whitespace(match.side 1) %></td>
+              <td class="text-center"><%= break_whitespace(match.side 2) %></td>
+              <td class="centered-table__bordered text-center">
                 <% if match.date.present? %>
                   <%= link_to match_path(match), class: "default-color" do %>
                     <%= app_date(match.date) %>
@@ -219,10 +220,14 @@
           </tbody>
         </table>
 
-        <p class="py-4 text-center default-color">
+        <p class="mt-4 text-center default-color">
           Králi s bielou farbou sú aktuálne nominovaní na PLAY OFF.
-          Tí šedí, to sú princovia, majú najväčšiu šancu sa do PLAY OFF dostať.
+          <br>
+          <span class="u-grey">
+            Tí šedí, to sú princovia, majú najväčšiu šancu sa do PLAY OFF dostať.
+          </span>
         </p>
+
         <p class="text-center my-4">
           <%= link_to "Celý rebríček", rankings_path, class: "default-color" %>
         </p>

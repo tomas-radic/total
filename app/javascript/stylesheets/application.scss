@@ -17,6 +17,9 @@ $color-silver: #D1D5DA;
 $color-grey: #95989B;
 
 $breakpoint-lg: 992px;
+$breakpoint-md: 720px;
+
+$navbar-height: 62px;
 
 
 // RESET -----------------
@@ -40,6 +43,14 @@ ul li {
   text-indent: 0;
   list-style-type: none;
 }
+
+
+// KEYFRAMES -----------------
+
+@keyframes jump-off {
+
+}
+
 
 // BASE STYLES ----------------
 
@@ -176,7 +187,7 @@ html {
   width: 100%;
   line-height: 1.25rem;
 
-  @media (min-width: 720px) {
+  @media (min-width: $breakpoint-md) {
     max-width: 700px;
     margin: 0 auto;
     font-size: 1.2rem;
@@ -187,7 +198,7 @@ html {
     font-size: 0.8rem;
     font-style: italic;
 
-    @media (min-width: 720px) {
+    @media (min-width: $breakpoint-md) {
       font-size: 1rem;
     }
   }
@@ -200,7 +211,7 @@ html {
     font-size: 1.2rem;
     letter-spacing: 0.2rem;
 
-    @media (min-width: 720px) {
+    @media (min-width: $breakpoint-md) {
       font-size: 1.3rem;
     }
   }
@@ -211,13 +222,18 @@ html {
 }
 
 .today {
-  min-height: calc(100vh - 62px);
+  min-height: calc(100vh - $navbar-height);
 
   &__heading {
     font-size: 2.6rem;
     text-align: right;
     line-height: 2.8rem;
     padding: 3rem 1rem;
+
+    @media (min-width: $breakpoint-md) {
+      font-size: 3.7rem;
+      line-height: 3.6rem;
+    }
 
     @media (min-width: $breakpoint-lg) {
       font-size: 4rem;
@@ -229,28 +245,46 @@ html {
   &__brand {
     display: flex;
 
-    h2 {
+    &__link {
       display: inline-block;
+      text-decoration: none;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      line-height: 1.2;
       box-shadow: 7px 5px 10px rgb(0 0 0 / 20%);
       padding: 0.4rem 0.6rem;
       background-color: $color-brand-bg;
       color: $color-white;
       font-size: 3rem;
-    }
+      cursor: pointer;
 
-    @media (min-width: $breakpoint-lg) {
-      justify-content: center;
+      &:hover {
+        color: $color-white;
+        transform: rotate(-5deg) translateY(-6px);
+      }
 
-      h2 {
+      @media (min-width: $breakpoint-lg) {
         font-size: 3.6rem;
       }
     }
+
+    @media (min-width: $breakpoint-md) {
+      justify-content: center;
+    }
+
+
+  }
+
+  &__facade {
+    min-height: calc(100vh - $navbar-height);
   }
 
   &__main {
     display: flex;
+    align-items: start;
     flex-wrap: wrap;
     justify-content: space-between;
+    margin-top: 1rem;
 
     .unconfirmed-matches {
       padding-top: 1rem;
@@ -272,7 +306,6 @@ html {
       padding-bottom: 1rem;
 
       h3 {
-        text-align: center;
         font-size: 1.2rem;
         font-style: italic;
 
@@ -299,7 +332,7 @@ html {
     font-size: 0.95rem;
     color: $color-white;
 
-    @media (min-width: $breakpoint-lg) {
+    @media (min-width: $breakpoint-md) {
       font-size: 1.5rem;
     }
   }
@@ -318,7 +351,7 @@ html {
     }
 
     &__tiles {
-      @media (min-width: 720px) {
+      @media (min-width: $breakpoint-md) {
         display: flex;
         flex-wrap: wrap;
         align-items: stretch;
@@ -333,7 +366,7 @@ html {
         margin-top: 0.5rem;
         text-align: center;
 
-        @media (min-width: 720px) {
+        @media (min-width: $breakpoint-md) {
           width: 360px;
           margin-left: 0.25rem;
           margin-right: 0.25rem;
@@ -375,8 +408,14 @@ html {
     font-size: 2rem;
     margin-bottom: 2rem;
 
+    @media (min-width: $breakpoint-md) {
+      font-size: 2.6rem;
+    }
+
     @media (min-width: $breakpoint-lg) {
-      font-size: 2.8rem;
+      font-size: 3.4rem;
+      margin-left: 1.5rem;
+      margin-top: 1.3rem;
     }
   }
 }
@@ -389,8 +428,14 @@ html {
     margin-bottom: 2rem;
     text-align: right;
 
+    @media (min-width: $breakpoint-md) {
+      font-size: 2.6rem;
+    }
+
     @media (min-width: $breakpoint-lg) {
-      font-size: 2.8rem;
+      font-size: 3.4rem;
+      margin-right: 1.5rem;
+      margin-top: 1.3rem;
     }
   }
 }
@@ -402,8 +447,14 @@ html {
     font-size: 2rem;
     margin-bottom: 2rem;
 
+    @media (min-width: $breakpoint-md) {
+      font-size: 2.6rem;
+    }
+
     @media (min-width: $breakpoint-lg) {
-      font-size: 2.8rem;
+      font-size: 3.4rem;
+      margin-left: 1.5rem;
+      margin-top: 1.3rem;
     }
   }
 }
