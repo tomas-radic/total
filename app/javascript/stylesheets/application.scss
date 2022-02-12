@@ -130,6 +130,21 @@ html {
   text-align: center;
 }
 
+.base-heading {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+
+  @media (min-width: $breakpoint-md) {
+    font-size: 2.6rem;
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    font-size: 3.4rem;
+    margin-right: 1.5rem;
+    margin-top: 1.3rem;
+  }
+}
+
 .base-green {
   background-color: $color-base-green-bg;
 
@@ -408,60 +423,14 @@ html {
 
 .today-recent {
   min-height: 100vh;
-
-  &__heading {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-
-    @media (min-width: $breakpoint-md) {
-      font-size: 2.6rem;
-    }
-
-    @media (min-width: $breakpoint-lg) {
-      font-size: 3.4rem;
-      margin-left: 1.5rem;
-      margin-top: 1.3rem;
-    }
-  }
 }
 
 .today-planned {
   min-height: 100vh;
-
-  &__heading {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    text-align: right;
-
-    @media (min-width: $breakpoint-md) {
-      font-size: 2.6rem;
-    }
-
-    @media (min-width: $breakpoint-lg) {
-      font-size: 3.4rem;
-      margin-right: 1.5rem;
-      margin-top: 1.3rem;
-    }
-  }
 }
 
 .today-race {
   min-height: 100vh;
-
-  &__heading {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-
-    @media (min-width: $breakpoint-md) {
-      font-size: 2.6rem;
-    }
-
-    @media (min-width: $breakpoint-lg) {
-      font-size: 3.4rem;
-      margin-left: 1.5rem;
-      margin-top: 1.3rem;
-    }
-  }
 }
 
 

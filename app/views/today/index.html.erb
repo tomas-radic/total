@@ -74,7 +74,7 @@
 <% if selected_season.present? %>
   <section id="recent-matches" class="today-recent base-yellow">
     <div class="page__content">
-      <h3 class="today-recent__heading accent-color">Čo sa najnovšie odohralo?</h3>
+      <h3 class="base-heading accent-color">Čo sa najnovšie odohralo?</h3>
 
       <% if @recent_matches.any? %>
         <table class="centered-table">
@@ -122,7 +122,7 @@
 
   <section id="planned-matches" class="today-planned base-salmon">
     <div class="page__content">
-      <h3 class="today-planned__heading accent-color">Zápasy, ktoré uvidíme.</h3>
+      <h3 class="text-end base-heading accent-color">Zápasy, ktoré uvidíme.</h3>
 
       <% if @planned_matches.any? %>
         <table class="centered-table">
@@ -166,7 +166,7 @@
         <p class="py-8 text-center">Nikto neplánuje hrať zápas.</p>
         <p class="py-2 text-center">
           <a href="#" class="btn btn-success btn-lg">
-            Vyzvi niekoho!
+            <%= link_to "Vyzvi niekoho!", rankings_path, class: "btn btn-success btn-lg" %>
           </a>
         </p>
       <% end %>
@@ -187,7 +187,7 @@
 
   <section id="race" class="today-race base-red">
     <div class="page__content">
-      <h3 class="today-race__heading accent-color">Najväčší králi.</h3>
+      <h3 class="base-heading accent-color">Najväčší králi.</h3>
 
       <% if @top_rankings.any? %>
         <table class="centered-table default-color">

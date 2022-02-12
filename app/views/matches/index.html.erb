@@ -2,40 +2,37 @@
 <div id="matches_index_reload_notice"></div>
 
 <% if selected_season.present? && player_signed_in? && @pending_matches.any? %>
-  <section class="base-salmon p-8">
-    <h2 class="page-heading primary-color">Tvoje ďalšie zápasy.</h2>
-    <div class="table-container">
-      <table>
+  <section class="base-salmon">
+    <div class="page__content">
+      <h3 class="base-heading accent-color">Tvoje ďalšie zápasy.</h3>
+
+      <table class="centered-table">
         <thead>
-        <tr>
-          <th>Vyzývateľ</th>
-          <th>Vyzvaný</th>
-          <th>Info</th>
+        <tr class="centered-table__heading-row">
+          <th class="text-center">Vyzývateľ</th>
+          <th class="text-center">Vyzvaný</th>
+          <th></th>
         </tr>
         </thead>
         <tbody>
-        <% @pending_matches.each.with_index do |match, idx| %>
+        <% @pending_matches.each do |match| %>
           <tr>
-            <td>
-              <div class="fat-row">
-                <%= match.side 1 %>
-              </div>
-            </td>
-            <td>
-              <div class="fat-row">
-                <%= match.side 2 %>
-              </div>
-            </td>
-            <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
-              <div class="fat-row">
-                <% if match.play_date.present? %>
-                  <%= link_to_match(match) do %>
-                    <%= "#{app_date_span(match.date)}<br>#{match.play_time}<br>#{match.place&.name}".html_safe %>
+            <td class="text-center"><%= break_whitespace(match.side 1) %></td>
+            <td class="text-center"><%= break_whitespace(match.side 2) %></td>
+            <td class="text-center">
+              <% if match.date.present? %>
+                <%= link_to match_path(match), class: "default-color" do %>
+                  <%= app_date(match.date) %>
+                  <% if match.play_time.present? %>
+                    <br><%= match.play_time %>
                   <% end %>
-                <% else %>
-                  <%= link_to_match(match) %>
+                  <% if match.place %>
+                    <br><%= match.place.name %>
+                  <% end %>
                 <% end %>
-              </div>
+              <% else %>
+                <%= link_to "(plánuje sa)", match_path(match), class: "default-color" %>
+              <% end %>
             </td>
           </tr>
         <% end %>
@@ -45,62 +42,56 @@
   </section>
 <% end %>
 
-<section class="base-yellow min-h-screen p-8">
-  <h2 class="page-heading primary-color text-right">Všetky zápasy sezóny.</h2>
-  <% if selected_season.present? %>
-    <% if @matches.any? %>
-      <div class="table-container default-color">
-        <table>
-          <tbody>
-          <% last_match_reviewed = false %>
-          <% @matches.each.with_index do |match, idx| %>
-            <% full_border = !last_match_reviewed && match.reviewed? %>
-            <% last_match_reviewed = true if match.reviewed? %>
-            <tr>
-              <td class="<%= 'border-white border-solid border-t-4' if idx > 0 && full_border %>">
-                <div class="fat-row">
-                  <%= match.winner || match.side(1) %>
-                </div>
-              </td>
-              <td class="<%= 'border-white border-solid border-t-4' if idx > 0 && full_border %>">
-                <div class="fat-row">
-                  <%= match.looser || match.side(2) %>
-                </div>
-              </td>
-              <td class="<%= 'border-white border-solid border-t-4' if idx > 0 %>">
-                <div class="fat-row">
-                  <% if match.reviewed? %>
-                    <%= link_to_match match do %>
-                      <b><%= match.result %></b>
-                      <% if match.date %>
-                        <br><%= app_date match.date %>
-                      <% end %>
-                    <% end %>
+<section class="base-yellow">
+  <div class="page__content">
+    <h3 class="text-end base-heading accent-color">Všetky zápasy sezóny.</h3>
 
-                  <% elsif match.date %>
-                    <%= link_to_match match do %>
-                      <%= app_date match.date %>
+    <% if selected_season.present? %>
+      <% if @matches.any? %>
+        <table class="centered-table">
+          <tbody>
+          <% @matches.each do |match| %>
+            <tr class="text-center">
+              <% if match.reviewed? %>
+                <td><%= break_whitespace(match.winner) %></td>
+                <td class="centered-table__increased centered-table__bordered">
+                  <%= link_to break_whitespace(match.result.gsub(", ", " ")), match_path(match),
+                              class: "default-color" %>
+                </td>
+                <td><%= break_whitespace(match.looser) %></td>
+                <td><%= app_date(match.date) if match.date %></td>
+              <% else %>
+                <td><%= break_whitespace(match.side 1) %></td>
+                <td class="centered-table__bordered">
+                  <% if match.date.present? %>
+                    <%= link_to match_path(match), class: "default-color" do %>
+                      <%= app_date(match.date) %>
+                      <% if match.play_time.present? %>
+                        <br><%= match.play_time %>
+                      <% end %>
                       <% if match.place %>
                         <br><%= match.place.name %>
                       <% end %>
                     <% end %>
                   <% else %>
-                    <%= link_to_match match %>
+                    <%= link_to "(plánuje sa)", match_path(match), class: "default-color" %>
                   <% end %>
-                </div>
-              </td>
+                </td>
+                <td><%= break_whitespace(match.side 2) %></td>
+                <td></td>
+              <% end %>
             </tr>
           <% end %>
           </tbody>
         </table>
-      </div>
+      <% else %>
+        <p class="py-8 text-center">Nikto neplánuje hrať zápas.</p>
+        <p class="py-2 text-center">
+          <%= link_to "Zavolaj niekoho hrať!", rankings_path, class: "btn btn-success btn-lg" %>
+        </p>
+      <% end %>
     <% else %>
-      <p class="p-8 text-center default-color">Žiadne zápasy sa ešte neodohrali.</p>
-      <p class="p-2 text-center">
-        <%= link_to "Zavolaj niekoho hrať!", rankings_path, class: "button button-red" %>
-      </p>
+      <p class="py-8 text-center">Žiadne nie sú, pretože nie je sezóna. Čakáme kým začne.</p>
     <% end %>
-  <% else %>
-    <p class="p-8 text-center default-color">Žiadne nie sú, pretože nie je sezóna. Čakáme kým začne.</p>
-  <% end %>
+  </div>
 </section>
