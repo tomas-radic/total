@@ -1,45 +1,48 @@
-<section id="race" class="base-red min-h-screen p-8">
-  <h2 class="page-heading primary-color">Priebežné poradie.</h2>
-  <% if selected_season.present? %>
-    <% if @rankings.any? %>
-      <div class="table-container default-color">
-        <table>
-          <thead>
-          <tr>
-            <th></th>
-            <th></th>
-            <th>Body</th>
-            <th>% výhier</th>
-          </tr>
-          </thead>
-          <tbody>
-          <% @rankings.each.with_index(1) do |ranking, position| %>
-            <tr class="<%= ranking_row_css(selected_season, position) %>">
-              <td class="<%= 'border-yellow-400 border-solid border-t-4' if position > 1 %>">
-                <%= "#{position}." %>
-              </td>
-              <td><%= link_to ranking[:name], player_path(ranking[:id]), class: "underline" %></td>
-              <td><%= ranking[:points] %></td>
-              <td><%= "#{(ranking[:percentage] / 100.0).round(2)}%" %></td>
+<section class="base-red">
+  <div class="page__content">
+    <h3 class="base-heading accent-color">Priebežné poradie.</h3>
+
+    <% if selected_season.present? %>
+      <% if @rankings.any? %>
+        <div class="table-container default-color">
+          <table class="centered-table default-color">
+            <thead>
+            <tr class="centered-table__heading-row">
+              <th class="text-center"></th>
+              <th></th>
+              <th>Body</th>
+              <th>% výhier</th>
             </tr>
-          <% end %>
-          </tbody>
-        </table>
-      </div>
-      <p class="p-2 text-center default-color lg:pt-4">
-        Prvých <%= selected_season.play_off_size %> hráčov je nominovaných na PLAY OFF.
-      </p>
-    <% else %>
-      <p class="p-8 text-center default-color">V rebríčku nie je nikto.</p>
-      <% if true # manager_signed_in? %>
-        <p class="p-2 text-center">
-          <a href="#" class="button button-red">
-            Administrácia
-          </a>
+            </thead>
+            <tbody>
+            <% @rankings.each.with_index(1) do |ranking, position| %>
+              <% color_class = position <= selected_season.play_off_size.to_i ? "default-color" : "u-grey" %>
+              <tr>
+                <%= content_tag :td, class: "text-center #{color_class}" do %>
+                  <%= "#{position}." %>
+                <% end %>
+                <%= content_tag :td do %>
+                  <%= link_to ranking[:name], player_path(ranking[:id]), class: color_class %>
+                <% end %>
+                <%= content_tag :td, class: color_class do %>
+                  <%= ranking[:points] %>
+                <% end %>
+                <%= content_tag :td, class: color_class do %>
+                  <%= "#{(ranking[:percentage] / 100.0).round(2)}%" %>
+                <% end %>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-4 text-center default-color">
+          Prvých <%= selected_season.play_off_size %> hráčov je nominovaných na PLAY OFF.
         </p>
+      <% else %>
+        <p class="py-8 text-center default-color">V rebríčku nie je nikto.</p>
       <% end %>
+    <% else %>
+      <p class="py-8 text-center default-color">V rebríčku nie je nikto, pretože nie je sezóna.</p>
     <% end %>
-  <% else %>
-    <p class="p-8 text-center default-color">V rebríčku nie je nikto, pretože nie je sezóna.</p>
-  <% end %>
+  </div>
 </section>
