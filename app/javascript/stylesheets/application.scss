@@ -147,6 +147,7 @@ html {
 
 .base-green {
   background-color: $color-base-green-bg;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='115' height='115' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='100' y1='33' x2='100' y2='-3'%3E%3Cstop offset='0' stop-color='%23000' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='1'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' gradientUnits='userSpaceOnUse' x1='100' y1='135' x2='100' y2='97'%3E%3Cstop offset='0' stop-color='%23000' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='%23008154' fill-opacity='0.15'%3E%3Crect x='100' width='100' height='100'/%3E%3Crect y='100' width='100' height='100'/%3E%3C/g%3E%3Cg fill-opacity='0.15'%3E%3Cpolygon fill='url(%23a)' points='100 30 0 0 200 0'/%3E%3Cpolygon fill='url(%23b)' points='100 100 0 130 0 100 200 100 200 130'/%3E%3C/g%3E%3C/svg%3E");
 
   .accent-color {
     color: $color-base-green-accent;
@@ -159,6 +160,8 @@ html {
 
 .base-yellow {
   background-color: $color-base-yellow-bg;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='12' viewBox='0 0 40 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 6.172L6.172 0h5.656L0 11.828V6.172zm40 5.656L28.172 0h5.656L40 6.172v5.656zM6.172 12l12-12h3.656l12 12h-5.656L20 3.828 11.828 12H6.172zm12 0L20 10.172 21.828 12h-3.656z' fill='%23374251' fill-opacity='0.07' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-attachment: fixed;
 
   .accent-color {
     color: $color-base-yellow-accent;
@@ -171,7 +174,9 @@ html {
 
 .base-salmon {
   background-color: $color-base-salmon-bg;
-
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='12' viewBox='0 0 40 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 6.172L6.172 0h5.656L0 11.828V6.172zm40 5.656L28.172 0h5.656L40 6.172v5.656zM6.172 12l12-12h3.656l12 12h-5.656L20 3.828 11.828 12H6.172zm12 0L20 10.172 21.828 12h-3.656z' fill='%23374251' fill-opacity='0.07' fill-rule='evenodd'/%3E%3C/svg%3E");
+  //background-attachment: fixed;
+  
   .accent-color {
     color: $color-white;
   }
@@ -271,16 +276,18 @@ html {
       margin-bottom: 0.5rem;
       font-weight: 500;
       line-height: 1.2;
-      box-shadow: 7px 5px 10px rgb(0 0 0 / 20%);
+      box-shadow: 7px 5px 10px rgb(0 0 0 / 40%);
       padding: 0.4rem 0.6rem;
-      background-color: $color-brand-bg;
+      //background-color: $color-brand-bg;
       color: $color-white;
       font-size: 3rem;
       cursor: pointer;
+      border: 1px solid $color-base-green-bg;
+      transform: rotate(-5deg) translateY(10px);
 
       &:hover {
         color: $color-white;
-        transform: rotate(-5deg) translateY(-6px);
+        transform: rotate(0) translateY(0);
       }
 
       @media (min-width: $breakpoint-lg) {

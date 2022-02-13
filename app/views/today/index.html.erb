@@ -91,7 +91,7 @@
             <tr class="text-center">
               <td><%= break_whitespace(match.winner) %></td>
               <td class="centered-table__increased centered-table__bordered">
-                <%= link_to break_whitespace(match.result.gsub(", ", " ")), match_path(match),
+                <%= link_to break_whitespace(match.result(side: match.winner_side).gsub(", ", " ")), match_path(match),
                             class: "default-color" %>
               </td>
               <td><%= break_whitespace(match.looser) %></td>
