@@ -1,42 +1,49 @@
 <%= turbo_frame_tag "match_#{@match.id}" do %>
   <%= render partial: "matches/header", locals: { match: @match } %>
 
-  <div id="player-form" class="flex justify-center py-8">
-    <%= form_with model: [:player, @match], class: "w-full p-2" do |f| %>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
-        <div class="w-full">
-          <%= f.label :play_date, "Dátum", class: "block tracking-wide mb-2" %>
-          <%= f.date_field :play_date, class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none" %>
+  <div class="page__content">
+    <%= form_with model: [:player, @match] do |f| %>
+      <div class="row">
+        <div class="col-7">
+          <%= f.label :play_date, "Dátum", class: "form-label" %>
+          <%= f.date_field :play_date, class: "form-control" %>
         </div>
-        <div class="w-full">
-          <%= f.label :play_time, "Čas", class: "block tracking-wide mb-2" %>
-          <%= f.select :play_time, Match.play_times.keys.map { |pt| [pt, pt] }, { include_blank: "Žiadny" }, class: "block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-gray-500" %>
-        </div>
-        <div class="w-full">
-          <%= f.label :place_id, "Miesto", class: "block tracking-wide mb-2" %>
-          <%= f.select :place_id, Place.all.map { |p| [p.name, p.id] }, { include_blank: "Žiadne" }, class: "block appearance-none w-full border border-gray-200 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-gray-500" %>
+        <div class="col-5">
+          <%= f.label :play_time, "Čas", class: "form-label" %>
+          <%= f.select :play_time,
+                       Match.play_times.keys.map { |pt| [pt, pt] },
+                       { include_blank: "Žiadny" },
+                       class: "form-control" %>
         </div>
       </div>
-
-      <div class="grid grid-cols-1">
-        <div class="w-full">
-          <%= f.label :notes, "Poznámka", class: "block tracking-wide mb-2" %>
-          <%= f.text_area :notes, rows: 2, class: "appearance-none block w-full border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none" %>
+      <div class="row mt-4">
+        <div class="col-12">
+          <%= f.label :place_id, "Miesto", class: "form-label" %>
+          <%= f.select :place_id,
+                       Place.all.map { |p| [p.name, p.id] },
+                       { include_blank: "Žiadne" },
+                       class: "form-control" %>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-12">
+          <%= f.label :notes, "Poznámka", class: "form-label" %>
+          <%= f.text_area :notes, rows: 4, class: "form-control" %>
         </div>
       </div>
 
       <!-- TODO: later use red border around input fields instead of this -->
       <% if @match.errors.any? %>
-        <p class="text-red-500 p-2">
+        <p class="mt-4">
           Zápas sa nedá uložiť pre nasledovné:
           <%= "#{@match.errors.messages.values.flatten.join(' ')}" %>
         </p>
       <% end %>
 
-      <div class="flex justify-end">
-        <%= link_to "Zrušiť", match_path(@match), class: "button" %>
-        <%= f.submit "Potvrdiť", class: "button button-blue" %>
-      </div>
+      <p class="text-end mt-4">
+        <%= link_to "Zrušiť", match_path(@match), class: "btn btn-light" %>
+        <%= f.submit "Potvrdiť", class: "btn btn-success" %>
+      </p>
     <% end %>
   </div>
 <% end %>

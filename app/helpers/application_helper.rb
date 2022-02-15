@@ -38,16 +38,16 @@ module ApplicationHelper
     half = total_count / 2.0
 
     if success_count > half
-      "text-green-500"
+      "u-nav-green"
     elsif success_count < half
-      "text-red-500"
+      "u-red"
     end
   end
 
 
   def error_for(attribute, object)
     unless object.errors[attribute].blank?
-      content_tag :p, class: "text-sm text-red-500" do
+      content_tag :p, class: "u-red" do
         "Chýbajúci, alebo nesprávny údaj."
       end
     end

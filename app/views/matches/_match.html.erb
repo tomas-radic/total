@@ -1,93 +1,102 @@
 <%= render partial: "matches/header", locals: { match: match } %>
 
-<section class="context-buttons">
-  <div class="breadcrumbs">
-    <%= link_to "Domov", root_path, class: "underline", target: :_top %>
-    /
-    <%= link_to "Zápasy", matches_path, class: "underline", target: :_top %>
-  </div>
-  
-  <% if match.requested? %>
-    <div>
-      <% if MatchPolicy.new(current_player, match).accept? %>
-        <%= link_to "Odmietnuť",
-                    reject_player_match_path(match),
-                    method: :post,
-                    class: "button",
-                    data: { confirm: "Chceš naozaj odmietnuť túto výzvu?" } %>
-        <%= link_to "Prijať",
-                    accept_player_match_path(match),
-                    method: :post,
-                    class: "button button-blue" %>
-      <% elsif MatchPolicy.new(current_player, match).destroy? %>
-        <%= link_to "Zmazať",
-                    player_match_path(match),
-                    method: :delete,
-                    class: "button button-red",
-                    data: { confirm: "Chceš naozaj zmazať túto výzvu?", turbo: false } %>
-      <% end %>
-    <% else %>
-      <% if MatchPolicy.new(current_player, match).finish? %>
-        <%= link_to "Výsledok", finish_init_player_match_path(match),
-                    class: "button button-red" %>
-      <% end %>
+<div class="page__content">
+  <div class="page-controls">
+    <div class="page-controls__breadcrumbs">
+      <%= link_to "Domov", root_path, target: :_top %>
+      /
+      <%= link_to "Zápasy", matches_path, target: :_top %>
+    </div>
+    <% if current_player %>
+      <div class="page-controls__buttons">
+        <% if match.requested? %>
+          <div>
+            <% if MatchPolicy.new(current_player, match).accept? %>
+              <%= link_to "Odmietnuť",
+                          reject_player_match_path(match),
+                          method: :post,
+                          class: "btn btn-warning",
+                          data: { confirm: "Chceš naozaj odmietnuť túto výzvu?" } %>
+              <%= link_to "Prijať",
+                          accept_player_match_path(match),
+                          method: :post,
+                          class: "btn btn-success" %>
+            <% elsif MatchPolicy.new(current_player, match).destroy? %>
+              <%= link_to "Zmazať",
+                          player_match_path(match),
+                          method: :delete,
+                          class: "btn btn-warning",
+                          data: { confirm: "Chceš naozaj zmazať túto výzvu?", turbo: false } %>
+            <% end %>
+          </div>
+        <% else %>
+          <div>
+            <% if MatchPolicy.new(current_player, match).edit? %>
+              <%= link_to "Upraviť", edit_player_match_path(match),
+                          class: "btn btn-warning" %>
+            <% end %>
+            <% if MatchPolicy.new(current_player, match).finish? %>
+              <%= link_to "Výsledok", finish_init_player_match_path(match),
+                          class: "btn btn-danger" %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
     <% end %>
   </div>
-</section>
 
 
-<section class="page-content">
   <% if match.reviewed? %>
-    <p class="text-3xl md:text-5xl text-center"><%= match.result %></p>
+    <p class="u-fs-giant py-4 text-center"><%= match.result %></p>
     <% if match.retired? %>
       <p class="text-center">
-        <%= match.looser %> zápas skrečoval<span class="text-sm">/a</span>.
+        <%= match.looser %> zápas skrečoval<small>/a</small>.
       </p>
     <% end %>
   <% elsif match.requested? %>
     <p class="text-center">
-      Na túto výzvu <%= match.side(2) %> zatiaľ nereagoval<span class="text-sm">/a</span>.
+      Na túto výzvu <%= match.side(2) %> zatiaľ nereagoval<small>/a</small>.
     </p>
   <% elsif match.accepted_at %>
     <p class="text-center">
-      <%= match.side(2) %> akceptoval<span class="text-sm">/a</span> výzvu <%= app_date_span match.accepted_at %>
+      <%= match.side(2) %> akceptoval<small>/a</small> výzvu <%= app_date_span match.accepted_at %>
     </p>
   <% elsif match.rejected_at %>
     <p class="text-center">
-      <%= match.side(2) %> odmietol<span class="text-sm">/la</span> túto výzvu <%= app_date_span match.rejected_at %>
+      <%= match.side(2) %> odmietol<small>/la</small> túto výzvu <%= app_date_span match.rejected_at %>
     </p>
   <% end %>
 
+  <%# if MatchPolicy.new(current_player, match).update? %>
+<!--    <div class="text-center">-->
+      <%#= link_to "Zmeniť údaje", edit_player_match_path(match) %>
+<!--    </div>-->
+  <%# end %>
 
-  <% if MatchPolicy.new(current_player, match).update? %>
-    <div class="text-center pb-2">
-      <%= link_to "Zmeniť údaje", edit_player_match_path(match), class: "underline" %>
-    </div>
-  <% end %>
+  <div class="match-info">
+    <% if match.play_date.present? %>
+      <div class="py-2 me-5">
+        <div class="u-fs-dominant">Termín</div>
+        <div class="u-fs-big">
+          <%= app_date(match.date) %>
+          <%= match.play_time if match.play_time.present? %>
+        </div>
+      </div>
+    <% end %>
 
-  <% if match.play_date.present? %>
-    <div class="py-4">
-      <p class="font-black text-2xl">Termín</p>
-      <p>
-        <%= app_date(match.date) %>
-        <%= match.play_time if match.play_time.present? %>
-      </p>
-    </div>
-  <% end %>
+    <% if match.place_id.present? %>
+      <div class="py-2 me-5">
+        <div class="u-fs-dominant">Miesto</div>
+        <div class="u-fs-big"><%= match.place.name %></div>
+      </div>
+    <% end %>
 
-  <% if match.place_id.present? %>
-    <div class="py-4">
-      <p class="font-black text-2xl">Miesto</p>
-      <p>
-        <%= match.place.name %>
-      </p>
-    </div>
-  <% end %>
+    <% if match.notes.present? %>
+      <div class="py-2 me-5">
+        <div class="u-fs-dominant">Poznámky</div>
+        <div><%= match.notes %></div>
+      </div>
+    <% end %>
+  </div>
 
-  <% if match.notes.present? %>
-    <div class="py-4">
-      <p class="font-black text-2xl">Poznámky</p>
-      <p><%= match.notes %></p>
-    </div>
-  <% end %>
-</section>
+</div>

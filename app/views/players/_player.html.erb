@@ -1,65 +1,63 @@
-<section class="header base-green">
-  <div class="dominant-heading-wrapper">
-    <h1 class="dominant-heading primary-color">
-      <%= player.name %>
-    </h1>
+<section class="page-header base-red">
+  <div></div>
+  <div class="page-header__heading accent-color">
+    <h2><%= player.name %></h2>
   </div>
-  <div class="secondary-text default-color">
-    <p><%= player.phone_nr %></p>
-    <p><%= player.email %></p>
-    <p>Nar. <%= player.birth_year.presence || '-' %></p>
+  <div class="page-header__text default-color">
+    <div><%= player.phone_nr %></div>
+    <div><%= player.email %></div>
+    <div>Nar. <%= player.birth_year.presence || '-' %></div>
   </div>
 </section>
 
 
-<section class="context-buttons">
-  <div class="breadcrumbs">
-    <%= link_to "Domov", root_path, class: "underline", target: :_top %>
-    /
-    <%= link_to "Rebríček", rankings_path, class: "underline", target: :_top %>
-  </div>
-  <% if player_signed_in? %>
-    <% if match_request_possible(current_player, requested_player: player, season: selected_season) %>
-      <div>
+<div class="page__content">
+  <div class="page-controls">
+    <div class="page-controls__breadcrumbs">
+      <%= link_to "Domov", root_path, target: :_top %>
+      /
+      <%= link_to "Rebríček", rankings_path, target: :_top %>
+    </div>
+    <% if player_signed_in? %>
+      <div class="page-controls__buttons">
         <%= link_to "Vyzvať hráča",
                     player_matches_path(player_id: player.id),
                     method: :post,
-                    class: "button button-red",
+                    class: "btn btn-warning #{'disabled' unless match_request_possible(current_player, requested_player: player, season: selected_season)}",
                     data: { confirm: "Potvrď, že naozaj chceš vyzvať #{player.name}" } %>
       </div>
     <% end %>
-  <% end %>
-</section>
+  </div>
 
 
-<section class="page-content">
   <% if selected_season.present? %>
     <% unless selected_season.enrollments.active.where(player: player).exists? %>
       <p class="text-center">
-        Hráč<span class="text-sm">/ka</span> nie je zapísaný<span class="text-sm">/á</span>
+        Hráč<small>/ka</small> nie je zapísaný<small>/á</small>
         do sezóny <%= selected_season.name %>.
       </p>
     <% end %>
 
     <% if player_signed_in? && current_player.opponents(season: selected_season, pending: true).include?(player) %>
       <p class="text-center">
-        S týmto hráčom<span class="text-sm">/kou</span> ťa čaká zápas.
+        S týmto hráčom<small>/kou</small> ťa čaká zápas.
       </p>
     <% end %>
   <% end %>
 
   <% if selected_season && @all_matches.any? %>
-    <div class="text-center md:text-2xl">
+    <hr>
+    <div class="text-center">
       <% won_count = @won_matches.size %>
       <% all_count = @all_matches.size %>
       <p>
         Vyhraté zápasy / všetky zápasy<br>
-        <span class="<%= text_success_css(won_count, all_count) %>">
+        <span class="u-fs-big <%= text_success_css(won_count, all_count) %>">
           <%= won_count %> / <%= all_count %>
         </span>
       </p>
 
-      <div class="text-sm md:text-xl">
+      <div>
         <% @all_matches.each do |match| %>
           <% side = match.assignments.find { |a| a.player_id == player.id }.side %>
           <% other_side = (side == 1) ? 2 : 1 %>
@@ -68,7 +66,8 @@
               <%= app_date(match.finished_at) %>
               Výhra s
               <%= match.side(other_side) %>
-              <span class="text-green-500 text-xl"><%= match.result(side: side) %></span>
+              <br>
+              <span class="u-nav-green"><%= match.result(side: side) %></span>
               <% if match.retired? %>
                 (skreč)
               <% end %>
@@ -78,7 +77,8 @@
               <%= app_date(match.finished_at) %>
               Prehra s
               <%= match.side(other_side) %>
-              <span class="text-red-500 text-base"><%= match.result(side: side) %></span>
+              <br>
+              <span class="u-red"><%= match.result(side: side) %></span>
               <% if match.retired? %>
                 (skreč)
               <% end %>
@@ -88,8 +88,7 @@
       </div>
     </div>
   <% else %>
-    <p>Žiadne odohraté zápasy v sezóne <%= selected_season.name %>.</p>
+    <p class="text-center">Žiadne odohraté zápasy v sezóne <%= selected_season.name %>.</p>
   <% end %>
 
-
-</section>
+</div>

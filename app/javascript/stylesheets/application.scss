@@ -44,6 +44,18 @@ ul li {
   list-style-type: none;
 }
 
+a {
+  color: black;
+
+  &:hover {
+    color: black;
+  }
+}
+
+p {
+  margin-top: 0.7rem;
+}
+
 
 // BASE STYLES ----------------
 
@@ -73,6 +85,7 @@ html {
 
   &__content {
     padding: 1rem;
+    min-height: 50vh;
   }
 
   &__footer {
@@ -176,7 +189,7 @@ html {
   background-color: $color-base-salmon-bg;
   background-image: url("data:image/svg+xml,%3Csvg width='40' height='12' viewBox='0 0 40 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 6.172L6.172 0h5.656L0 11.828V6.172zm40 5.656L28.172 0h5.656L40 6.172v5.656zM6.172 12l12-12h3.656l12 12h-5.656L20 3.828 11.828 12H6.172zm12 0L20 10.172 21.828 12h-3.656z' fill='%23374251' fill-opacity='0.07' fill-rule='evenodd'/%3E%3C/svg%3E");
   //background-attachment: fixed;
-  
+
   .accent-color {
     color: $color-white;
   }
@@ -492,6 +505,66 @@ html {
   }
 }
 
+.page-header {
+  min-height: 50vh;
+  padding: 0.3rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &__heading {
+    text-align: center;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+
+    & > *:nth-child(1), & > *:nth-child(3) {
+      margin: 0;
+      font-size: 3rem;
+
+      @media (min-width: $breakpoint-md) {
+        font-size: 5rem;
+      }
+    }
+
+    & > *:nth-child(2) {
+      margin: 0;
+      font-size: 2.6rem;
+
+      @media (min-width: $breakpoint-md) {
+        font-size: 3.5rem;
+      }
+    }
+  }
+
+  &__text {
+    font-size: 1.2rem;
+    margin: 0;
+
+    @media (min-width: $breakpoint-md) {
+      font-size: 1.8rem;
+    }
+  }
+}
+
+.page-controls {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__breadcrumbs {
+    margin-right: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  &__buttons {
+    margin-left: auto;
+  }
+}
+
+.match-info {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 
 // UTILITY CLASSES
 
@@ -513,12 +586,64 @@ html {
 
 .u-grey {
   color: $color-grey;
+
+  &:hover {
+    color: $color-grey;
+  }
 }
 
 .u-nav-green {
   color: $color-nav-green;
+
+  &:hover {
+    color: $color-nav-green;
+  }
+}
+
+.u-red {
+  color: $color-red;
+
+  &:hover {
+    color: $color-red;
+  }
 }
 
 .u-red-bg {
   background-color: $color-red;
+}
+
+.u-fs-big {
+  font-size: 1.5rem;
+
+  @media (min-width: $breakpoint-md) {
+    font-size: 1.7rem;
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    font-size: 1.9rem;
+  }
+}
+
+.u-fs-dominant {
+  font-size: 2rem;
+
+  @media (min-width: $breakpoint-md) {
+    font-size: 2.3rem;
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    font-size: 2.6rem;
+  }
+}
+
+.u-fs-giant {
+  font-size: 3.2rem;
+
+  @media (min-width: $breakpoint-md) {
+    font-size: 4.2rem;
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    font-size: 5.2rem;
+  }
 }

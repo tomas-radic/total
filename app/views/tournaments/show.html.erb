@@ -1,10 +1,11 @@
-<section class="header <%= @tournament.color_base_css %>">
-  <div class="dominant-heading-wrapper">
-    <h1 class="dominant-heading primary-color">
+<section class="page-header <%= @tournament.color_base_css %>">
+  <div></div>
+  <div class="page-header__heading accent-color">
+    <h2>
       <%= @tournament.name %>
-    </h1>
+    </h2>
   </div>
-  <p class="secondary-text default-color">
+  <p class="page-header__text default-color">
     <%= app_date @tournament.begin_date %>
     <% if @tournament.end_date > @tournament.begin_date %>
       -
@@ -13,32 +14,36 @@
   </p>
 </section>
 
-<section class="context-buttons">
-  <div class="breadcrumbs">
-    <%= link_to "Domov", root_path, class: "underline", target: :_top %>
-    /
-    <%= link_to "Turnaje", tournaments_path, class: "underline", target: :_top %>
-  </div>
-  <div>
-    <%= link_to "Pavúk", "#", class: "button button-blue" %>
-    <%= link_to "Rozvrh", "#", class: "button button-blue" %>
-  </div>
-</section>
+<div class="page__content">
+  <div class="page-controls">
+    <div class="page-controls__breadcrumbs">
+      <%= link_to "Domov", root_path, target: :_top %>
+      /
+      <%= link_to "Turnaje", tournaments_path, target: :_top %>
+    </div>
 
+    <div class="page-controls__buttons">
+      <%= link_to "Pavúk", "#", class: "btn btn-success" %>
+      <%= link_to "Rozvrh", "#", class: "btn btn-success" %>
+    </div>
+  </div>
 
-<section class="page-content">
-  <div class="md:flex md:flex-row p-2 md:px-4">
-    <p class="md:flex-shrink w-full md:w-1/3 pt-4">
-      <% @tournament.main_info.split("\n").each do |line| %>
-        <%= line %><br>
-      <% end %>
-    </p>
-    <% if @tournament.side_info.present? %>
-      <p class="md:flex-grow pt-4">
-        <% @tournament.side_info.split("\n").each do |line| %>
+  <div class="row">
+    <div class="col-md-3">
+      <p>
+        <% @tournament.main_info.split("\n").each do |line| %>
           <%= line %><br>
         <% end %>
       </p>
-    <% end %>
+    </div>
+    <div class="col-md-9">
+      <% if @tournament.side_info.present? %>
+        <p class="ps-2 border-start">
+          <% @tournament.side_info.split("\n").each do |line| %>
+            <%= line %><br>
+          <% end %>
+        </p>
+      <% end %>
+    </div>
   </div>
-</section>
+</div>
