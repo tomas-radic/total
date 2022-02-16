@@ -1,43 +1,47 @@
-<div class="flex justify-center py-8">
-  <div class="w-full max-w-sm">
-    <%= form_for resource, as: resource_name, url: registration_path(resource_name),
-                 html: { class: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" },
-                 data: { turbo: false } do |f| %>
+<div class="page__content">
+  <h2 class="text-center u-fs-giant">Registrácia</h2>
+  <div class="vertical-form mt-4">
+    <div class="vertical-form__controls">
+      <%= form_for resource, as: resource_name, url: registration_path(resource_name),
+                   data: { turbo: false } do |f| %>
 
-      <%#= render "player/shared/error_messages", resource: resource %>
+        <%#= render "player/shared/error_messages", resource: resource %>
 
-      <%= render partial: "player/registrations/player_fields",
-                 locals: { f: f, resource: resource } %>
+        <%= render partial: "player/registrations/player_fields",
+                   locals: { f: f, resource: resource } %>
 
-      <div class="mb-4">
-        <%= f.label :email, "* Email", class: "block mb-2" %>
-        <%= f.email_field :email, autofocus: true, autocomplete: "email",
-                          class: "shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline" %>
-        <%= error_for(:email, resource) %>
-      </div>
-      <div class="mb-4">
-        <%= f.label :password, "* Heslo (aspoň #{@minimum_password_length} znakov)", class: "block mb-2" %>
-        <%= f.password_field :password, autocomplete: "new-password",
-                             class: "shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline" %>
-        <%= error_for(:password, resource) %>
-      </div>
-      <div class="mb-4">
-        <%= f.label :password_confirmation, "* Heslo znovu", class: "block mb-2" %>
-        <%= f.password_field :password_confirmation, autocomplete: "new-password",
-                             class: "shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline" %>
-        <%= error_for(:password_confirmation, resource) %>
-      </div>
-      <p class="text-sm text-center py-6">
-        S cookies súhlasíš, to je jasné. Ak nie, tak vodprejsk!
-        <%= f.submit "Jop!", class: "underline" %>
-      </p>
-      <div class="text-center">
-        <%= f.submit "Registrovať", class: "button button-blue" %>
-        <hr>
-        <%= render "player/shared/links" %>
-      </div>
-    <% end %>
+        <div class="mt-4">
+          <%= f.label :email, "* Email", class: "form-label" %>
+          <%= f.email_field :email, autocomplete: "email",
+                            class: "form-control" %>
+          <small><%= error_for(:email, resource) %></small>
+        </div>
+        <div class="mt-4">
+          <%= f.label :password, "* Heslo (aspoň #{@minimum_password_length} znakov)", class: "form-label" %>
+          <%= f.password_field :password, autocomplete: "new-password",
+                               class: "form-control" %>
+          <small><%= error_for(:password, resource) %></small>
+        </div>
+        <div class="mt-4">
+          <%= f.label :password_confirmation, "* Heslo znovu", class: "form-label" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password",
+                               class: "form-control" %>
+          <small><%= error_for(:password_confirmation, resource) %></small>
+        </div>
 
-    <%= render "player/shared/devise_footer" %>
+        <p class="text-center">
+          S cookies súhlasíš, to je jasné. Ak nie, tak vodprejsk!
+          <%= f.submit "Jop!" %>
+        </p>
+
+        <div class="mt-4 text-center">
+          <%= f.submit "Registrovať", class: "btn btn-success" %>
+          <hr>
+          <%= render "player/shared/links" %>
+        </div>
+      <% end %>
+
+      <%= render "player/shared/devise_footer" %>
+    </div>
   </div>
 </div>

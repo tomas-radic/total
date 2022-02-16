@@ -58,4 +58,17 @@ module ApplicationHelper
     text.gsub(/\s+/, "<br>").html_safe
   end
 
+
+  def percentage(count, of)
+    p = (count.to_f * 100.0) / of.to_f
+
+    if p > 0.0 && p < 1.0
+      1
+    elsif p > 99.0 && p < 100.0
+      99
+    else
+      p.round
+    end
+  end
+
 end

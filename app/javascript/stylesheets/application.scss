@@ -565,6 +565,20 @@ html {
   flex-wrap: wrap;
 }
 
+.vertical-form {
+  //text-align: center;
+
+  @media (min-width: $breakpoint-md) {
+    display: grid;
+    grid-template-columns: 1fr 350px 1fr;
+  }
+
+  &__controls {
+    @media (min-width: $breakpoint-md) {
+      grid-column: 2 / 3;
+    }
+  }
+}
 
 // UTILITY CLASSES
 

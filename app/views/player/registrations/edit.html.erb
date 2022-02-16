@@ -1,136 +1,132 @@
-<section class="header base-red">
-  <div class="dominant-heading-wrapper">
-    <h1 class="dominant-heading primary-color">
-      Profil
-    </h1>
+<section class="page-header base-red">
+  <div></div>
+  <div class="page-header__heading accent-color">
+    <h2>Profil</h2>
   </div>
-  <p class="secondary-text default-color">
+  <div class="page-header__text default-color">
     <%= resource.name %>
-  </p>
+  </div>
 </section>
 
-<% if selected_season.present? && !selected_season.enrollments.active.where(player: resource).exists? %>
-  <p class="text-center text-sm text-red-500 py-2">
-    Nie si zapísaný<span class="text-sm">/á</span>
-    do sezóny <%= selected_season.name %>.<br>
-    Kontaktuj organizátora súťaže.
-  </p>
-<% end %>
+<div class="page__content">
+  <% if selected_season.present? && !selected_season.enrollments.active.where(player: resource).exists? %>
+    <p class="text-center u-red py-2">
+      Nie si zapísaný<small>/á</small>
+      do sezóny <%= selected_season.name %>.<br>
+      Kontaktuj organizátora súťaže.
+    </p>
+  <% end %>
 
-<section class="page-content">
-  <div class="flex justify-center py-8">
-    <div class="w-full max-w-sm">
-      <%= form_for resource, as: resource_name, url: registration_path(resource_name),
-                   html: { method: :put, class: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" },
-                   data: { turbo: false } do |f| %>
+  <%= form_for resource, as: resource_name, url: registration_path(resource_name),
+               data: { turbo: false } do |f| %>
 
-        <%#= render "player/shared/error_messages", resource: resource %>
+    <%#= render "player/shared/error_messages", resource: resource %>
 
-        <div class="py-8 text-center">
-          <%= gravatar_image_tag(resource.email, alt: resource.name, class: "inline rounded-full") %>
-          <p class="text-center text-sm py-2">
-            Chceš si pridať foto? Zaregistruj sa touto istou email adresou na
-            <%= link_to "https://gravatar.com", "https://gravatar.com", class: "underline", target: :_blank %>
-            a pridaj si tam fotku. Automaticky bude aj tu!
-          </p>
-        </div>
-        <%= render partial: "player/registrations/player_fields",
-                   locals: { f: f, resource: resource } %>
-
-        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-          <div>
-            Email <%= resource.unconfirmed_email %> zatiaľ nebol potvrdený.
-          </div>
-        <% end %>
-
-        <div class="mb-4">
-          <%= f.label :email, "Email", class: "block mb-2" %>
-          <%= f.email_field :email, autofocus: true, autocomplete: "email",
-                            class: "shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline",
-                            disabled: true %>
-        </div>
-
-        <hr>
-        <div data-controller="forms">
-          <div class="field py-4">
-            <%= check_box_tag :change_password, "", false,
-                              data: { action: "change->forms#toggleLockFields", "forms-target" => "locker" } %>
-            <%= label_tag :change_password, "Chcem si zmeniť heslo" %>
-          </div>
-
-          <div class="mb-4">
-            <%= f.label :password, "* Heslo (aspoň #{@minimum_password_length} znakov)", class: "block mb-2" %>
-            <%= f.password_field :password, autocomplete: "new-password",
-                                 class: "shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline",
-                                 disabled: true,
-                                 data: { "forms-target" => "lockableField" } %>
-            <%= error_for(:password, resource) %>
-          </div>
-          <div class="mb-4">
-            <%= f.label :password_confirmation, "* Heslo znovu", class: "block mb-2" %>
-            <%= f.password_field :password_confirmation, autocomplete: "new-password",
-                                 class: "shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline",
-                                 disabled: true,
-                                 data: { "forms-target" => "lockableField" } %>
-            <%= error_for(:password_confirmation, resource) %>
-          </div>
-          <div class="mb-4">
-            <%= f.label :current_confirmation, "* Súčasné heslo", class: "block mb-2" %>
-            <%= f.password_field :current_password, autocomplete: "current-password",
-                                 class: "shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline",
-                                 disabled: true,
-                                 data: { "forms-target" => "lockableField" } %>
-            <%= error_for(:current_confirmation, resource) %>
-          </div>
-        </div>
-
-        <div class="text-center">
-          <%= f.submit "Potvrdiť", class: "button button-blue" %>
-        </div>
-      <% end %>
-
-      <section class="hide-toggler-wrapper" data-controller="forms">
-        <div class="field py-4">
-          <%= check_box_tag :anonymize, "", false,
-                            data: { action: "change->forms#toggleHidden", "forms-target" => "hideToggler" } %>
-          <%= label_tag :anonymize, "Chcem zmazať svoju registráciu" %>
-        </div>
-
-        <%= form_with url: player_players_anonymize_path,
-                      class: "hidden hide-toggleable" do %>
-
-          <p>
-            Ak potvrdíš toto rozhodnutie, stratíš príslušnosť ku všetkým zápasom, ktoré si tu
-            odohral/a a ku všetkým bodom, ktoré si získal/a. Tento účet sa ti stane neprístupný.
-            Na potvrdenie tohto rozhodnutia je potrebné napísať svoju emailovú adresu do
-            políčka nižšie a stlačiť "Odísť".
-          </p>
-          <div class="pt-4" data-controller="players">
-            <%= email_field_tag :confirmation_email,
-                                nil,
-                                class: "shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline",
-                                placeholder: resource.email,
-                                data: {
-                                  action: "keyup->players#confirmAnonymize",
-                                  "confirmation-email" => resource.email,
-                                  "players-target" => "anonymizeEmail"
-                                } %>
-            <div class="text-center">
-              <%= submit_tag "Odísť", class: "button button-red", disabled: true %>
-            </div>
-          </div>
-        <% end %>
-      </section>
-
-      <%= render "player/shared/devise_footer" %>
+    <div class="py-8 text-center">
+      <%= gravatar_image_tag(resource.email, alt: resource.name, class: "rounded-circle") %>
+      <p class="text-center py-2">
+        Chceš si pridať foto? Zaregistruj sa touto istou email adresou na
+        <%= link_to "https://gravatar.com", "https://gravatar.com", class: "underline", target: :_blank %>
+        a pridaj si tam fotku. Automaticky bude aj tu!
+      </p>
     </div>
-  </div>
+    <%= render partial: "player/registrations/player_fields",
+               locals: { f: f, resource: resource } %>
 
-  <div class="text-center">
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <div>
+        Email <%= resource.unconfirmed_email %> zatiaľ nebol potvrdený.
+      </div>
+    <% end %>
+
+    <div class="mt-4">
+      <%= f.label :email, "Email", class: "form-label" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email",
+                        class: "form-control",
+                        disabled: true %>
+    </div>
+
+    <hr>
+    <div data-controller="forms">
+      <div class="form-check mt-4">
+        <%= check_box_tag :change_password, "", false,
+                          data: { action: "change->forms#toggleLockFields", "forms-target" => "locker" },
+                          class: "form-check-input" %>
+        <%= label_tag :change_password, "Chcem si zmeniť heslo", class: "form-check-label" %>
+      </div>
+
+      <div class="mb-4">
+        <%= f.label :password, "* Heslo (aspoň #{@minimum_password_length} znakov)", class: "form-label" %>
+        <%= f.password_field :password, autocomplete: "new-password",
+                             class: "form-control",
+                             disabled: true,
+                             data: { "forms-target" => "lockableField" } %>
+        <small><%= error_for(:password, resource) %></small>
+      </div>
+      <div class="mb-4">
+        <%= f.label :password_confirmation, "* Heslo znovu", class: "form-label" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password",
+                             class: "form-control",
+                             disabled: true,
+                             data: { "forms-target" => "lockableField" } %>
+        <small><%= error_for(:password_confirmation, resource) %></small>
+      </div>
+      <div class="mb-4">
+        <%= f.label :current_confirmation, "* Súčasné heslo", class: "form-label" %>
+        <%= f.password_field :current_password, autocomplete: "current-password",
+                             class: "form-control",
+                             disabled: true,
+                             data: { "forms-target" => "lockableField" } %>
+        <small><%= error_for(:current_confirmation, resource) %></small>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <%= f.submit "Potvrdiť", class: "btn btn-success" %>
+    </div>
+  <% end %>
+
+  <section class="hide-toggler-wrapper" data-controller="forms">
+    <div class="form-check mt-4">
+      <%= check_box_tag :anonymize, "", false,
+                        data: { action: "change->forms#toggleHidden", "forms-target" => "hideToggler" },
+                        class: "form-check-input" %>
+      <%= label_tag :anonymize, "Chcem zmazať svoju registráciu", class: "form-check-label" %>
+    </div>
+
+    <%= form_with url: player_players_anonymize_path,
+                  class: "visually-hidden hide-toggleable" do %>
+
+      <p style="text-align: justify;">
+        Ak potvrdíš toto rozhodnutie, stratíš príslušnosť ku všetkým zápasom, ktoré si tu
+        odohral/a a ku všetkým bodom, ktoré si získal/a. Tento účet sa ti stane neprístupný.
+        Na potvrdenie tohto rozhodnutia je potrebné napísať svoju emailovú adresu do
+        políčka nižšie a stlačiť "Odísť".
+      </p>
+      <div class="mt-4" data-controller="players">
+        <%= email_field_tag :confirmation_email,
+                            nil,
+                            class: "form-control",
+                            placeholder: resource.email,
+                            data: {
+                              action: "keyup->players#confirmAnonymize",
+                              "confirmation-email" => resource.email,
+                              "players-target" => "anonymizeEmail"
+                            } %>
+        <div class="mt-4 text-center">
+          <%= submit_tag "Odísť", class: "btn btn-danger", disabled: true %>
+        </div>
+      </div>
+    <% end %>
+  </section>
+
+  <div class="mt-4 text-center">
     <% if manager_signed_in? %>
-      <%= link_to "Manažment", manager_root_path, class: "button button-red" %>
+      <%= link_to "Manažment", manager_root_path, class: "btn btn-warning" %>
     <% else %>
-      <%= link_to "Prihlásiť ako manažér", new_manager_session_path, class: "underline" %>
+      <%= link_to "Prihlásiť ako manažér", new_manager_session_path %>
     <% end %>
   </div>
-</section>
+
+  <%= render "player/shared/devise_footer" %>
+</div>

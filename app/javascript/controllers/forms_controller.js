@@ -22,9 +22,9 @@ export default class extends Controller {
         .querySelector(".hide-toggleable")
 
     if (this.hideTogglerTarget.checked) {
-      hideToggleable.classList.remove("hidden")
+      hideToggleable.classList.remove("visually-hidden")
     } else {
-      hideToggleable.classList.add("hidden")
+      hideToggleable.classList.add("visually-hidden")
     }
   }
 }

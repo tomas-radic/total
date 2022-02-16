@@ -54,6 +54,8 @@
         Vyhraté zápasy / všetky zápasy<br>
         <span class="u-fs-big <%= text_success_css(won_count, all_count) %>">
           <%= won_count %> / <%= all_count %>
+          <br>
+          <%= percentage(won_count, all_count) %>%
         </span>
       </p>
 
@@ -64,7 +66,7 @@
           <% if side == match.winner_side %>
             <p>
               <%= app_date(match.finished_at) %>
-              Výhra s
+              výhra s
               <%= match.side(other_side) %>
               <br>
               <span class="u-nav-green"><%= match.result(side: side) %></span>
@@ -75,7 +77,7 @@
           <% else %>
             <p>
               <%= app_date(match.finished_at) %>
-              Prehra s
+              prehra s
               <%= match.side(other_side) %>
               <br>
               <span class="u-red"><%= match.result(side: side) %></span>
