@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'pages/about'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
   root to: "today#index"
@@ -10,6 +11,7 @@ Rails.application.routes.draw do
 
   get "/today", to: "today#index", as: "today"
   get "/rankings", to: "rankings#index", as: "rankings"
+  get "/about", to: "pages#about", as: "about"
 
   resources :tournaments, only: [:index, :show]
   resources :matches, only: [:index, :show]

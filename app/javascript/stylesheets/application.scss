@@ -580,6 +580,36 @@ html {
   }
 }
 
+.about {
+  &__heading {
+    margin-top: 0.8rem;
+  }
+
+  &__brand {
+    display: table;
+    margin: -55px auto 1.6rem auto;
+    font-weight: 500;
+    line-height: 1.2;
+    box-shadow: 7px 5px 10px rgb(0 0 0 / 40%);
+    padding: 0.4rem 0.6rem;
+    background-color: $color-brand-bg;
+    color: $color-white;
+    font-size: 3rem;
+    border: 1px solid $color-base-green-bg;
+    transform: rotate(-5deg);
+
+    @media (min-width: $breakpoint-lg) {
+      font-size: 3.6rem;
+    }
+  }
+
+  &__text {
+    border: 1px solid $color-silver;
+    margin-top: 4rem;
+    padding: 0.7rem;
+  }
+}
+
 // UTILITY CLASSES
 
 .u-white {
@@ -660,4 +690,8 @@ html {
   @media (min-width: $breakpoint-lg) {
     font-size: 5.2rem;
   }
+}
+
+.u-text-justify {
+  text-align: justify;
 }
