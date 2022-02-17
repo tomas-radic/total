@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'pages/about'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
   root to: "today#index"
@@ -16,6 +15,7 @@ Rails.application.routes.draw do
   resources :tournaments, only: [:index, :show]
   resources :matches, only: [:index, :show]
   resources :players, only: [:show]
+  resources :articles, only: [:index, :show]
 
 
   namespace :player do
