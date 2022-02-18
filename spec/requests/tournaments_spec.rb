@@ -29,8 +29,8 @@ RSpec.describe "Tournaments", type: :request do
     context "With NOT published tournament" do
       let!(:tournament) { create(:tournament, published_at: nil) }
 
-      it "Raises error" do
-        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+      it "Redirects to root" do
+        expect(subject).to redirect_to(root_path)
       end
     end
   end
