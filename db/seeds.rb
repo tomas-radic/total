@@ -70,7 +70,7 @@ ActiveRecord::Base.transaction do
       email: "#{I18n.transliterate(name).downcase.gsub(/\s+/, '.')}@total.online",
       phone_nr: Faker::PhoneNumber.cell_phone,
       birth_year: Date.today.year - rand(20..60),
-      password: "hesielko"
+      password: "rogerf"
     )
 
     season.players << player
@@ -81,7 +81,7 @@ ActiveRecord::Base.transaction do
     email: "tomas.radic@gmail.com",
     phone_nr: "0905289248",
     birth_year: 1980,
-    password: "Wimbledon"
+    password: "rogerf"
   )
 
 
