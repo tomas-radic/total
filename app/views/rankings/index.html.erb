@@ -28,7 +28,7 @@
                   <%= ranking[:points] %>
                 <% end %>
                 <%= content_tag :td, class: color_class do %>
-                  <%= "#{(ranking[:percentage] / 100.0).round(2)}%" %>
+                  <%= "#{(ranking[:percentage] / 100.0).round(2)}%" if ranking[:nr_matches] > 0 %>
                 <% end %>
               </tr>
             <% end %>
