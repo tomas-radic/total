@@ -1,4 +1,7 @@
 class Player < ApplicationRecord
+
+  include StrippedAttributes
+
   # Include default devise modules. Others available are:
   # :confirmable, :recoverable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -18,6 +21,9 @@ class Player < ApplicationRecord
 
   # Scopes -----
   scope :sorted, -> { order(created_at: :desc) }
+
+
+  has_stripped :email, :name, :phone_nr
 
 
   def won_matches(season = nil)
