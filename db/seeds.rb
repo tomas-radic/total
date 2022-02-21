@@ -59,30 +59,45 @@ ActiveRecord::Base.transaction do
 
   puts "\nCreating players..."
   raise "Existing data" if Player.any?
-  [
-    "Michal Bihary", "Branislav Lištiak", "Michal Dovalovský", "Slavo Kutňanský", "Ivan Šlosár",
-    "Ľuboš Hollan", "Marek Bednárik", "Andrej Jančovič", "Jarik Šípoš", "Tomáš Dobek", "Ľuboš Barborík",
-    "Igor Malinka", "Braňo Milata", "Michal Kollár", "Juro Sulík", "Peter Klačanský", "Tomáš Korytár",
-    "Marek Kúdela", "Rasťo Kováč", "Lucia Machová"
-  ].each do |name|
+  players_data = [
+    { name: "Tomáš Radič", email: "tomas.radic@gmail.com", birth_year: 1980, phone_nr: "0905289248" },
+    { name: "Michal Bihary" },
+    { name: "Branislav Lištiak" },
+    { name: "Michal Dovalovský" },
+    { name: "Slavo Kutňanský" },
+    { name: "Ivan Šlosár" },
+    { name: "Ľuboš Hollan" },
+    { name: "Marek Bednárik" },
+    { name: "Jarik Šípoš" },
+    { name: "Tomáš Dobek" },
+    { name: "Ľuboš Barborík" },
+    { name: "Igor Malinka" },
+    { name: "Braňo Milata" },
+    { name: "Michal Kollár" },
+    { name: "Juro Sulík" },
+    { name: "Peter Klačanský" },
+    { name: "Tomáš Korytár" },
+    { name: "Marek Kúdela" },
+    { name: "Rasťo Kováč" },
+    { name: "Lucia Machová" },
+    { name: "Igor Vestenický" },
+    { name: "Ján Čangel" },
+    { name: "Ján Arpaš" },
+    { name: "Augusta Tobiášová" },
+    { name: "Marek Náhlik" },
+  ].shuffle
+
+  players_data.each do |pd|
     player = Player.create!(
-      name: name,
-      email: "#{I18n.transliterate(name).downcase.gsub(/\s+/, '.')}@total.online",
-      phone_nr: Faker::PhoneNumber.cell_phone,
-      birth_year: Date.today.year - rand(20..60),
+      name: pd[:name],
+      email: pd[:email] || "#{I18n.transliterate(pd[:name]).downcase.gsub(/\s+/, '.')}@total.online",
+      phone_nr: pd[:phone_nr] || Faker::PhoneNumber.cell_phone,
+      birth_year: pd[:birth_year] || Date.today.year - rand(20..60),
       password: "rogerf"
     )
 
     season.players << player
   end
-
-  season.players << Player.create!(
-    name: "Tomáš Radič",
-    email: "tomas.radic@gmail.com",
-    phone_nr: "0905289248",
-    birth_year: 1980,
-    password: "rogerf"
-  )
 
 
   puts "\nCreating matches..."
