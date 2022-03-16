@@ -140,6 +140,21 @@ class Match < ApplicationRecord
   end
 
 
+  def reset_result!
+    update!(
+      winner_side: nil,
+      reviewed_at: nil,
+      finished_at: nil,
+      set1_side1_score: nil,
+      set1_side2_score: nil,
+      set2_side1_score: nil,
+      set2_side2_score: nil,
+      set3_side1_score: nil,
+      set3_side2_score: nil
+    )
+  end
+
+
   def finish(attributes = {})
     if accepted_at.blank?
       self.errors.add(:status, "Zápas nie je akceptovaný súperom.")
@@ -157,14 +172,22 @@ class Match < ApplicationRecord
       return self
     end
 
+    score = attributes["score"].strip.split
+
+    if (score.length % 2) != 0
+      self.errors.add(:score, "Neplatný výsledok zápasu.")
+      return self
+    end
+
+    if finished_at.present? && finished_at < Rails.configuration.minutes_refinish_match.minutes.ago
+      self.errors.add(:finished_at, "Výsledok zápasu už bol zapísaný.")
+      return self
+    end
+
     ActiveRecord::Base.transaction do
-      score = attributes["score"].strip.split
-
-      if (score.length % 2) != 0
-        self.errors.add(:score, "Neplatný výsledok zápasu.")
-        return self
-      end
-
+      finish_time = finished_at
+      review_time = reviewed_at
+      reset_result!
       now = Time.now
       side = attributes["score_side"]
       set_nr = 0
@@ -219,8 +242,8 @@ class Match < ApplicationRecord
       self.play_date = attributes["play_date"]
       self.place_id = attributes["place_id"]
       self.notes = attributes["notes"]
-      self.finished_at = now
-      self.reviewed_at = now
+      self.finished_at = finish_time || now
+      self.reviewed_at = review_time || now
       save
     end
 

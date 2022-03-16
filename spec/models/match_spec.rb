@@ -478,6 +478,110 @@ RSpec.describe Match, type: :model do
           end
         end
 
+        context "With match finished less than 5 minutes ago" do
+          let(:finish_time) { 1.minute.ago }
+
+          before do
+            match.update_columns(
+              finished_at: finish_time,
+              reviewed_at: finish_time,
+              accepted_at: 1.hour.ago,
+              set1_side1_score: 3,
+              set1_side2_score: 6,
+              winner_side: 2
+            )
+          end
+
+          let(:attributes) do
+            {
+              "score" => "6 3",
+              "score_side" => 1,
+              "retired_player_id" => "",
+              "play_date" => play_date.to_s,
+              "place_id" => place.id,
+              "notes" => "New note."
+            }
+          end
+
+          it "Re-finishes the match" do
+            result = subject
+
+            result.reload
+            expect(result).to be_a(Match)
+            expect(result).to have_attributes(
+                                set1_side1_score: 6,
+                                set1_side2_score: 3,
+                                set2_side1_score: nil,
+                                set2_side2_score: nil,
+                                set3_side1_score: nil,
+                                set3_side2_score: nil,
+                                winner_side: 1,
+                                finished_at: finish_time,
+                                reviewed_at: finish_time,
+                                play_date: play_date,
+                                notes: "New note."
+                              )
+
+            expect(result.finished_at).not_to be_nil
+            expect(result.reviewed_at).not_to be_nil
+            expect(result.assignments.find { |a| a.is_retired? }).to be_nil
+          end
+        end
+
+        context "With match finished more than 5 minutes ago" do
+          let(:finish_time) { 10.minutes.ago }
+
+          before do
+            match.update_columns(
+              finished_at: finish_time,
+              reviewed_at: finish_time,
+              accepted_at: 1.hour.ago,
+              set1_side1_score: 3,
+              set1_side2_score: 6,
+              winner_side: 2,
+              play_date: play_date,
+              notes: notes
+            )
+          end
+
+          let(:attributes) do
+            {
+              "score" => "6 3",
+              "score_side" => 1,
+              "retired_player_id" => "",
+              "play_date" => play_date.to_s,
+              "place_id" => place.id,
+              "notes" => "New note."
+            }
+          end
+
+          it "Stores the error and does not re-finish the match" do
+            result = subject
+
+            result.reload
+            expect(result).to be_a(Match)
+            expect(result).to have_attributes(
+                                set1_side1_score: 3,
+                                set1_side2_score: 6,
+                                set2_side1_score: nil,
+                                set2_side2_score: nil,
+                                set3_side1_score: nil,
+                                set3_side2_score: nil,
+                                finished_at: finish_time,
+                                reviewed_at: finish_time,
+                                winner_side: 2,
+                                play_date: play_date,
+                                notes: notes
+                              )
+
+            expect(result.errors[:finished_at].first).to eq("Výsledok zápasu už bol zapísaný.")
+          end
+        end
+
+        context "With reviewed match" do
+          skip "Currently matches are 'auto-reviewed', make sure to deny re-finishing matches if this changes."
+        end
+
         context "With incorrect score attribute" do
           let(:attributes) do
             {

@@ -56,7 +56,9 @@ class MatchPolicy < ApplicationPolicy
 
 
   def finish?
-    update? && !record.rejected? && !record.reviewed?
+    # update? && !record.rejected? && !record.reviewed?
+    update? && !record.rejected? &&
+      (record.finished_at.blank? || record.finished_at >= Rails.configuration.minutes_refinish_match.minutes.ago)
   end
 
 

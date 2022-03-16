@@ -21,5 +21,7 @@ module Total
 
     config.action_view.form_with_generates_remote_forms = false
     config.i18n.default_locale = :sk
+
+    config.minutes_refinish_match = 5
   end
 end

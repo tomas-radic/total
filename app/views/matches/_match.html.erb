@@ -77,7 +77,7 @@
     <% if match.play_date.present? %>
       <div class="py-2 me-5">
         <div class="u-fs-dominant">Termín</div>
-        <div class="u-fs-big">
+        <div>
           <%= app_date(match.date) %>
           <%= match.play_time if match.play_time.present? %>
         </div>
@@ -87,7 +87,7 @@
     <% if match.place_id.present? %>
       <div class="py-2 me-5">
         <div class="u-fs-dominant">Miesto</div>
-        <div class="u-fs-big"><%= match.place.name %></div>
+        <div><%= match.place.name %></div>
       </div>
     <% end %>
 
