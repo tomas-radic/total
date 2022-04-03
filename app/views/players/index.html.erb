@@ -1,0 +1,36 @@
+<section class="registered-players base-green">
+  <div class="page__content">
+<!--    <h3 class="base-heading accent-color text-center py-5 u-fs-giant">TOtal • 2022</h3>-->
+    <h1 class="today__heading accent-color">Topoľčianska tenisová<br>amatérska liga.</h1>
+
+    <div class="today__brand mb-5">
+      <a href="#players_list" class="today__brand__link">TOtal.</a>
+    </div>
+
+    <div class="registered-players__description">
+      <p class="default-color u-fs-big">
+        Vitaj na novom webe topoľčianskej "kúpaliskovej" ligy TOtal! Práve prebieha registrácia
+        do sezóny 2022, tak neváhaj a
+        <%= link_to "registruj sa", new_player_registration_path, class: "default-color" %> aj ty!
+        Pri registrácii nezabudni uviesť svoje meno, tel. č. a email, aby sme ťa mohli kontaktovať keď bude
+        súťaž začínať. Nižšie na tejto stránke vidíš kto všetko sa už registroval a s kým teda budeš môcť hrať.
+      </p>
+
+      <p class="text-center my-5">
+        <%= link_to "Chcem sa pridať!", new_player_registration_path, class: "btn btn-large btn-warning" %>
+      </p>
+
+      <p class="default-color">
+        Tento web je prvú sezónu v pilotnej prevádzke a je stále vo vývoji, no keď súťaž začne
+        budeš tu môcť vyzývať nových súperov, vkladať sám/sama výsledky svojich zápasov, zverejniť svoj
+        záujem nájsť ďalšieho súpera na zápas a celkovo sledovať čo sa v tejto lige a topoľčianskom
+        tenise deje.
+      </p>
+    </div>
+
+    <%= turbo_stream_from "registered_players" %>
+    <div id="players_list">
+      <%= render partial: "players/list", locals: { players: @players } %>
+    </div>
+  </div>
+</section>

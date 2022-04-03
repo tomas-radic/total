@@ -1,5 +1,11 @@
 class PlayersController < ApplicationController
 
+  # Temporary action, turn off later.
+  def index
+    @players = Player.where(anonymized_at: nil, access_denied_since: nil).order(created_at: :desc)
+  end
+
+
   def show
     @player = Player.find params[:id]
 

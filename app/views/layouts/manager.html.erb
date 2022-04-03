@@ -15,10 +15,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
   </head>
 
-  <body>
+  <body class="page">
     <%= render "manager/shared/navbar" %>
     <%= render "shared/flash_message" %>
-    <%= yield %>
-    <%= render "shared/footer" %>
+    <div class="page__wrapper">
+      <div class="page__main"><%= yield %></div>
+      <div class="page__footer"><%= render "shared/footer" %></div>
+    </div>
   </body>
 </html>

@@ -6,7 +6,9 @@
   <div class="page-header__text default-color">
     <div><%= player.phone_nr %></div>
     <div><%= player.email %></div>
-    <div>Nar. <%= player.birth_year.presence || '-' %></div>
+    <% if player.birth_year.present? %>
+      <div>Nar. <%= player.birth_year %></div>
+    <% end %>
   </div>
 </section>
 

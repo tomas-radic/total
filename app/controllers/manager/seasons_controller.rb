@@ -1,8 +1,5 @@
 class Manager::SeasonsController < Manager::BaseController
 
-  before_action :load_season, only: [:edit, :update]
-
-
   def new
     @season = Season.new
   end
@@ -20,14 +17,12 @@ class Manager::SeasonsController < Manager::BaseController
 
 
   def edit
-    @season = Season.find params[:id]
+
   end
 
 
   def update
-    @season = Season.find params[:id]
-
-    if @season.update(whitelisted_params)
+    if @managed_season.update(whitelisted_params)
       redirect_to manager_pages_dashboard_path
     else
       render "manager/seasons/edit", status: :unprocessable_entity

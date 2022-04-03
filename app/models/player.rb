@@ -26,6 +26,9 @@ class Player < ApplicationRecord
   has_stripped :email, :name, :phone_nr
 
 
+  after_create_commit :update_players_list
+
+
   def won_matches(season = nil)
     if season.present?
       season.matches.reviewed.joins(:assignments)
@@ -80,6 +83,19 @@ class Player < ApplicationRecord
     end
 
     self
+  end
+
+
+  private
+
+  def update_players_list
+    broadcast_replace_to(
+      "registered_players",
+      partial: "players/list",
+      locals: {
+        players: Player.where(anonymized_at: nil, access_denied_since: nil).order(created_at: :desc)
+      },
+      target: "players_list")
   end
 
 end

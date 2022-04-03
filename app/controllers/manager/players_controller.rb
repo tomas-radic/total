@@ -1,6 +1,6 @@
 class Manager::PlayersController < Manager::BaseController
 
-  before_action :load_player, only: [:edit, :update, :deny_access, :grant_access]
+  before_action :load_player, only: [:edit, :update, :toggle_access]
 
 
   def edit
@@ -11,14 +11,13 @@ class Manager::PlayersController < Manager::BaseController
   end
 
 
-  def deny_access
-    @player.update(access_denied_since: Time.now)
-    redirect_back fallback_location: manager_pages_dashboard_path
-  end
+  def toggle_access
+    if @player.access_denied_since.nil?
+      @player.update(access_denied_since: Time.now)
+    else
+      @player.update(access_denied_since: nil)
+    end
 
-
-  def grant_access
-    @player.update(access_denied_since: nil)
     redirect_back fallback_location: manager_pages_dashboard_path
   end
 

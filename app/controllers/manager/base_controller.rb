@@ -14,6 +14,12 @@ class Manager::BaseController < ApplicationController
 
   def set_managed_season
     @managed_season = Season.sorted.where(ended_at: nil).first
+    @managed_season ||= Season.sorted.first
+  end
+
+
+  def pundit_user
+    current_manager
   end
 
 end

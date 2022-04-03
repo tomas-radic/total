@@ -1,0 +1,27 @@
+<p class="default-color u-fs-big">
+  Počet registrovaných hráčov •
+  <%= players.count %>
+</p>
+
+<% if players.first.present? %>
+  <table class="centered-table default-color">
+    <thead>
+    <tr class="centered-table__heading-row">
+      <th class="text-center">Meno</th>
+      <th class="text-center">Registrácia</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% players.each do |player| %>
+      <tr>
+        <td class="text-center">
+          <%= link_to player.name, player_path(player), class: "underline default-color" %>
+        </td>
+        <td class="text-center">
+          <%= app_date(player.created_at) %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>

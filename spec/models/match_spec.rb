@@ -478,7 +478,7 @@ RSpec.describe Match, type: :model do
           end
         end
 
-        context "With match finished less than 5 minutes ago" do
+        xcontext "With match finished less than 5 minutes ago" do
           let(:finish_time) { 1.minute.ago }
 
           before do
@@ -528,7 +528,7 @@ RSpec.describe Match, type: :model do
           end
         end
 
-        context "With match finished more than 5 minutes ago" do
+        xcontext "With match finished more than 5 minutes ago" do
           let(:finish_time) { 10.minutes.ago }
 
           before do
@@ -617,7 +617,7 @@ RSpec.describe Match, type: :model do
           end
         end
 
-        context "When season is ended" do
+        xcontext "When season is ended" do
           before do
             season.update_column(:ended_at, Time.now)
           end
@@ -657,7 +657,7 @@ RSpec.describe Match, type: :model do
         end
       end
 
-      context "With unaccepted match" do
+      xcontext "With unaccepted match" do
         let(:attributes) do
           {
             "score" => "6 4",

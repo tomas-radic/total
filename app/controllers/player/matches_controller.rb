@@ -84,7 +84,7 @@ class Player::MatchesController < Player::BaseController
 
 
   def finish
-    finished_match = @match.finish params.slice(
+    @match.finish params.slice(
       "score",
       "retired_player_id",
       "play_date",
@@ -92,10 +92,10 @@ class Player::MatchesController < Player::BaseController
       "notes"
     ).merge("score_side" => @match.assignments.find { |a| a.player_id == current_player.id }.side)
 
-    if finished_match.finished_at.present?
+    if @match.finished_at.present? && @match.errors.none?
       redirect_to match_path(@match)
     else
-      render :finish_init
+      render :finish_init, status: :unprocessable_entity
     end
   end
 

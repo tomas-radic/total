@@ -234,7 +234,9 @@ RSpec.describe "Player::Matches", type: :request do
 
     it_behaves_like "player_request"
 
-
+    let(:params) do
+      { score: "6 4" }
+    end
     let!(:season) { create(:season) }
     let!(:player) { create(:player, name: "Player", seasons: [season]) }
     let!(:match) { create(:match, :accepted, ranking_counted: true, competitable: season,
@@ -242,9 +244,7 @@ RSpec.describe "Player::Matches", type: :request do
                             build(:assignment, player: player, side: 1),
                             build(:assignment, player: create(:player, seasons: [season]), side: 2)
                           ]) }
-    let(:params) do
-      {}
-    end
+
 
     context "When player is logged in" do
 
@@ -252,30 +252,29 @@ RSpec.describe "Player::Matches", type: :request do
         sign_in player
       end
 
-      context "When call to 'finish' method returns finished match" do
+      context "With valid score" do
+        let(:params) do
+          { score: "6 4" }
+        end
 
-        it "Authorizes the match, calls match.finish and redirects to the match page" do
-          expect_any_instance_of(MatchPolicy).to(receive(:finish?).and_return(true))
-          expect_any_instance_of(Match).to(
-            receive(:finish).and_return(double("match", finished_at: Time.now)))
-
+        it "Finishes match and redirects to the match" do
           subject
 
+          expect(match.reload.finished_at).not_to be_nil
           expect(response).to redirect_to match_path(match)
         end
 
       end
 
-      context "When call to 'finish' method returns unfinished match" do
-        before do
-          expect_any_instance_of(Match).to(
-            receive(:finish).and_return(match))
+      context "With invalid score" do
+        let(:params) do
+          { score: "6" }
         end
 
-        it "Authorizes the match and renders finish_init" do
-          expect_any_instance_of(MatchPolicy).to(receive(:finish?).and_return(true))
+        it "Does not finish the match and renders finish_init" do
           subject
 
+          expect(match.reload.finished_at).to be_nil
           expect(response).to render_template(:finish_init)
         end
       end

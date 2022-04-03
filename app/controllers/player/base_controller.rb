@@ -13,4 +13,8 @@ class Player::BaseController < ApplicationController
     end
   end
 
+  def pundit_user
+    current_player
+  end
+
 end

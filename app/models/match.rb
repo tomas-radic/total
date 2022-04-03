@@ -140,38 +140,7 @@ class Match < ApplicationRecord
   end
 
 
-  def reset_result!
-    update!(
-      winner_side: nil,
-      reviewed_at: nil,
-      finished_at: nil,
-      set1_side1_score: nil,
-      set1_side2_score: nil,
-      set2_side1_score: nil,
-      set2_side2_score: nil,
-      set3_side1_score: nil,
-      set3_side2_score: nil
-    )
-  end
-
-
   def finish(attributes = {})
-    if accepted_at.blank?
-      self.errors.add(:status, "Zápas nie je akceptovaný súperom.")
-      return self
-    end
-
-    season = if competitable.is_a?(Season)
-               competitable
-             elsif competitable.is_a?(Tournament)
-               competitable.season
-             end
-
-    if season.ended_at.present?
-      self.errors.add(:season, "Sezóna je už skončená.")
-      return self
-    end
-
     score = attributes["score"].strip.split
 
     if (score.length % 2) != 0
@@ -179,15 +148,10 @@ class Match < ApplicationRecord
       return self
     end
 
-    if finished_at.present? && finished_at < Rails.configuration.minutes_refinish_match.minutes.ago
-      self.errors.add(:finished_at, "Výsledok zápasu už bol zapísaný.")
-      return self
-    end
-
     ActiveRecord::Base.transaction do
       finish_time = finished_at
       review_time = reviewed_at
-      reset_result!
+      unfinish!
       now = Time.now
       side = attributes["score_side"]
       set_nr = 0
@@ -248,6 +212,25 @@ class Match < ApplicationRecord
     end
 
     self
+  end
+
+
+  def unfinish!
+    ActiveRecord::Base.transaction do
+      update!(finished_at: nil,
+             reviewed_at: nil,
+             winner_side: nil,
+             set1_side1_score: nil,
+             set1_side2_score: nil,
+             set2_side1_score: nil,
+             set2_side2_score: nil,
+             set3_side1_score: nil,
+             set3_side2_score: nil)
+
+      assignments.each do |a|
+        a.update!(is_retired: false)
+      end
+    end
   end
 
 
