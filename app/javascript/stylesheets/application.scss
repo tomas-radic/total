@@ -57,6 +57,10 @@ p {
   margin-top: 0.7rem;
 }
 
+section:focus, section:focus-visible, div:focus, div:focus-visible {
+  outline: none;
+}
+
 
 // BASE STYLES ----------------
 
