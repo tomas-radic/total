@@ -15,12 +15,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
   </head>
 
-  <body class="page">
+  <body class="page" data-controller="application">
     <%= render "shared/navbar" %>
     <%= render "shared/flash_message" %>
     <div class="page__wrapper">
       <div class="page__main"><%= yield %></div>
       <div class="page__footer"><%= render "shared/footer" %></div>
     </div>
+    <span data-application-target="loadTime" hidden></span>
   </body>
 </html>
