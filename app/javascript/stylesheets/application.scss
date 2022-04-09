@@ -90,7 +90,7 @@ html {
 
   &__content {
     padding: 1rem;
-    min-height: 50vh;
+    min-height: calc(100vh - $navbar-height - $footer-min-height);
   }
 
   &__footer {
@@ -167,7 +167,6 @@ html {
 .base-green {
   background-color: $color-base-green-bg;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='115' height='115' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='100' y1='33' x2='100' y2='-3'%3E%3Cstop offset='0' stop-color='%23000' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='1'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' gradientUnits='userSpaceOnUse' x1='100' y1='135' x2='100' y2='97'%3E%3Cstop offset='0' stop-color='%23000' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='%23008154' fill-opacity='0.15'%3E%3Crect x='100' width='100' height='100'/%3E%3Crect y='100' width='100' height='100'/%3E%3C/g%3E%3Cg fill-opacity='0.15'%3E%3Cpolygon fill='url(%23a)' points='100 30 0 0 200 0'/%3E%3Cpolygon fill='url(%23b)' points='100 100 0 130 0 100 200 100 200 130'/%3E%3C/g%3E%3C/svg%3E");
-  min-height: calc(100vh - $navbar-height - $footer-min-height);
 
   .accent-color {
     color: $color-base-green-accent;
@@ -182,7 +181,6 @@ html {
   background-color: $color-base-yellow-bg;
   background-image: url("data:image/svg+xml,%3Csvg width='40' height='12' viewBox='0 0 40 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 6.172L6.172 0h5.656L0 11.828V6.172zm40 5.656L28.172 0h5.656L40 6.172v5.656zM6.172 12l12-12h3.656l12 12h-5.656L20 3.828 11.828 12H6.172zm12 0L20 10.172 21.828 12h-3.656z' fill='%23374251' fill-opacity='0.07' fill-rule='evenodd'/%3E%3C/svg%3E");
   background-attachment: fixed;
-  min-height: calc(100vh - $navbar-height - $footer-min-height);
 
   .accent-color {
     color: $color-base-yellow-accent;
@@ -197,7 +195,6 @@ html {
   background-color: $color-base-salmon-bg;
   background-image: url("data:image/svg+xml,%3Csvg width='40' height='12' viewBox='0 0 40 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 6.172L6.172 0h5.656L0 11.828V6.172zm40 5.656L28.172 0h5.656L40 6.172v5.656zM6.172 12l12-12h3.656l12 12h-5.656L20 3.828 11.828 12H6.172zm12 0L20 10.172 21.828 12h-3.656z' fill='%23374251' fill-opacity='0.07' fill-rule='evenodd'/%3E%3C/svg%3E");
   //background-attachment: fixed;
-  min-height: calc(100vh - $navbar-height - $footer-min-height);
 
   .accent-color {
     color: $color-white;
@@ -210,7 +207,6 @@ html {
 
 .base-red {
   background-color: $color-base-red-bg;
-  min-height: calc(100vh - $navbar-height - $footer-min-height);
 
   .accent-color {
     color: $color-base-red-accent;
@@ -378,7 +374,8 @@ html {
   }
 
   &__request-link {
-    display: block;
+    display: flex;
+    justify-content: space-between;
     font-size: 0.95rem;
     color: $color-white;
 
@@ -632,6 +629,35 @@ html {
       padding-right: 8rem;
       padding-top: 3rem;
       padding-bottom: 3rem;
+    }
+  }
+}
+
+.reactions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+
+  &__link {
+    text-decoration: none;
+  }
+
+  &__icon {
+    width: 1.5rem;
+  }
+  &__icon-tiny {
+    width: 0.8rem;
+
+    @media (min-width: $breakpoint-lg) {
+      width: 1rem;
     }
   }
 }

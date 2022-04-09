@@ -1,7 +1,7 @@
 class Player::MatchesController < Player::BaseController
 
-  before_action :load_and_authorize_record, except: [:create]
-  after_action :verify_authorized
+  before_action :load_and_authorize_record, except: [:create, :toggle_reaction]
+  after_action :verify_authorized, except: [:toggle_reaction]
 
 
   def create
@@ -97,6 +97,30 @@ class Player::MatchesController < Player::BaseController
     else
       render :finish_init, status: :unprocessable_entity
     end
+  end
+
+
+  def toggle_reaction
+    @match = Match.published.find(params[:id])
+    reaction = Reaction.find_by(reactionable: @match, player: current_player)
+
+    if reaction.present?
+      reaction.destroy!
+    else
+      Reaction.create!(reactionable: @match, player: current_player)
+    end
+
+    @match.reload
+
+    # redirect_back fallback_location: matches_path
+    render turbo_stream: [
+      turbo_stream.replace("match_#{@match.id}",
+                           partial: "shared/reactions",
+                           locals: { reactionable: @match }),
+      turbo_stream.replace("tiny_match_#{@match.id}",
+                           partial: "shared/reactions_tiny",
+                           locals: { reactionable: @match })
+    ]
   end
 
 

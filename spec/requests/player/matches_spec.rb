@@ -280,4 +280,40 @@ RSpec.describe "Player::Matches", type: :request do
       end
     end
   end
+
+
+  describe "POST /player/matches/:id/toggle_reaction" do
+    subject { post toggle_reaction_player_match_path(match) }
+
+    let!(:match) { create(:match) }
+
+    it_behaves_like "player_request"
+
+    context "When player is logged in" do
+
+      before do
+        sign_in player
+      end
+
+      context "When player does not have reaction for the match yet" do
+
+        it "Creates reaction" do
+          subject
+
+          expect(match.reload.reactions.find_by(player: player)).not_to be_nil
+        end
+      end
+
+      context "When player already has reaction for the match" do
+        before { create(:reaction, reactionable: match, player: player) }
+
+        it "Destroys reaction" do
+          subject
+
+          expect(match.reload.reactions.find_by(player: player)).to be_nil
+        end
+      end
+    end
+  end
+
 end

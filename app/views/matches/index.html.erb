@@ -35,6 +35,13 @@
               <% end %>
             </td>
           </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td class="text-center">
+              <%= render partial: "shared/reactions", locals: { reactionable: match } %>
+            </td>
+          </tr>
         <% end %>
         </tbody>
       </table>
@@ -80,6 +87,14 @@
                 <td><%= break_whitespace(match.side 2) %></td>
                 <td></td>
               <% end %>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-center">
+                <%= render partial: "shared/reactions", locals: { reactionable: match } %>
+              </td>
+              <td></td>
+              <td></td>
             </tr>
           <% end %>
           </tbody>

@@ -6,7 +6,7 @@ class MatchesController < ApplicationController
                                 .where(rejected_at: nil)
                                 .order("finished_at desc nulls first")
                                 .order("play_date asc nulls last, play_time asc nulls last")
-                                .includes(:place, assignments: :player)
+                                .includes(:place, :reactions, assignments: :player)
 
       if player_signed_in?
         @pending_matches = @matches.joins(:assignments)
@@ -16,7 +16,7 @@ class MatchesController < ApplicationController
                         finished_at: nil
                       })
                       .order("matches.requested_at desc")
-                      .includes(assignments: :player)
+                      .includes(:reactions, assignments: :player)
       end
     end
   end

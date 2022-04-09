@@ -77,7 +77,6 @@ class MatchPolicy < ApplicationPolicy
       false
     end
     # update? && !record.rejected? && !record.reviewed?
-
   end
 
 

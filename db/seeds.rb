@@ -108,7 +108,7 @@ ActiveRecord::Base.transaction do
     players = Player.all.sample(2)
     match_time = rand(2.weeks).seconds.ago.to_date
 
-    Match.create!(
+    match = Match.new(
       published_at: match_time,
       requested_at: match_time,
       accepted_at: match_time,
@@ -128,6 +128,13 @@ ActiveRecord::Base.transaction do
         Assignment.new(side: 2, player: players[1])
       ]
     )
+
+    players_reacted = Player.order("RANDOM()").limit(rand(0..5))
+    players_reacted.each do |p|
+      match.reactions << Reaction.new(player: p)
+    end
+
+    match.save!
   end
 
   # Accepted matches

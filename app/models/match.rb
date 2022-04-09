@@ -9,6 +9,7 @@ class Match < ApplicationRecord
   belongs_to :place, optional: true
   has_many :assignments, dependent: :destroy
   has_many :players, through: :assignments
+  has_many :reactions, as: :reactionable, dependent: :destroy
 
 
   # Validations -----

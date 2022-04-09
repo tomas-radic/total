@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_27_112439) do
+ActiveRecord::Schema.define(version: 2022_04_09_195741) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 2021_12_27_112439) do
     t.integer "set3_side2_score"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "reactions_count", default: 0, null: false
     t.index ["competitable_type", "competitable_id"], name: "index_matches_on_competitable"
     t.index ["place_id"], name: "index_matches_on_place_id"
   end
@@ -110,6 +111,16 @@ ActiveRecord::Schema.define(version: 2021_12_27_112439) do
     t.index ["name"], name: "index_players_on_name", unique: true
     t.index ["phone_nr"], name: "index_players_on_phone_nr", unique: true
     t.index ["reset_password_token"], name: "index_players_on_reset_password_token", unique: true
+  end
+
+  create_table "reactions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "player_id", null: false
+    t.string "reactionable_type", null: false
+    t.uuid "reactionable_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["player_id"], name: "index_reactions_on_player_id"
+    t.index ["reactionable_type", "reactionable_id"], name: "index_reactions_on_reactionable"
   end
 
   create_table "seasons", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -150,6 +161,7 @@ ActiveRecord::Schema.define(version: 2021_12_27_112439) do
   add_foreign_key "enrollments", "players"
   add_foreign_key "enrollments", "seasons"
   add_foreign_key "matches", "places"
+  add_foreign_key "reactions", "players"
   add_foreign_key "tournaments", "places"
   add_foreign_key "tournaments", "seasons"
 end

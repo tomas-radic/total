@@ -26,6 +26,7 @@ Rails.application.routes.draw do
       post :reject, on: :member
       get :finish_init, on: :member
       post :finish, on: :member
+      post :toggle_reaction, on: :member
     end
 
     post "players/toggle_open_to_play"
