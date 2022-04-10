@@ -134,6 +134,14 @@ ActiveRecord::Base.transaction do
       match.reactions << Reaction.new(player: p)
     end
 
+    players_commented = Player.order("RANDOM()").limit(rand(0..3))
+    players_commented.each do |p|
+      comment = Comment.new(commentable: match, player: p,
+                            content: Faker::Lorem.sentence(word_count: 16, random_words_to_add: 10),
+                            motive: match.comments[rand(0..match.comments.size)])
+      match.comments << comment
+    end
+
     match.save!
   end
 

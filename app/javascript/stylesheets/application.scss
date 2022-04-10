@@ -662,6 +662,13 @@ html {
   }
 }
 
+.comment {
+  border: 1px solid $color-silver;
+  border-radius: 2rem;
+  margin-top: 2rem;
+  padding: 1rem;
+}
+
 // UTILITY CLASSES
 
 .u-white {

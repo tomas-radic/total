@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_09_195741) do
+ActiveRecord::Schema.define(version: 2022_04_10_093544) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -25,6 +25,21 @@ ActiveRecord::Schema.define(version: 2022_04_09_195741) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["match_id"], name: "index_assignments_on_match_id"
     t.index ["player_id"], name: "index_assignments_on_player_id"
+  end
+
+  create_table "comments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "commentable_type", null: false
+    t.uuid "commentable_id", null: false
+    t.uuid "player_id", null: false
+    t.string "content", null: false
+    t.integer "position"
+    t.uuid "motive_id"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
+    t.index ["motive_id"], name: "index_comments_on_motive_id"
+    t.index ["player_id"], name: "index_comments_on_player_id"
   end
 
   create_table "enrollments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -77,6 +92,7 @@ ActiveRecord::Schema.define(version: 2022_04_09_195741) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "reactions_count", default: 0, null: false
+    t.integer "comments_count", default: 0, null: false
     t.index ["competitable_type", "competitable_id"], name: "index_matches_on_competitable"
     t.index ["place_id"], name: "index_matches_on_place_id"
   end
@@ -158,6 +174,7 @@ ActiveRecord::Schema.define(version: 2022_04_09_195741) do
 
   add_foreign_key "assignments", "matches"
   add_foreign_key "assignments", "players"
+  add_foreign_key "comments", "players"
   add_foreign_key "enrollments", "players"
   add_foreign_key "enrollments", "seasons"
   add_foreign_key "matches", "places"

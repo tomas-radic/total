@@ -27,6 +27,8 @@ Rails.application.routes.draw do
       get :finish_init, on: :member
       post :finish, on: :member
       post :toggle_reaction, on: :member
+
+      resources :comments, only: [:new, :create, :edit, :update, :destroy]
     end
 
     post "players/toggle_open_to_play"

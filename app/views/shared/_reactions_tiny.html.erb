@@ -1,23 +1,28 @@
+<% # icons from https://www.flaticon.com %>
+
 <div class="d-inline-block" id='<%= "tiny_#{reactionable.class.to_s.downcase}_#{reactionable.id}" %>'>
   <div class="reactions">
     <% if player_signed_in? %>
-      <% icon = reactionable.reactions.find { |r| r.player_id == current_player.id }.present? ? "liked.png" : "like.png" %>
-      <%= link_to toggle_reaction_player_match_path(reactionable), method: :post, class: "reactions__col reactions__link" do %>
-        <%= image_tag(icon, class: "reactions__icon-tiny") %>
-        <div><%= reactionable.reactions_count %></div>
-      <% end %>
-      <%= link_to "#", class: "reactions__col reactions__link" do %>
-        <%= image_tag("comment.png", class: "reactions__icon-tiny") %>
-        <div>0</div>
+      <% r_icon = reactionable.reactions.find { |r| r.player_id == current_player.id }.present? ? "liked.png" : "like.png" %>
+      <% c_icon = reactionable.comments.find { |c| c.player_id == current_player.id }.present? ? "commented.png" : "comment.png" %>
+      <div class="reactions__col">
+        <%= link_to toggle_reaction_player_match_path(reactionable), method: :post, class: "reactions__col reactions__link" do %>
+          <%= image_tag(r_icon, class: "reactions__icon-tiny") %>
+        <% end %>
+        <div class="u-white"><%= reactionable.reactions_count %></div>
+      </div>
+      <%= link_to match_path(reactionable, anchor: "comments"), class: "reactions__col reactions__link" do %>
+        <%= image_tag(c_icon, class: "reactions__icon-tiny") %>
+        <div class="u-white"><%= reactionable.comments_count %></div>
       <% end %>
     <% else %>
       <div class="reactions__col">
         <%= image_tag("like.png", class: "reactions__icon-tiny") %>
-        <div><%= reactionable.reactions_count %></div>
+        <div class="u-white"><%= reactionable.reactions_count %></div>
       </div>
-      <%= link_to "#", class: "reactions__col reactions__link" do %>
+      <%= link_to match_path(reactionable, anchor: "comments"), class: "reactions__col reactions__link" do %>
         <%= image_tag("comment.png", class: "reactions__icon-tiny") %>
-        <div>0</div>
+        <div class="u-white"><%= reactionable.comments_count %></div>
       <% end %>
     <% end %>
   </div>

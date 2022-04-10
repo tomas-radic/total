@@ -10,6 +10,7 @@ class Match < ApplicationRecord
   has_many :assignments, dependent: :destroy
   has_many :players, through: :assignments
   has_many :reactions, as: :reactionable, dependent: :destroy
+  has_many :comments, as: :commentable
 
 
   # Validations -----

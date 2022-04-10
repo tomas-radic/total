@@ -99,4 +99,43 @@
     <% end %>
   </div>
 
+  <hr>
+  <%= turbo_frame_tag "match_#{match.id}_comments" do %>
+    <div id="comments">
+      <p class="u-fs-dominant">Reakcie</p>
+        <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md">
+          <% if player_signed_in? %>
+            <%= form_with model: [:player, match, @comment] do |f| %>
+              <%= f.text_area :content, class: "form-control", placeholder: "Pridaj komentár ..." %>
+              <%= error_for(:content, @comment) %>
+              <div class="form-text">
+                Komentáre neslúžia na to, aby si niekoho dourážal/a :))
+              </div>
+              <div class="text-end">
+                <%= f.submit "Zverejniť", class: "btn btn-success" %>
+              </div>
+            <% end %>
+          <% else %>
+            <p>
+              <small>
+                Ak chceš pridať komentár, musíš sa
+                <%= link_to "prihlásiť", new_player_session_path, target: :_top %>
+                .
+              </small>
+            </p>
+          <% end %>
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+
+      <%= turbo_stream_from "Match_#{match.id}_comments" %>
+      <div id="Match_#<%= match.id %>_comments">
+        <% match.comments.order(created_at: :desc).includes(:player, :motive).each do |c| %>
+          <%= render partial: "player/comments/comment", locals: { comment: c } %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
 </div>

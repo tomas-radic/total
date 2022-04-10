@@ -34,6 +34,11 @@ module ApplicationHelper
   end
 
 
+  def app_time(datetime)
+    "#{app_date(datetime)} - #{datetime.hour}:#{datetime.min}"
+  end
+
+
   def text_success_css(success_count, total_count)
     half = total_count / 2.0
 
