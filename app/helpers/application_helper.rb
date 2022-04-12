@@ -35,7 +35,7 @@ module ApplicationHelper
 
 
   def app_time(datetime)
-    "#{app_date(datetime)} - #{datetime.hour}:#{datetime.min}"
+    "#{app_date(datetime)} - #{datetime.strftime("%k:%M")}"
   end
 
 

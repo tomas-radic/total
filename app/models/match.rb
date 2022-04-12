@@ -351,14 +351,6 @@ class Match < ApplicationRecord
     broadcast_update_to "matches",
                         target: "today_index_reload_notice",
                         partial: "today/matches_reload_notice"
-
-    assignments.each do |assignment|
-      Turbo::StreamsChannel.broadcast_update_to(
-        "match_#{id}_for_player_#{assignment.player.id}",
-        partial: "matches/match", locals: { match: self, current_player: assignment.player },
-        target: "match_#{id}"
-      )
-    end
   end
 
 end

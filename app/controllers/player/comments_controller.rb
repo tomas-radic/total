@@ -20,17 +20,26 @@ class Player::CommentsController < Player::BaseController
 
 
   def edit
-
+    @comment = current_player.comments.find(params[:id])
   end
 
 
   def update
+    @comment = current_player.comments.find(params[:id])
 
+    if @comment.update(whitelisted_params)
+      redirect_to match_path(@comment.commentable)
+    else
+      render "matches/show", status: :unprocessable_entity
+    end
   end
 
 
-  def destroy
+  def delete
+    @comment = current_player.comments.find(params[:id])
+    @comment.update!(deleted_at: Time.now)
 
+    redirect_to match_path(@comment.commentable)
   end
 
 

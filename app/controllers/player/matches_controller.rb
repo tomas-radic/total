@@ -36,6 +36,14 @@ class Player::MatchesController < Player::BaseController
 
   def update
     if @match.update(whitelisted_params)
+      @match.assignments.each do |assignment|
+        Turbo::StreamsChannel.broadcast_update_to(
+          "match_#{@match.id}_for_player_#{assignment.player.id}",
+          partial: "matches/match", locals: { match: @match, current_player: assignment.player },
+          target: "match_#{@match.id}"
+        )
+      end
+
       redirect_to match_path(@match)
     else
       render :edit, status: :unprocessable_entity
@@ -66,6 +74,14 @@ class Player::MatchesController < Player::BaseController
                                                 target: "players_open_to_play_top",
                                                 partial: "shared/players_open_to_play",
                                                 locals: { players: @players_open_to_play }
+
+      @match.assignments.each do |assignment|
+        Turbo::StreamsChannel.broadcast_update_to(
+          "match_#{@match.id}_for_player_#{assignment.player.id}",
+          partial: "matches/match", locals: { match: @match, current_player: assignment.player },
+          target: "match_#{@match.id}"
+        )
+      end
     end
 
     redirect_to match_path(@match)
@@ -74,6 +90,14 @@ class Player::MatchesController < Player::BaseController
 
   def reject
     @match.update(rejected_at: Time.now)
+    @match.assignments.each do |assignment|
+      Turbo::StreamsChannel.broadcast_update_to(
+        "match_#{@match.id}_for_player_#{assignment.player.id}",
+        partial: "matches/match", locals: { match: @match, current_player: assignment.player },
+        target: "match_#{@match.id}"
+      )
+    end
+
     redirect_to match_path(@match)
   end
 
@@ -93,6 +117,14 @@ class Player::MatchesController < Player::BaseController
     ).merge("score_side" => @match.assignments.find { |a| a.player_id == current_player.id }.side)
 
     if @match.finished_at.present? && @match.errors.none?
+      @match.assignments.each do |assignment|
+        Turbo::StreamsChannel.broadcast_update_to(
+          "match_#{@match.id}_for_player_#{assignment.player.id}",
+          partial: "matches/match", locals: { match: @match, current_player: assignment.player },
+          target: "match_#{@match.id}"
+        )
+      end
+
       redirect_to match_path(@match)
     else
       render :finish_init, status: :unprocessable_entity
@@ -114,10 +146,10 @@ class Player::MatchesController < Player::BaseController
 
     # redirect_back fallback_location: matches_path
     render turbo_stream: [
-      turbo_stream.replace("match_#{@match.id}",
+      turbo_stream.replace("match_#{@match.id}_reactions",
                            partial: "shared/reactions",
                            locals: { reactionable: @match }),
-      turbo_stream.replace("tiny_match_#{@match.id}",
+      turbo_stream.replace("tiny_match_#{@match.id}_tiny_reactions",
                            partial: "shared/reactions_tiny",
                            locals: { reactionable: @match })
     ]

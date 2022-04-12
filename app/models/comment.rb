@@ -12,14 +12,6 @@ class Comment < ApplicationRecord
 
   acts_as_list scope: :commentable
 
-  after_create_commit do
-    stream = "#{commentable_type}_#{commentable_id}_comments"
-    broadcast_append_to(
-      stream,
-      target: stream,
-      partial: "player/comments/comment", locals: { comment: self })
-  end
-
 
   private
 

@@ -1,36 +1,66 @@
-<div class="row">
-  <div class="col-md-2">
-  </div>
-  <div class="col-md">
-    <div class="comment" id="comment_<%= comment.id %>">
-      <div>
-        <span class="badge bg-danger"><%= comment.position %></span>
-      </div>
-      <div>
-        <%= app_time(comment.created_at) %>
-        <% if comment.deleted_at.blank? %>
-          <p>
-            <small>
-              <%= comment.player.name %>
-              <% if comment.motive_id.blank? %>
-                napísal<small>/a</small>:
-              <% else %>
-                <span class="text-danger">odpovedal/a na</span>
-                <a href="#comment_<%= comment.motive_id %>" data-turbo="false">
-                  <span class="badge bg-danger"><%= comment.motive.position %></span>
-                </a>
+<div class="comment" id="comment_<%= comment.id %>">
+  <div class="comment__header">
+    <div>
+      <span class="badge bg-danger"><%= comment.position %></span>
+      <%= app_time(comment.created_at) %>
+    </div>
+    <div>
+      <% if current_player.present? %>
+        <div class="comment__buttons">
+          <% if current_player == comment.player %>
+            <% if comment.deleted_at.blank? %>
+
+              <%= form_with url: delete_player_match_comment_path(comment.commentable, comment), class: "d-inline-block" do |f| %>
+                <%= image_submit_tag "delete.png", class: "comment__btn-icon", data: { confirm: "Chceš zmazať komentár?" } %>
               <% end %>
-            </small>
-          </p>
-          <p class="fst-italic">
-            <%= simple_format comment.content %>
-          </p>
-        <% else %>
-          <p class="fst-italic">(niekto zmazal svoj komentár)</p>
-        <% end %>
-      </div>
+              <%#= link_to delete_player_match_comment_path(comment.commentable, comment),
+                          class: "u-no-decoration",
+                          method: :post,
+                          data: { confirm: "Chceš zmazať komentár?" } do %>
+                <%#= image_tag("delete.png", class: "comment__btn-icon") %>
+              <%# end %>
+
+              <div>
+                <%= turbo_frame_tag "tf_edit_comment_#{comment.id}",
+                                    target: "tf_comment_#{comment.id}_content" do %>
+                  <%= link_to edit_player_match_comment_path(comment.commentable, comment),
+                              class: "u-no-decoration" do %>
+                    <%= image_tag("edit.png", class: "comment__btn-icon") %>
+                  <% end %>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+          <%= link_to "#", class: "u-no-decoration" do %>
+            <%= image_tag("reply.png", class: "comment__btn-icon") %>
+          <% end %>
+        </div>
+      <% end %>
     </div>
   </div>
-  <div class="col-md-2">
+  <div>
+
+    <% if comment.deleted_at.blank? %>
+      <p>
+        <small>
+          <%= comment.player.name %>
+          <% if comment.motive_id.blank? %>
+            napísal<small>/a</small>:
+          <% else %>
+            <span class="text-danger">odpovedal/a na</span>
+            <a href="#comment_<%= comment.motive_id %>" data-turbo="false">
+              <span class="badge bg-danger"><%= comment.motive.position %></span>
+            </a>
+          <% end %>
+        </small>
+      </p>
+      <%= turbo_frame_tag "tf_comment_#{comment.id}_content" do %>
+        <p class="fst-italic">
+          <%= simple_format comment.content %>
+        </p>
+      <% end %>
+    <% else %>
+      <p class="fst-italic">(zmazaný komentár)</p>
+    <% end %>
   </div>
 </div>

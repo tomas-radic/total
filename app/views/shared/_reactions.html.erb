@@ -1,8 +1,8 @@
 <% # icons from https://www.flaticon.com %>
 
-<div class="d-inline-block" id='<%= "#{reactionable.class.to_s.downcase}_#{reactionable.id}" %>'>
+<div class="d-inline-block" id='<%= "#{reactionable.class.to_s.downcase}_#{reactionable.id}_reactions" %>'>
   <div class="reactions">
-    <% if player_signed_in? %>
+    <% if current_player.present? %>
       <% r_icon = reactionable.reactions.find { |r| r.player_id == current_player.id }.present? ? "liked.png" : "like.png" %>
       <% c_icon = reactionable.comments.find { |c| c.player_id == current_player.id }.present? ? "commented.png" : "comment.png" %>
       <div class="reactions__col">

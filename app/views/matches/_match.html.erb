@@ -100,42 +100,41 @@
   </div>
 
   <hr>
-  <%= turbo_frame_tag "match_#{match.id}_comments" do %>
-    <div id="comments">
-      <p class="u-fs-dominant">Reakcie</p>
-        <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md">
-          <% if player_signed_in? %>
-            <%= form_with model: [:player, match, @comment] do |f| %>
-              <%= f.text_area :content, class: "form-control", placeholder: "Pridaj komentár ..." %>
-              <%= error_for(:content, @comment) %>
-              <div class="form-text">
-                Komentáre neslúžia na to, aby si niekoho dourážal/a :))
-              </div>
-              <div class="text-end">
-                <%= f.submit "Zverejniť", class: "btn btn-success" %>
-              </div>
-            <% end %>
-          <% else %>
-            <p>
-              <small>
-                Ak chceš pridať komentár, musíš sa
-                <%= link_to "prihlásiť", new_player_session_path, target: :_top %>
-                .
-              </small>
-            </p>
-          <% end %>
-        </div>
-        <div class="col-md-2"></div>
-      </div>
+  <%= turbo_frame_tag "tf_match_#{match.id}_comments" do %>
+    <p class="u-fs-dominant">Reakcie</p>
 
-      <%= turbo_stream_from "Match_#{match.id}_comments" %>
-      <div id="Match_#<%= match.id %>_comments">
-        <% match.comments.order(created_at: :desc).includes(:player, :motive).each do |c| %>
-          <%= render partial: "player/comments/comment", locals: { comment: c } %>
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md">
+        <div class="py-1">
+          <%= render partial: "shared/reactions", locals: { reactionable: match, current_player: current_player } %>
+        </div>
+        <% if current_player.present? %>
+          <%= render partial: "player/comments/form",
+                     locals: { match: match, comment: @comment || Comment.new, current_player: current_player } %>
+        <% else %>
+          <p>
+            <small>
+              Ak chceš reagovať aj ty, musíš sa
+              <%= link_to "prihlásiť", new_player_session_path, target: :_top %>
+              .
+            </small>
+          </p>
         <% end %>
       </div>
+      <div class="col-md-2"></div>
+    </div>
+
+    <div id="Match_#<%= match.id %>_comments">
+      <% match.comments.order(created_at: :desc).includes(:player, :motive).each do |c| %>
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md">
+            <%= render partial: "player/comments/comment", locals: { comment: c, current_player: current_player } %>
+          </div>
+          <div class="col-md-2"></div>
+        </div>
+      <% end %>
     </div>
   <% end %>
 </div>

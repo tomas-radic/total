@@ -667,6 +667,21 @@ html {
   border-radius: 2rem;
   margin-top: 2rem;
   padding: 1rem;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+
+  &__buttons {
+    display: flex;
+  }
+
+  &__btn-icon {
+    width: 1.5rem;
+    margin-right: 0.8rem;
+  }
 }
 
 // UTILITY CLASSES
@@ -753,4 +768,8 @@ html {
 
 .u-text-justify {
   text-align: justify;
+}
+
+.u-no-decoration {
+  text-decoration: none;
 }
