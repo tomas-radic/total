@@ -46,7 +46,7 @@ class Player::CommentsController < Player::BaseController
   private
 
   def whitelisted_params
-    params.require(:comment).permit(:content)
+    params.require(:comment).permit(:content, :motive_id)
   end
 
 end

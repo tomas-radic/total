@@ -13,12 +13,6 @@
               <%= form_with url: delete_player_match_comment_path(comment.commentable, comment), class: "d-inline-block" do |f| %>
                 <%= image_submit_tag "delete.png", class: "comment__btn-icon", data: { confirm: "Chceš zmazať komentár?" } %>
               <% end %>
-              <%#= link_to delete_player_match_comment_path(comment.commentable, comment),
-                          class: "u-no-decoration",
-                          method: :post,
-                          data: { confirm: "Chceš zmazať komentár?" } do %>
-                <%#= image_tag("delete.png", class: "comment__btn-icon") %>
-              <%# end %>
 
               <div>
                 <%= turbo_frame_tag "tf_edit_comment_#{comment.id}",
@@ -31,7 +25,13 @@
               </div>
             <% end %>
           <% end %>
-          <%= link_to "#", class: "u-no-decoration" do %>
+          <%= content_tag :span,
+                      class: "u-no-decoration",
+                      data: {
+                        "action" => "click->comments#setReply",
+                        "comment-id" => comment.id,
+                        "comment-position" => comment.position
+                      } do %>
             <%= image_tag("reply.png", class: "comment__btn-icon") %>
           <% end %>
         </div>

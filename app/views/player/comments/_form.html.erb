@@ -1,4 +1,15 @@
 <%= form_with model: [:player, match, comment] do |f| %>
+  <div id="reply-control" class="d-none mb-1" data-comments-target="replyControl">
+    <small>
+      <span class="text-danger">Odpovedáš na</span>
+      <span class="badge bg-danger" id="motive-position"></span>
+      <span class="d-block text-decoration-underline" role="button" data-action="click->comments#cancelReply">
+        zrušiť odpoveď
+      </span>
+
+    </small>
+    <%= f.hidden_field :motive_id %>
+  </div>
   <%= f.text_area :content, class: "form-control", placeholder: "Pridaj komentár ..." %>
   <%= error_for(:content, comment) %>
   <div class="form-text">
