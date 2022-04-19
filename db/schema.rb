@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_10_093544) do
+ActiveRecord::Schema.define(version: 2022_04_19_080121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 2022_04_10_093544) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "reactions_count", default: 0, null: false
     t.integer "comments_count", default: 0, null: false
+    t.datetime "comments_disabled_since"
     t.index ["competitable_type", "competitable_id"], name: "index_matches_on_competitable"
     t.index ["place_id"], name: "index_matches_on_place_id"
   end
@@ -123,6 +124,7 @@ ActiveRecord::Schema.define(version: 2022_04_10_093544) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "open_to_play_since"
+    t.datetime "comments_disabled_since"
     t.index ["email"], name: "index_players_on_email", unique: true
     t.index ["name"], name: "index_players_on_name", unique: true
     t.index ["phone_nr"], name: "index_players_on_phone_nr", unique: true
@@ -168,6 +170,7 @@ ActiveRecord::Schema.define(version: 2022_04_10_093544) do
     t.uuid "place_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "comments_disabled_since"
     t.index ["place_id"], name: "index_tournaments_on_place_id"
     t.index ["season_id"], name: "index_tournaments_on_season_id"
   end

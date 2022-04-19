@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :season do
-    name { Date.today.year.to_s }
+    name { SecureRandom.hex }
 
     points_single_20 { 1 }
     points_single_21 { 1 }
