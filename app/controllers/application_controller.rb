@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
 
   include Pundit
 
-  rescue_from(ActiveRecord::RecordNotFound) { redirect_to root_path }
+  rescue_from(ActiveRecord::RecordNotFound) { redirect_to not_found_path }
   rescue_from(Pundit::NotAuthorizedError) { redirect_to root_path }
 
 

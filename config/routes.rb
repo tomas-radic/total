@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get "/today", to: "today#index", as: "today"
   get "/rankings", to: "rankings#index", as: "rankings"
   get "/about", to: "pages#about", as: "about"
+  get "/not_found", to: "pages#not_found", as: "not_found"
 
   resources :tournaments, only: [:index, :show]
   resources :matches, only: [:index, :show]
