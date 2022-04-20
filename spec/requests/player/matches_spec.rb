@@ -31,6 +31,16 @@ RSpec.describe "Player::Matches", type: :request do
         expect { subject }.to change { Match.count }.by(1)
         expect(response).to redirect_to(player_path(requested_player))
       end
+
+      context "When current player is marked as cant_play_since" do
+        before { player.update_column(:cant_play_since, 2.days.ago) }
+
+        it "Unsets cant_play_since attribute" do
+          subject
+
+          expect(player.reload.cant_play_since).to be_nil
+        end
+      end
     end
   end
 

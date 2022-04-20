@@ -16,6 +16,8 @@ class Player < ApplicationRecord
   has_many :comments, dependent: :destroy
 
   # Validations -----
+  validates :cant_play_since, absence: true, if: -> { open_to_play_since.present? }
+  validates :open_to_play_since, absence: true, if: -> { cant_play_since.present? }
   validates :phone_nr, uniqueness: true
   validates :name,
             presence: true, uniqueness: true

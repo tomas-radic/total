@@ -31,6 +31,7 @@
     <% end %>
   </div>
 
+  <hr>
 
   <% if selected_season.present? %>
     <% unless selected_season.enrollments.active.where(player: player).exists? %>
@@ -47,9 +48,14 @@
     <% end %>
   <% end %>
 
+  <% if player.open_to_play_since.present? %>
+    <p class="text-center text-danger">Hráč<small>/ka</small> práve hľadá súpera na zápas.</p>
+  <% elsif player.cant_play_since.present? %>
+    <p class="text-center text-danger">Hráč<small>/ka</small> momentálne nemôže hrať (odcestovanie/zranenie).</p>
+  <% end %>
+
   <% if selected_season && @all_matches.any? %>
-    <hr>
-    <div class="text-center">
+    <div class="text-center mt-4">
       <% won_count = @won_matches.size %>
       <% all_count = @all_matches.size %>
       <p>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_19_080121) do
+ActiveRecord::Schema.define(version: 2022_04_20_154151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -125,6 +125,7 @@ ActiveRecord::Schema.define(version: 2022_04_19_080121) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "open_to_play_since"
     t.datetime "comments_disabled_since"
+    t.datetime "cant_play_since"
     t.index ["email"], name: "index_players_on_email", unique: true
     t.index ["name"], name: "index_players_on_name", unique: true
     t.index ["phone_nr"], name: "index_players_on_phone_nr", unique: true

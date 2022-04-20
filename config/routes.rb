@@ -34,6 +34,7 @@ Rails.application.routes.draw do
     end
 
     post "players/toggle_open_to_play"
+    post "players/toggle_cant_play"
     post "players/anonymize"
   end
 

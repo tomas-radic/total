@@ -37,10 +37,11 @@
                 <li>
                   <%= link_to "Profil", edit_player_registration_path, class: "dropdown-item" %>
                 </li>
-                <li>
-                  <div class="dropdown-item">
-                    <%= turbo_frame_tag "toggle_open_to_play" do %>
-                      <div id="toggle_open_to_play">
+                <%= turbo_frame_tag "player_status" do %>
+                  <li>
+                    <div class="dropdown-item">
+                      <div>
+<!--                      <div id="toggle_open_to_play">-->
                         <%= form_with url: player_players_toggle_open_to_play_path do %>
                           <div class="form-check">
                             <%= check_box_tag :open_to_play_since,
@@ -53,9 +54,27 @@
                           </div>
                         <% end %>
                       </div>
-                    <% end %>
-                  </div>
-                </li>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="dropdown-item">
+                      <div>
+<!--                      <div id="toggle_open_to_play">-->
+                        <%= form_with url: player_players_toggle_cant_play_path do %>
+                          <div class="form-check">
+                            <%= check_box_tag :cant_play_since,
+                                              "1",
+                                              current_player.cant_play_since.present?,
+                                              class: "form-check-input",
+                                              onclick: 'this.closest("form").requestSubmit()' %>
+
+                            <%= label_tag :cant_play_since, "Nemôžem hrať" %>
+                          </div>
+                        <% end %>
+                      </div>
+                    </div>
+                  </li>
+                <% end %>
                 <li><hr class="dropdown-divider"></li>
                 <li>
                   <%= link_to "Odhlásiť sa", destroy_player_session_path, method: :delete, class: "dropdown-item" %>
