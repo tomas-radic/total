@@ -1,3 +1,9 @@
-<p class="text-center my-5 py-5">
-  Táto stránka ešte nie je pripravená.
-</p>
+<% if selected_season.present? && @articles.first.present? %>
+  <div class="tiles">
+    <% @articles.each do |article| %>
+      <%= render "articles/tile", article: article %>
+    <% end %>
+  </div>
+<% else %>
+  <p class="my-5 py-5 text-center">Nie je tu nič na čítanie.</p>
+<% end %>

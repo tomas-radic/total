@@ -79,7 +79,7 @@ RSpec.describe "Player::Comments", type: :request do
         it "Does not create comment and redirects" do
           subject
 
-          expect(response).to redirect_to(root_path)
+          expect(response).to redirect_to(not_found_path)
           expect(player.reload.comments.count).to be(0)
         end
       end
@@ -136,7 +136,7 @@ RSpec.describe "Player::Comments", type: :request do
           it "Redirects to root" do
             subject
 
-            expect(response).to redirect_to(root_path)
+            expect(response).to redirect_to(not_found_path)
           end
         end
       end
@@ -145,7 +145,7 @@ RSpec.describe "Player::Comments", type: :request do
         it "Redirects to root" do
           subject
 
-          expect(response).to redirect_to(root_path)
+          expect(response).to redirect_to(not_found_path)
         end
       end
     end
@@ -202,7 +202,7 @@ RSpec.describe "Player::Comments", type: :request do
             it "Redirects to root" do
               subject
 
-              expect(response).to redirect_to(root_path)
+              expect(response).to redirect_to(not_found_path)
             end
           end
         end
@@ -223,7 +223,7 @@ RSpec.describe "Player::Comments", type: :request do
         it "Redirects to root" do
           subject
 
-          expect(response).to redirect_to(root_path)
+          expect(response).to redirect_to(not_found_path)
         end
       end
     end
@@ -281,7 +281,7 @@ RSpec.describe "Player::Comments", type: :request do
           it "Redirects to root" do
             subject
 
-            expect(response).to redirect_to(root_path)
+            expect(response).to redirect_to(not_found_path)
           end
         end
       end
@@ -290,7 +290,7 @@ RSpec.describe "Player::Comments", type: :request do
         it "Redirects to root" do
           subject
 
-          expect(response).to redirect_to(root_path)
+          expect(response).to redirect_to(not_found_path)
         end
       end
     end

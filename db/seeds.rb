@@ -211,17 +211,28 @@ ActiveRecord::Base.transaction do
       Assignment.new(side: 2, player: player2)
     ]
   )
-end
 
 
-puts "\nCreating managers..."
-raise "Existing data" if Manager.any?
-[
-  "tomas.radic@gmail.com"
-].each do |email|
-  Manager.create!(
-    email: email,
-    password: "hesielko"
+  puts "\nCreating managers..."
+  raise "Existing data" if Manager.any?
+  [
+    "tomas.radic@gmail.com"
+  ].each do |email|
+    Manager.create!(
+      email: email,
+      password: "hesielko"
+    )
+  end
+
+
+  puts "\nCreating articles..."
+  raise "Existing data" if Article.any?
+  Article.create!(
+    title: "Welcome",
+    content: Faker::Lorem.paragraph(sentence_count: 10, supplemental: true, random_sentences_to_add: 6),
+    manager: Manager.all.sample,
+    season: season,
+    published_at: Time.now
   )
 end
 

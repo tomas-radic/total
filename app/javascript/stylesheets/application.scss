@@ -460,21 +460,11 @@ html {
   min-height: 100vh;
 }
 
-.tournaments {
-  &__heading {
-    font-size: 2rem;
-
-    @media (min-width: $breakpoint-lg) {
-      font-size: 2.8rem;
-    }
-  }
-
-  &__tiles {
-    @media (min-width: $breakpoint-md) {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: stretch;
-    }
+.tiles {
+  @media (min-width: $breakpoint-md) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
   }
 
   &__tile {
@@ -497,18 +487,10 @@ html {
     cursor: pointer;
   }
 
-  &__name {
+  &__heading {
     text-decoration: none;
     font-size: 2.7rem;
     font-weight: 900;
-  }
-
-  &__date {
-    text-decoration: none;
-  }
-
-  &__enter {
-
   }
 }
 

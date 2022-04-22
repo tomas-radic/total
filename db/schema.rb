@@ -10,11 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_20_154151) do
+ActiveRecord::Schema.define(version: 2022_04_22_111512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "articles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title", null: false
+    t.text "content", null: false
+    t.string "link"
+    t.date "promote_until"
+    t.uuid "manager_id", null: false
+    t.uuid "season_id", null: false
+    t.integer "color_base", null: false
+    t.datetime "published_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["manager_id"], name: "index_articles_on_manager_id"
+    t.index ["season_id"], name: "index_articles_on_season_id"
+  end
 
   create_table "assignments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "player_id", null: false
@@ -176,6 +191,8 @@ ActiveRecord::Schema.define(version: 2022_04_20_154151) do
     t.index ["season_id"], name: "index_tournaments_on_season_id"
   end
 
+  add_foreign_key "articles", "managers"
+  add_foreign_key "articles", "seasons"
   add_foreign_key "assignments", "matches"
   add_foreign_key "assignments", "players"
   add_foreign_key "comments", "players"

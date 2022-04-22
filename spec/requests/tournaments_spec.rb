@@ -30,7 +30,7 @@ RSpec.describe "Tournaments", type: :request do
       let!(:tournament) { create(:tournament, published_at: nil) }
 
       it "Redirects to root" do
-        expect(subject).to redirect_to(root_path)
+        expect(subject).to redirect_to(not_found_path)
       end
     end
   end

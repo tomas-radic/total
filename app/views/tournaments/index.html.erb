@@ -1,12 +1,9 @@
-<% if selected_season.present? && @tournaments.any? %>
-  <div class="tournaments">
-    <div class="tournaments__tiles">
-      <% @tournaments.each do |tournament| %>
-        <%= render "tournaments/tournament", tournament: tournament %>
-      <% end %>
-    </div>
+<% if selected_season.present? && @tournaments.first.present? %>
+  <div class="tiles">
+    <% @tournaments.each do |tournament| %>
+      <%= render "tournaments/tile", tournament: tournament %>
+    <% end %>
   </div>
-
 <% else %>
   <p class="my-5 py-5 text-center">Nie sú vypísané zatiaľ žiadne turnaje.</p>
 <% end %>

@@ -1,15 +1,15 @@
-<%= link_to tournament_path(tournament), class: "tournaments__link" do %>
-  <%= content_tag :div, class: "tournaments__tile #{tournament.color_base_css}" do %>
-    <p class="accent-color tournaments__name"><%= tournament.name %></p>
+<%= link_to tournament_path(tournament), class: "tiles__link" do %>
+  <%= content_tag :div, class: "tiles__tile #{tournament.color_base_css}" do %>
+    <p class="accent-color tiles__heading"><%= tournament.name %></p>
     <div>
-      <p class="default-color tournaments__date">
+      <p class="default-color">
         <%= app_date tournament.begin_date %>
         <% if tournament.end_date > tournament.begin_date %>
           -
           <%= app_date tournament.end_date %>
         <% end %>
       </p>
-      <p class="tournaments__enter">
+      <p>
         <%= link_to "Vstúpiť", tournament_path(tournament), class: "btn btn-success" %>
       </p>
     </div>

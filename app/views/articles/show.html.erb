@@ -1,2 +1,28 @@
-<h1>Articles#show</h1>
-<p>Find me in app/views/articles/show.html.erb</p>
+<section class="page-header <%= @article.color_base_css %>">
+  <div></div>
+  <div class="page-header__heading accent-color">
+    <h2>
+      <%= @article.title %>
+    </h2>
+  </div>
+  <p class="page-header__text default-color">
+    <%= app_date @article.created_at %>
+  </p>
+</section>
+
+<div class="page__content">
+  <div class="page-controls">
+    <div class="page-controls__breadcrumbs">
+      <%= link_to "Domov", root_path, target: :_top %>
+      /
+      <%= link_to "Novinky", articles_path, target: :_top %>
+    </div>
+  </div>
+
+  <p class="text-secondary fst-italic">
+    Autor - <%= @article.manager.email %>
+  </p>
+  <p>
+    <%= simple_format(@article.content) %>
+  </p>
+</div>

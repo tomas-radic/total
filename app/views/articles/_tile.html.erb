@@ -1,0 +1,13 @@
+<%= link_to article_path(article), class: "tiles__link" do %>
+  <%= content_tag :div, class: "tiles__tile #{article.color_base_css}" do %>
+    <p class="accent-color tiles__heading"><%= article.title %></p>
+    <div>
+      <p class="default-color">
+        <%= app_date article.published_at %>
+      </p>
+      <p>
+        <%= link_to "Prečítať", article_path(article), class: "btn btn-success" %>
+      </p>
+    </div>
+  <% end %>
+<% end %>
