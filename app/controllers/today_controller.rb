@@ -3,16 +3,14 @@ class TodayController < ApplicationController
   def index
     if selected_season.present?
       season_matches = selected_season.matches.published
-      last_days = 7.days.ago
 
       @requested_matches = season_matches.ranking_counted.requested
                                          .where(finished_at: nil)
-                                         .where("requested_at >= ?", last_days)
                                          .order(requested_at: :desc)
                                          .includes(:reactions, :comments, assignments: :player)
 
       @rejected_matches = season_matches.ranking_counted.rejected
-                                        .where("rejected_at >= ?", last_days)
+                                        .where("rejected_at >= ?", 48.hours.ago)
                                         .includes(:reactions, :comments, assignments: :player)
 
       begins_in_days = Date.today + 12.days
@@ -22,7 +20,7 @@ class TodayController < ApplicationController
                                                     begins_in_days, begins_in_days, ended_before_days)
 
       @recent_matches = season_matches.reviewed.ranking_counted
-                                      .where("finished_at >= ?", last_days)
+                                      .where("finished_at >= ?", 7.days.ago)
                                       .order(finished_at: :desc)
                                       .includes(:reactions, :comments, assignments: :player)
 

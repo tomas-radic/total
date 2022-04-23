@@ -260,6 +260,12 @@ html {
     }
   }
 
+  &__large {
+    @media (min-width: $breakpoint-md) {
+      font-size: 2rem;
+    }
+  }
+
   &__bordered {
     border-top: 6px solid $color-white;
   }

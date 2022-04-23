@@ -92,12 +92,12 @@
           <tbody>
           <% @recent_matches.each do |match| %>
             <tr class="text-center">
-              <td><%= break_whitespace(match.winner) %></td>
+              <td class="centered-table__large"><%= break_whitespace(match.winner) %></td>
               <td class="centered-table__increased centered-table__bordered">
                 <%= link_to break_whitespace(match.result(side: match.winner_side).gsub(", ", " ")), match_path(match),
                             class: "default-color" %>
               </td>
-              <td><%= break_whitespace(match.looser) %></td>
+              <td class="centered-table__large"><%= break_whitespace(match.looser) %></td>
               <td><%= app_date(match.date) %></td>
             </tr>
             <tr>
@@ -145,10 +145,10 @@
           </thead>
           <tbody>
           <% @planned_matches.each do |match| %>
-            <tr>
-              <td class="text-center"><%= break_whitespace(match.side 1) %></td>
-              <td class="text-center"><%= break_whitespace(match.side 2) %></td>
-              <td class="centered-table__bordered text-center">
+            <tr class="text-center">
+              <td class="centered-table__large"><%= break_whitespace(match.side 1) %></td>
+              <td class="centered-table__large"><%= break_whitespace(match.side 2) %></td>
+              <td class="centered-table__bordered">
                 <% if match.date.present? %>
                   <%= link_to match_path(match), class: "default-color" do %>
                     <%= app_date(match.date) %>
@@ -167,7 +167,7 @@
             <tr>
               <td></td>
               <td></td>
-              <td class="text-center">
+              <td>
                 <%= render partial: "shared/reactions", locals: { reactionable: match } %>
               </td>
             </tr>
