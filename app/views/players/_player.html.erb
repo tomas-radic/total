@@ -75,7 +75,7 @@
             <p>
               <%= app_date(match.finished_at) %>
               výhra s
-              <%= match.side(other_side) %>
+              <%= match_player_link(match, side: other_side) %>
               <br>
               <span class="u-nav-green"><%= match.result(side: side) %></span>
               <% if match.retired? %>
@@ -86,7 +86,7 @@
             <p>
               <%= app_date(match.finished_at) %>
               prehra s
-              <%= match.side(other_side) %>
+              <%= match_player_link(match, side: other_side) %>
               <br>
               <span class="u-red"><%= match.result(side: side) %></span>
               <% if match.retired? %>

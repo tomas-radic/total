@@ -23,10 +23,10 @@
             <!-- Requested matches -->
             <% if @requested_matches.any? || @rejected_matches.any? %>
               <div class="unconfirmed-matches">
-                <h3 class="accent-color">Nepotvrdené výzvy</h3>
+                <h3 class="caption-l3 accent-color text-center text-md-start">Nepotvrdené výzvy</h3>
                 <% @requested_matches.each do |match| %>
                   <div class="today__request-link">
-                    <%= link_to "#{match.side 1} - #{match.side 2}",
+                    <%= link_to "#{match.side_name 1} - #{match.side_name 2}",
                                 match_path(match),
                                 class: "default-color #{'u-red-bg' if policy(match).accept? || policy(match).destroy?}" %>
                     <%= render partial: "shared/reactions_tiny", locals: { reactionable: match } %>
@@ -37,7 +37,7 @@
                 <div class="mt-3">
                   <% @rejected_matches.each do |match| %>
                     <div class="today__request-link">
-                      <%= link_to "#{match.side 2} odmietol/la - #{match.side 1}",
+                      <%= link_to "#{match.side_name 2} odmietol/la - #{match.side_name 1}",
                                   match_path(match),
                                   class: "u-silver" %>
                       <%= render partial: "shared/reactions_tiny", locals: { reactionable: match } %>
@@ -59,15 +59,30 @@
       <% end %>
     </div>
 
-    <!-- Upcoming tournaments -->
-    <% if selected_season.present? && @upcoming_tournaments.any? %>
-      <div class="today__tournaments">
-        <h3 class="accent-color today__tournaments__heading">Turnaje teraz</h3>
-        <div class="today__tournaments__tiles">
-          <% @upcoming_tournaments.each do |tournament| %>
-            <%= render partial: "today/tournament", locals: { tournament: tournament } %>
-          <% end %>
-        </div>
+    <!-- Tournaments / News -->
+    <% if selected_season.present? && (@upcoming_tournaments.first || @actual_articles.first) %>
+      <h3 class="caption-l3 accent-color text-center text-md-start mt-3">Turnaje / Novinky</h3>
+      <div class="tiles">
+        <% @upcoming_tournaments.each do |tournament| %>
+          <%= render partial: "today/tile",
+                     locals: {
+                       link_path: tournament_path(tournament),
+                       heading: tournament.name,
+                       bottom_text: tournament.date,
+                       color_base: tournament.color_base_css
+                     } %>
+        <% end %>
+
+        <% @actual_articles.each do |article| %>
+          <%= render partial: "today/tile",
+                     locals: {
+                       link_path: article_path(article),
+                       heading: article.title,
+                       bottom_text: app_date(article.published_at),
+                       color_base: article.color_base_css
+                     } %>
+        <% end %>
+
       </div>
     <% end %>
   </div>
@@ -92,12 +107,12 @@
           <tbody>
           <% @recent_matches.each do |match| %>
             <tr class="text-center">
-              <td class="centered-table__large"><%= break_whitespace(match.winner) %></td>
+              <td class="centered-table__large"><%= match_winner_link(match, break_whitespace: true, options: { class: "u-no-decoration" }) %></td>
               <td class="centered-table__increased centered-table__bordered">
                 <%= link_to break_whitespace(match.result(side: match.winner_side).gsub(", ", " ")), match_path(match),
                             class: "default-color" %>
               </td>
-              <td class="centered-table__large"><%= break_whitespace(match.looser) %></td>
+              <td class="centered-table__large"><%= match_looser_link(match, break_whitespace: true, options: { class: "u-no-decoration" }) %></td>
               <td><%= app_date(match.date) %></td>
             </tr>
             <tr>
@@ -146,8 +161,8 @@
           <tbody>
           <% @planned_matches.each do |match| %>
             <tr class="text-center">
-              <td class="centered-table__large"><%= break_whitespace(match.side 1) %></td>
-              <td class="centered-table__large"><%= break_whitespace(match.side 2) %></td>
+              <td class="centered-table__large"><%= match_player_link(match, side: 1, break_whitespace: true, options: { class: "u-no-decoration" }) %></td>
+              <td class="centered-table__large"><%= match_player_link(match, side: 2, break_whitespace: true, options: { class: "u-no-decoration" }) %></td>
               <td class="centered-table__bordered">
                 <% if match.date.present? %>
                   <%= link_to match_path(match), class: "default-color" do %>
@@ -167,7 +182,7 @@
             <tr>
               <td></td>
               <td></td>
-              <td>
+              <td class="text-center">
                 <%= render partial: "shared/reactions", locals: { reactionable: match } %>
               </td>
             </tr>

@@ -17,8 +17,8 @@
         <tbody>
         <% @pending_matches.each do |match| %>
           <tr class="text-center">
-            <td class="centered-table__large"><%= break_whitespace(match.side 1) %></td>
-            <td class="centered-table__large"><%= break_whitespace(match.side 2) %></td>
+            <td class="centered-table__large"><%= match_player_link(match, side: 1, options: { class: "u-no-decoration" }, break_whitespace: true) %></td>
+            <td class="centered-table__large"><%= match_player_link(match, side: 2, options: { class: "u-no-decoration" }, break_whitespace: true) %></td>
             <td>
               <% if match.date.present? %>
                 <%= link_to match_path(match), class: "default-color" do %>
@@ -60,15 +60,15 @@
           <% @matches.each do |match| %>
             <tr class="text-center">
               <% if match.reviewed? %>
-                <td class="centered-table__large"><%= break_whitespace(match.winner) %></td>
+                <td class="centered-table__large"><%= match_winner_link(match, break_whitespace: true, options: { class: "u-no-decoration" }) %></td>
                 <td class="centered-table__increased centered-table__bordered">
                   <%= link_to break_whitespace(match.result(side: match.winner_side).gsub(", ", " ")), match_path(match),
                               class: "default-color" %>
                 </td>
-                <td class="centered-table__large"><%= break_whitespace(match.looser) %></td>
+                <td class="centered-table__large"><%= match_looser_link(match, break_whitespace: true, options: { class: "u-no-decoration" }) %></td>
                 <td><%= app_date(match.date) if match.date %></td>
               <% else %>
-                <td class="centered-table__large"><%= break_whitespace(match.side 1) %></td>
+                <td class="centered-table__large"><%= match_player_link(match, side: 1, break_whitespace: true, options: { class: "u-no-decoration" }) %></td>
                 <td class="centered-table__bordered">
                   <% if match.date.present? %>
                     <%= link_to match_path(match), class: "default-color" do %>
@@ -84,7 +84,7 @@
                     <%= link_to "(plánuje sa)", match_path(match), class: "default-color" %>
                   <% end %>
                 </td>
-                <td class="centered-table__large"><%= break_whitespace(match.side 2) %></td>
+                <td class="centered-table__large"><%= match_player_link(match, side: 2, break_whitespace: true, options: { class: "u-no-decoration" }) %></td>
                 <td></td>
               <% end %>
             </tr>

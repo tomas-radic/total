@@ -18,6 +18,9 @@ class TodayController < ApplicationController
       @upcoming_tournaments = selected_season.tournaments.published
                                              .where("(begin_date < ? or end_date < ?) and (end_date >= ?)",
                                                     begins_in_days, begins_in_days, ended_before_days)
+      @actual_articles = selected_season.articles.published
+                                        .where("(promote_until is not null and promote_until >= ?) or (created_at > ?)",
+                                               Date.today, 4.days.ago)
 
       @recent_matches = season_matches.reviewed.ranking_counted
                                       .where("finished_at >= ?", 7.days.ago)

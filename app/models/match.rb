@@ -69,7 +69,7 @@ class Match < ApplicationRecord
   end
 
 
-  def winner
+  def winner_name
     return nil unless reviewed?
 
     assignments.select do |a|
@@ -78,7 +78,7 @@ class Match < ApplicationRecord
   end
 
 
-  def looser
+  def looser_name
     return nil unless reviewed?
 
     assignments.select do |a|
@@ -105,7 +105,7 @@ class Match < ApplicationRecord
   end
 
 
-  def side(side)
+  def side_name(side)
     assignments.select do |a|
       a.side == side
     end.map { |a| a.player.name }.join(", ")

@@ -20,4 +20,19 @@ class Tournament < ApplicationRecord
   scope :published, -> { where.not(published_at: nil) }
   scope :sorted, -> { order(begin_date: :desc, updated_at: :desc) }
 
+
+  def date
+    result = ""
+
+    if begin_date.present?
+      result = ApplicationController.helpers.app_date begin_date
+
+      if end_date.present? && end_date > begin_date
+        result += " - #{ApplicationController.helpers.app_date end_date}"
+      end
+    end
+
+    result
+  end
+
 end
