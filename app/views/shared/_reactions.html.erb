@@ -9,15 +9,16 @@
         <%= link_to toggle_reaction_player_match_path(reactionable), method: :post, class: "reactions__col reactions__link" do %>
           <%= image_tag(r_icon, class: "reactions__icon") %>
         <% end %>
-        <% if reactionable.reactions_count > 0 %>
-          <div data-controller="reactions" data-reactions-target="reactionsCount" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover focus click" title="<%= reactionable.reacted_player_names(max_count: 5) %>">
-            <%= reactionable.reactions_count %>
-          </div>
-        <% else %>
+        <%# if reactionable.reactions_count > 0 %>
+<!--          <div data-controller="reactions" data-reactions-target="reactionsCount" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover focus click" title="<%#= reactionable.reacted_player_names(max_count: 5) %>">-->
+<!--          <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover focus click" title="<%#= reactionable.reacted_player_names(max_count: 5) %>">-->
+            <%#= reactionable.reactions_count %>
+<!--          </div>-->
+        <%# else %>
           <div>
             <%= reactionable.reactions_count %>
           </div>
-        <% end %>
+        <%# end %>
       </div>
       <%= link_to match_path(reactionable, anchor: "comments"), class: "reactions__col reactions__link" do %>
         <%= image_tag(c_icon, class: "reactions__icon") %>
@@ -26,7 +27,16 @@
     <% else %>
       <div class="reactions__col">
         <%= image_tag("like.png", class: "reactions__icon") %>
-        <div><%= reactionable.reactions_count %></div>
+        <%# if reactionable.reactions_count > 0 %>
+<!--          <div data-controller="reactions" data-reactions-target="reactionsCount" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover focus click" title="<%#= reactionable.reacted_player_names(max_count: 5) %>">-->
+<!--          <div data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover focus click" title="<%#= reactionable.reacted_player_names(max_count: 5) %>">-->
+            <%#= reactionable.reactions_count %>
+<!--          </div>-->
+        <%# else %>
+          <div>
+            <%= reactionable.reactions_count %>
+          </div>
+        <%# end %>
       </div>
       <%= link_to match_path(reactionable, anchor: "comments"), class: "reactions__col reactions__link" do %>
         <%= image_tag("comment.png", class: "reactions__icon") %>
