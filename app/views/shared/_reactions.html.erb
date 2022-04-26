@@ -10,7 +10,7 @@
           <%= image_tag(r_icon, class: "reactions__icon") %>
         <% end %>
         <% if reactionable.reactions_count > 0 %>
-          <div data-controller="reactions" data-reactions-target="reactionsCount" data-bs-toggle="tooltip" data-bs-placement="bottom" title="<%= reactionable.reacted_player_names(max_count: 5) %>">
+          <div data-controller="reactions" data-reactions-target="reactionsCount" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover focus click" title="<%= reactionable.reacted_player_names(max_count: 5) %>">
             <%= reactionable.reactions_count %>
           </div>
         <% else %>
