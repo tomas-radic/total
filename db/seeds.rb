@@ -90,7 +90,7 @@ ActiveRecord::Base.transaction do
   players_data.each do |pd|
     player = Player.create!(
       name: pd[:name],
-      email: pd[:email] || "#{I18n.transliterate(pd[:name]).downcase.gsub(/\s+/, '.')}@total.online",
+      email: pd[:email] || "#{I18n.transliterate(pd[:name]).downcase.gsub(/\s+/, '.')}@total.pink",
       phone_nr: pd[:phone_nr] || Faker::PhoneNumber.cell_phone,
       birth_year: pd[:birth_year] || Date.today.year - rand(20..60),
       password: "rogerf"
