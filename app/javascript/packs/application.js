@@ -18,3 +18,5 @@ Rails.start()
 ActiveStorage.start()
 
 import "controllers"
+
+window.bootstrap = require('bootstrap');
