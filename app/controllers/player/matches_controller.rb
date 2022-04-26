@@ -145,15 +145,23 @@ class Player::MatchesController < Player::BaseController
 
     @match.reload
 
-    # redirect_back fallback_location: matches_path
-    render turbo_stream: [
-      turbo_stream.replace("match_#{@match.id}_reactions",
-                           partial: "shared/reactions",
-                           locals: { reactionable: @match }),
-      turbo_stream.replace("tiny_match_#{@match.id}_tiny_reactions",
-                           partial: "shared/reactions_tiny",
-                           locals: { reactionable: @match })
-    ]
+    Turbo::StreamsChannel.broadcast_replace_to "matches",
+                                               target: "match_#{@match.id}_reactions",
+                                               partial: "shared/reactions",
+                                               locals: { reactionable: @match, current_player: current_player }
+    Turbo::StreamsChannel.broadcast_replace_to "matches",
+                                               target: "tiny_match_#{@match.id}_tiny_reactions",
+                                               partial: "shared/reactions_tiny",
+                                               locals: { reactionable: @match, current_player: current_player }
+
+    # render turbo_stream: [
+    #   turbo_stream.replace("match_#{@match.id}_reactions",
+    #                        partial: "shared/reactions",
+    #                        locals: { reactionable: @match }),
+    #   turbo_stream.replace("tiny_match_#{@match.id}_tiny_reactions",
+    #                        partial: "shared/reactions_tiny",
+    #                        locals: { reactionable: @match })
+    # ]
   end
 
 

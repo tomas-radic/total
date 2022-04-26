@@ -105,6 +105,9 @@
           <div class="py-1">
             <%= render partial: "shared/reactions", locals: { reactionable: match, current_player: current_player } %>
           </div>
+          <% if match.reactions_count > 0 %>
+            <p class="fst-italic"><small>Pozitívne reakcie od: <%= match.reacted_player_names %></small></p>
+          <% end %>
           <% if current_player.present? %>
             <%= render partial: "player/comments/form",
                        locals: { match: match, comment: @comment || Comment.new, current_player: current_player } %>

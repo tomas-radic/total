@@ -9,6 +9,8 @@ export default class extends Controller {
     this.loadTimeTarget.textContent = Math.floor(Date.now() / 1000)
 
     window.addEventListener("focus", this.autoreload);
+
+    this.initTooltips()
   }
 
 
@@ -19,5 +21,14 @@ export default class extends Controller {
     if ((now - loadTime) > 28800) {
       location.reload()
     }
+  }
+
+
+  initTooltips() {
+    window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.js');
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
   }
 }
