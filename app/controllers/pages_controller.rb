@@ -7,4 +7,8 @@ class PagesController < ApplicationController
   def not_found
   end
 
+
+  def help
+  end
+
 end

@@ -1,0 +1,110 @@
+<div class="about page__content">
+  <h2 class="about__heading u-fs-giant text-center">Funkcie</h2>
+
+  <section class="about__text">
+    <div class="about__brand">TOtal.</div>
+
+    <p class="u-text-justify">
+      Každý hráč, ktorý má vytvorenú registráciu na tomto webe môže požiadať manažéra súťaže o zaradenie do aktuálnej sezóny. Hráči zaradení do sezóny môžu potom na týchto stránkach využívať nasledujúce funkcie.
+    </p>
+
+    <p class="u-fs-big">
+      Výzva
+    </p>
+    <ul>
+      <li>1. V menu <%= link_to "Rebríček", rankings_path %> nájdeš hráčov zapísaných do sezóny.</li>
+      <li>2. Klikneš na hráča.</li>
+      <li>3. Klikneš na "Vyzvať hráča" a potvrdíš.</li>
+      <li>4. Výzva je viditeľná v hornej časti <%= link_to "hlavnej stránky", today_path %>.</li>
+      <li>5. Kým na ňu súper nereagoval, dá sa zmazať - klikeš na výzvu a "Zmazať".</li>
+    </ul>
+    <p class="u-fs-big">
+      Prijatie výzvy
+    </p>
+    <ul>
+      <li>1. Výzva je viditeľná v hornej časti <%= link_to "hlavnej stránky", today_path %>.</li>
+      <li>2. Vyzvaný hráč klikne na výzvu.</li>
+      <li>3. Klikne na "Prijať".</li>
+      <li>4. Prípadne ju môže odmietnuť - klik na "Odmietnuť".</li>
+    </ul>
+    <p class="u-fs-big">
+      Zverejnenie termínu a miesta zápasu
+    </p>
+    <ul>
+      <li>1. Obaja hráči zápasu môžu zmeniť údaje o zápase ak je výzva prijatá súperom.</li>
+      <li>2. V menu <%= link_to "Zápasy", matches_path %>, alebo aj na <%= link_to "hlavnej stránke", today_path %> - klikneš na zápas.</li>
+      <li>3. Klikneš na "Upraviť".</li>
+      <li>4. Zmeníš údaje a klikneš "Potvrdiť".</li>
+    </ul>
+    <p class="u-fs-big">
+      Zápis výsledku
+    </p>
+    <ul>
+      <li>1. Obaja hráči zápasu môžu zapísať výsledok ak je výzva prijatá súperom.</li>
+      <li>2. V menu <%= link_to "Zápasy", matches_path %>, alebo aj na <%= link_to "hlavnej stránke", today_path %> - klikneš na zápas.</li>
+      <li>3. Klikneš na "Výsledok".</li>
+      <li>
+        4. Výsledok zadáš zo svojho pohľadu ako po sebe idúce čísla oddelené medzerou, napr.
+        <code class="text-nowrap">3 6 5 7</code>
+      </li>
+      <li>5. Klikneš na "Potvrdiť".</li>
+      <li>6. Ak si sa pomýlil, výsledok sa dá rovnakým postupom opraviť po dobu najbližších pár minút po zapísaní.</li>
+    </ul>
+    <p class="u-fs-big">
+      Hľadanie niekoho na zápas
+    </p>
+    <ul>
+      <li>1. V menu klikni na svoje meno (musíš byť prihlásený<small>/á</small>).</li>
+      <li>2. Zaškrtni checkbox "Hľadám súpera".</li>
+      <li>3. Táto informácia sa zverejnila na hlavnej stránke.</li>
+      <li>4. Rovnakým spôsobom ju vypneš a tiež sa vypne sama keď niekto akceptuje tvoju výzvu, alebo akceptuješ ty výzvu iného hráča.</li>
+      <li>5. Potom si ju môžeš nastaviť znova.</li>
+    </ul>
+    <p class="u-fs-big">
+      Zverejnenie že nemôžeš hrať
+    </p>
+    <ul>
+      <li>1. Ak si odcestovaný<small>/á</small>, zranený<small>/á</small> zablokuj možnosť vyzvať ťa.</li>
+      <li>2. V menu klikni na svoje meno (musíš byť prihlásený<small>/á</small>).</li>
+      <li>3. Zaškrtni checkbox "Nemôžem hrať".</li>
+      <li>4. Od tejto chvíle nie si prístupný na výzvy.</li>
+      <li>5. Táto funkcia sa sama deaktivuje ak neskôr zaklikneš ze hľadáš súpera.</li>
+    </ul>
+    <p class="u-fs-big">
+      Reakcie
+    </p>
+    <ul>
+      <li>
+        1. Všade kde vidíš ikony pre like
+        <%= image_tag("like.png", class: "reactions__icon") %>
+        a comment
+        <%= image_tag("comment.png", class: "reactions__icon") %>
+        môžeš pridať reakcie.</li>
+      <li>2. Svoje commenty môžeš neskôr
+        <%= image_tag("edit.png", class: "reactions__icon") %>
+        upraviť alebo
+        <%= image_tag("delete.png", class: "reactions__icon") %>
+        zmazať.
+      </li>
+      <li>3. Ak sa nedá pridať comment, možno je komentovanie vypnuté, spýtaj sa manažéra, alebo to nejak predýchaj.</li>
+    </ul>
+    <p class="u-fs-big">
+      Turnaje a novinky
+    </p>
+    <ul>
+      <li>
+        1. V menu
+        <%= link_to "Turnaje", tournaments_path %>
+        sú všetky turnaje aj s informáciami, ktoré by ťa mohli zaujímať. Tie aktuálne uvidíš aj na
+        <%= link_to "hlavnej stránke", today_path %>
+        takže ti žiadny neujde. Rovnako sú tu aj články s rôznymi informáciami pre hráčov, všetky články nájdeš v menu
+        <%= link_to "Články", articles_path %>.
+      </li>
+    </ul>
+    <p class="mt-4">
+      Tento web je dobrovoľne vyvíjaný po večeroch a voľných chvíľach, funkcie budú sa časom dolaďovať. Verím, že ti
+      dobre poslúži pre tvoje tenisovo-ligové nadšenie. Akékoľvek pripomienky adresuj na autora webu, kontakty sú
+      na spodu každej stránky. Veľa šťastia na zápasoch a turnajoch.
+    </p>
+  </section>
+</div>
