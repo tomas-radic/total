@@ -281,6 +281,7 @@ html {
 
 .today {
   //min-height: calc(100vh - $navbar-height);
+  min-height: calc(100vh - $navbar-height);
 
   &__heading {
     font-size: 2.6rem;
@@ -336,7 +337,7 @@ html {
   }
 
   &__facade {
-    min-height: calc(100vh - $navbar-height);
+    //min-height: calc(100vh - $navbar-height);
   }
 
   &__main {
