@@ -24,9 +24,13 @@ class Player::MatchesController < Player::BaseController
     )
 
     authorize @match
-    @match.save
     current_player.update(cant_play_since: nil)
-    redirect_to player_path(@requested_player)
+
+    if @match.save
+      redirect_to match_path(@match)
+    else
+      redirect_to player_path(@requested_player)
+    end
   end
 
 

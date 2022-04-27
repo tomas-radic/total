@@ -29,7 +29,7 @@ RSpec.describe "Player::Matches", type: :request do
       it "Creates new match, authorizes it and redirects" do
         expect_any_instance_of(MatchPolicy).to(receive(:create?).and_return(true))
         expect { subject }.to change { Match.count }.by(1)
-        expect(response).to redirect_to(player_path(requested_player))
+        expect(response).to redirect_to(match_path(Match.order(:created_at).last))
       end
 
       context "When current player is marked as cant_play_since" do
