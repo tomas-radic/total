@@ -3,13 +3,23 @@
   <div class="page-header__heading accent-color">
     <h2><%= player.name %></h2>
   </div>
+
   <div class="page-header__text default-color">
-    <div><%= player.phone_nr %></div>
-    <div><%= player.email %></div>
-    <% if player.birth_year.present? %>
-      <div>Nar. <%= player.birth_year %></div>
+
+
+
+
+    <!-- TODO: Use Pundit player_policy - view_player_details -->
+    
+    <% if current_manager || (current_player && selected_season && selected_season.enrollments.active.find { |e| e.player_id == current_player.id }) %>
+      <div><%= player.phone_nr %></div>
+      <div><%= player.email %></div>
+      <% if player.birth_year.present? %>
+        <div>Nar. <%= player.birth_year %></div>
+      <% end %>
     <% end %>
   </div>
+
 </section>
 
 
