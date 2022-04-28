@@ -8,8 +8,15 @@
     <div class="today__facade">
       <h1 class="today__heading accent-color">Topoľčianska tenisová<br>amatérska liga.</h1>
       <div class="today__brand">
-        <a href="#recent-matches" class="today__brand__link">TOtal.</a>
+        <a href="#recent-matches" class="today__brand__link mb-5">TOtal.</a>
       </div>
+
+      <% if current_player.nil? %>
+        <div class="text-center mt-5">
+          <%= link_to "Registrácia", new_player_registration_path, class: "btn btn-warning" %>
+          <%= link_to "Mám registráciu", new_player_session_path, class: "btn btn-success" %>
+        </div>
+      <% end %>
 
       <% if selected_season.present? %>
         <div class="today__main">
