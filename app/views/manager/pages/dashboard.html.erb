@@ -1,6 +1,6 @@
 <%#= turbo_stream_from "dashboard_player" %>
 
-Reloaded at <%= Time.now.to_s %>
+Reloaded at <%= Time.now.in_time_zone.to_s %>
 <% if @managed_season.present? %>
 
   <% if @managed_season.ended_at.blank? %>
