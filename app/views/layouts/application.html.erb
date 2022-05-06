@@ -17,9 +17,20 @@
 
   <body class="page" data-controller="application">
     <%= render "shared/navbar" %>
+    <% if current_player.present? && latest_open_season.present? && !latest_open_season.players.include?(current_player) %>
+    <div class="top-notice">
+      Máš registráciu, ale nie si prihlásený<small>/á</small> do súčasnej sezóny.
+      Kontaktuj - <%= link_to 'Ľuboš Hollan', 'tel:0908129978', class: "u-white" %>
+      alebo
+      <%= link_to 'Tomáš Radič', 'tel:0905289248', class: "u-white" %>.
+    </div>
+
+  <% end %>
     <%= render "shared/flash_message" %>
     <div class="page__wrapper">
-      <div class="page__main"><%= yield %></div>
+      <div class="page__main">
+        <%= yield %>
+      </div>
       <div class="page__footer"><%= render "shared/footer" %></div>
     </div>
     <span data-application-target="loadTime" hidden></span>
