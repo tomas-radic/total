@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_22_111512) do
+ActiveRecord::Schema.define(version: 2022_05_08_154940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -187,6 +187,8 @@ ActiveRecord::Schema.define(version: 2022_04_22_111512) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "comments_disabled_since"
+    t.string "draw_url"
+    t.string "schedule_url"
     t.index ["place_id"], name: "index_tournaments_on_place_id"
     t.index ["season_id"], name: "index_tournaments_on_season_id"
   end

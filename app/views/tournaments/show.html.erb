@@ -23,8 +23,8 @@
     </div>
 
     <div class="page-controls__buttons">
-      <%= link_to "Pavúk", "#", class: "btn btn-success" %>
-      <%= link_to "Rozvrh", "#", class: "btn btn-success" %>
+      <%= link_to "Pavúk", @tournament.draw_url.presence || "#", target: "_blank", class: "btn btn-success #{'disabled' if @tournament.draw_url.blank?}" %>
+      <%= link_to "Rozvrh", @tournament.schedule_url.presence || "#", target: "_blank", class: "btn btn-success #{'disabled' if @tournament.schedule_url.blank?}" %>
     </div>
   </div>
 
