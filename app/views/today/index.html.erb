@@ -101,7 +101,7 @@
     <div class="page__content">
       <h3 class="base-heading accent-color">Čo sa najnovšie odohralo?</h3>
 
-      <% if @recent_matches.any? %>
+      <% if @recent_matches.first %>
         <table class="centered-table">
           <thead>
           <tr class="text-center centered-table__heading-row">
@@ -133,16 +133,15 @@
           <% end %>
           </tbody>
         </table>
-
-        <p class="text-center my-4">
-          <%= link_to "Všetky zápasy", matches_path, class: "default-color" %>
-        </p>
       <% else %>
         <p class="py-8 text-center default-color">Žiadne zápasy sa v poslednej dobe nehrali.</p>
         <p class="py-2 text-center">
           <%= link_to "Zavolaj niekoho hrať!", rankings_path, class: "btn btn-success btn-lg" %>
         </p>
       <% end %>
+      <p class="text-center my-4">
+        <%= link_to "Všetky zápasy", matches_path, class: "default-color" %>
+      </p>
       <div class="today-navigation">
         <div><%= link_to "Hore", today_path, class: "default-color" %></div>
         <div><a href="#planned-matches" class="default-color">Zápasy na pláne</a></div>
@@ -156,7 +155,7 @@
     <div class="page__content">
       <h3 class="text-end base-heading accent-color">Zápasy, ktoré uvidíme.</h3>
 
-      <% if @planned_matches.any? %>
+      <% if @planned_matches.first %>
         <table class="centered-table">
           <thead>
           <tr class="centered-table__heading-row">
@@ -196,17 +195,16 @@
           <% end %>
           </tbody>
         </table>
-
-        <p class="text-center my-4">
-          <%= link_to "Všetky zápasy", matches_path, class: "default-color" %>
-        </p>
-
       <% else %>
         <p class="py-8 text-center">Nikto neplánuje hrať zápas.</p>
         <p class="py-2 text-center">
           <%= link_to "Vyzvi niekoho!", rankings_path, class: "btn btn-success btn-lg" %>
         </p>
       <% end %>
+
+      <p class="text-center my-4">
+        <%= link_to "Všetky zápasy", matches_path, class: "default-color" %>
+      </p>
 
       <div id="players_open_to_play" class="text-center">
         <%= render partial: "shared/players_open_to_play",
