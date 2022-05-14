@@ -105,7 +105,7 @@
               <td></td>
               <td></td>
             </tr>
-            <% if MatchPolicy.new(current_player, match).switch_prediction? %>
+            <% if !match.reviewed? && MatchPolicy.new(current_player, match).switch_prediction? %>
               <tr>
                 <td></td>
                 <td class="text-center">
