@@ -623,6 +623,31 @@ html {
   }
 }
 
+.predictions {
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  &__col {
+    max-width: 10rem;
+    flex-grow: 1;
+    text-align: center;
+  }
+
+  &__button {
+    padding: 1rem;
+    border: 1px solid black;
+    min-height: 7rem;
+  }
+
+  &__star {
+    width: 1.5rem;
+  }
+
+}
+
 // UTILITY CLASSES
 
 .u-white {

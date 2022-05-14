@@ -1,4 +1,4 @@
-<% if player_signed_in? %>
+<% if current_player.present? %>
   <%= turbo_stream_from "match_#{@match.id}_for_player_#{current_player.id}" %>
 <% end %>
 

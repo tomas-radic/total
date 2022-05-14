@@ -25,8 +25,9 @@ class MatchesController < ApplicationController
   def show
     @match = Match.published.find params[:id]
 
-    if player_signed_in?
+    if current_player.present?
       @comment = @match.comments.new
+      @player_prediction = @match.predictions.find_by(player: current_player)
     end
   end
 

@@ -14,6 +14,7 @@ class Player < ApplicationRecord
   has_many :assignments, dependent: :destroy
   has_many :matches, through: :assignments
   has_many :comments, dependent: :destroy
+  has_many :predictions, dependent: :destroy
 
   # Validations -----
   validates :cant_play_since, absence: true, if: -> { open_to_play_since.present? }

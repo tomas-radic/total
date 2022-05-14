@@ -326,4 +326,91 @@ RSpec.describe "Player::Matches", type: :request do
     end
   end
 
+
+  describe "POST /player/matches/:id/switch_prediction" do
+    subject { post switch_prediction_player_match_path(match, params: attributes) }
+
+    let!(:player) { create(:player) }
+    let!(:match) { create(:match) }
+
+    let(:attributes) do
+      { side: 2 }
+    end
+
+    it_behaves_like "player_request"
+
+    context "When player is logged in" do
+
+      before { sign_in player }
+
+      context "When player has no existing prediction to the match" do
+
+
+        it "Creates new prediction and redirects" do
+          subject
+
+          expect(player.reload.predictions.find_by(match: match, side: attributes[:side])).not_to be_nil
+        end
+      end
+
+
+      context "When player has existing prediction with the same side" do
+        let!(:existing_prediction) { create(:prediction, match: match, player: player, side: 2) }
+
+        it "Destroys the existing prediction" do
+          subject
+
+          expect(player.reload.predictions.find_by(match: match)).to be_nil
+        end
+
+      end
+
+
+      context "When player has existing prediction with different side" do
+        let!(:existing_prediction) { create(:prediction, match: match, player: player, side: 1) }
+
+        it "Switches the prediction to the new side" do
+          subject
+
+          expect(player.reload.predictions.find_by(match: match, side: attributes[:side])).not_to be_nil
+        end
+
+      end
+
+
+      context "With reviewed match" do
+        before { match.update_column(:reviewed_at, 1.minute.ago) }
+
+        it "Does not create prediction and redirects" do
+          subject
+
+          expect(player.reload.predictions.find_by(match: match)).to be_nil
+        end
+      end
+
+
+      context "When it is not allowed to predict that match" do
+        before { match.update_column(:predictions_disabled_since, Time.now) }
+
+        it "Does not create prediction" do
+          subject
+
+          expect(player.reload.predictions.find_by(match: match)).to be_nil
+        end
+      end
+
+
+      context "When match is not published" do
+        before { match.update_column(:published_at, nil) }
+
+        it "Does not create prediction and redirects" do
+          subject
+
+          expect(response).to redirect_to(not_found_path)
+          expect(player.reload.predictions.find_by(match: match)).to be_nil
+        end
+      end
+    end
+  end
+
 end

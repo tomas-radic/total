@@ -42,6 +42,15 @@
               <%= render partial: "shared/reactions", locals: { reactionable: match } %>
             </td>
           </tr>
+          <% if MatchPolicy.new(current_player, match).switch_prediction? %>
+            <tr>
+              <td></td>
+              <td></td>
+              <td class="text-center">
+                <%= link_to "tipni víťaza", match_path(match, anchor: "predictions") %>
+              </td>
+            </tr>
+          <% end %>
         <% end %>
         </tbody>
       </table>
@@ -96,6 +105,16 @@
               <td></td>
               <td></td>
             </tr>
+            <% if MatchPolicy.new(current_player, match).switch_prediction? %>
+              <tr>
+                <td></td>
+                <td class="text-center">
+                  <%= link_to "tipni víťaza", match_path(match, anchor: "predictions") %>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+            <% end %>
           <% end %>
           </tbody>
         </table>

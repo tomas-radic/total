@@ -94,6 +94,11 @@
     <% end %>
   </div>
 
+  <%= content_tag :div, id: "match_#{match.id}_predictions" do %>
+    <%= render partial: "matches/predictions",
+               locals: { match: match, current_player: current_player } %>
+  <% end %>
+
   <hr>
   <div id="comments" data-controller="comments">
     <%= turbo_frame_tag "tf_match_#{match.id}_comments" do %>

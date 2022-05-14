@@ -12,6 +12,7 @@ class Match < ApplicationRecord
   has_many :reactions, as: :reactionable, dependent: :destroy
   has_many :reacted_players, through: :reactions, source: :player
   has_many :comments, as: :commentable
+  has_many :predictions, dependent: :destroy
 
 
   # Validations -----
@@ -124,6 +125,11 @@ class Match < ApplicationRecord
 
   def date
     play_date.presence || finished_at.presence
+  end
+
+
+  def published?
+    published_at.present?
   end
 
 

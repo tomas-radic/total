@@ -1,6 +1,6 @@
 class Player::MatchesController < Player::BaseController
 
-  before_action :load_and_authorize_record, except: [:create, :toggle_reaction]
+  before_action :load_and_authorize_record, except: [:create, :toggle_reaction, :switch_prediction]
   after_action :verify_authorized, except: [:toggle_reaction]
 
 
@@ -165,6 +165,33 @@ class Player::MatchesController < Player::BaseController
       turbo_stream.replace("tiny_match_#{@match.id}_tiny_reactions",
                            partial: "shared/reactions_tiny",
                            locals: { reactionable: @match })
+    ]
+  end
+
+
+  def switch_prediction
+    @match = Match.published.find(params[:id])
+    authorize @match
+
+    @prediction = @match.predictions.find_by(player: current_player)
+
+    if @prediction.present?
+      if params[:side].to_i == @prediction.side
+        @prediction.destroy
+      else
+        @prediction.update(side: params[:side])
+      end
+    else
+      @match.predictions.create!(player: current_player, side: params[:side])
+    end
+
+    @match.reload
+
+    render turbo_stream: [
+      turbo_stream.update("match_#{@match.id}_predictions",
+                           partial: "matches/predictions",
+                           locals: { match: @match, current_player: current_player }),
+
     ]
   end
 

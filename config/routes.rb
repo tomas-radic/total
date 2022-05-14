@@ -33,6 +33,8 @@ Rails.application.routes.draw do
       resources :comments, only: [:create, :edit, :update] do
         post :delete, on: :member
       end
+
+      post :switch_prediction, on: :member
     end
 
     post "players/toggle_open_to_play"

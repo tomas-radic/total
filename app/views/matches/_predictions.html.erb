@@ -1,0 +1,81 @@
+<% player_prediction = current_player&.predictions&.find_by(match: match) %>
+<% predictions_count = match.predictions.count %>
+<hr>
+<div id="predictions" class="predictions">
+  <p class="u-fs-dominant">Tipy na víťaza</p>
+  <% predictions_count = match.predictions.count %>
+
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md">
+      <p class="text-center">
+        <% if predictions_count > 4 %>
+          <%= predictions_count %> hráčov tiplo víťaza.
+        <% elsif predictions_count > 1 %>
+          <%= predictions_count %> hráči tipli víťaza.
+        <% elsif predictions_count > 0 %>
+          Jeden hráč tipol víťaza.
+        <% else %>
+          Zatiaľ nikto netipol víťaza.
+        <% end %>
+      </p>
+
+      <% if current_player.present? %>
+        <div class="text-center">
+          <% if player_prediction.present? %>
+            Tvoj tip na víťaza je <%= match.side_name(player_prediction.side) %>.
+          <% else %>
+            Kliknutím na hráča tipni víťaza aj ty a uvidíš prognózy tohto zápasu!
+          <% end %>
+        </div>
+
+        <div class="predictions__wrapper mt-2">
+          <div class="predictions__col">
+            <div class="predictions__button">
+              <%= link_to match.side_name(1),
+                          switch_prediction_player_match_path(match, side: 1),
+                          method: :post, class: "u-no-decoration" %>
+              <% if player_prediction&.side == 1 %>
+                <div class="text-center">
+                  <%= image_tag("star.png", class: "predictions__star") %>
+                </div>
+              <% end %>
+            </div>
+            <% if player_prediction.present? %>
+              <div class="u-fs-dominant">
+                <%= percentage(match.predictions.select { |p| p.side == 1 }.length, predictions_count) %>%
+              </div>
+            <% end %>
+          </div>
+
+          <div class="predictions__col">
+            <div class="predictions__button">
+              <%= link_to match.side_name(2),
+                          switch_prediction_player_match_path(match, side: 2),
+                          method: :post, class: "u-no-decoration" %>
+              <% if player_prediction&.side == 2 %>
+                <div class="text-center">
+                  <%= image_tag("star.png", class: "predictions__star") %>
+                </div>
+              <% end %>
+            </div>
+            <% if player_prediction.present? %>
+              <div class="u-fs-dominant">
+                <%= percentage(match.predictions.select { |p| p.side == 2 }.length, predictions_count) %>%
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% else %>
+        <p class="text-center">
+          <small>
+            Ak chceš tipnúť víťaza, musíš sa
+            <%= link_to "prihlásiť", new_player_session_path, target: :_top %>
+            . Prognózy zápasu vidia iba hráči, ktorí už tipli víťaza.
+          </small>
+        </p>
+      <% end %>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+</div>
