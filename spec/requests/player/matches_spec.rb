@@ -378,15 +378,15 @@ RSpec.describe "Player::Matches", type: :request do
       end
 
 
-      context "With reviewed match" do
-        before { match.update_column(:reviewed_at, 1.minute.ago) }
-
-        it "Does not create prediction and redirects" do
-          subject
-
-          expect(player.reload.predictions.find_by(match: match)).to be_nil
-        end
-      end
+      # context "With reviewed match" do
+      #   before { match.update_column(:reviewed_at, 1.minute.ago) }
+      #
+      #   it "Does not create prediction and redirects" do
+      #     subject
+      #
+      #     expect(player.reload.predictions.find_by(match: match)).to be_nil
+      #   end
+      # end
 
 
       context "When it is not allowed to predict that match" do
