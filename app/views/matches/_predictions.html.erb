@@ -1,5 +1,10 @@
 <% player_prediction = current_player&.predictions&.find_by(match: match) %>
 <% predictions_count = match.predictions.count %>
+<% if predictions_count > 0 %>
+  <% prediction_side1 = percentage(match.predictions.select { |p| p.side == 1 }.length, predictions_count) %>
+  <% prediction_side2 = 100 - prediction_side1 %>
+<% end %>
+
 <hr>
 <div id="predictions" class="predictions">
   <p class="u-fs-dominant">Tipy na víťaza</p>
@@ -20,59 +25,52 @@
         <% end %>
       </p>
 
+      <% predictions_enabled = MatchPolicy.new(current_player, match).switch_prediction? %>
       <% if current_player.present? %>
         <div class="text-center">
           <% if player_prediction.present? %>
-            Tvoj tip na víťaza je <%= match.side_name(player_prediction.side) %>.
-          <% else %>
-            Kliknutím na hráča tipni víťaza aj ty a uvidíš prognózy tohto zápasu!
+            <p>Tvoj tip na víťaza je <%= match.side_name(player_prediction.side) %>.</p>
+          <% elsif predictions_enabled %>
+            <p>Kliknutím na hráča tipni víťaza aj ty a uvidíš prognózy tohto zápasu!</p>
+          <% end %>
+          <% unless predictions_enabled %>
+            <p>Zmeniť tipy na víťaza sa už nedá.</p>
           <% end %>
         </div>
 
-        <div class="predictions__wrapper mt-2">
-          <div class="predictions__col">
-            <div class="predictions__button">
-              <%= link_to match.side_name(1),
-                          switch_prediction_player_match_path(match, side: 1),
-                          method: :post, class: "u-no-decoration" %>
+        <div class="row mt-2">
+          <div class="col-6 text-center u-fs-big">
+            <%= link_to switch_prediction_player_match_path(match, side: 1),
+                        class: "predictions__btn btn btn-block btn-success #{'disabled' unless predictions_enabled}",
+                        method: :post do %>
+              <span><%= match.side_name(1) %></span>
               <% if player_prediction&.side == 1 %>
-                <div class="text-center">
-                  <%= image_tag("star.png", class: "predictions__star") %>
-                </div>
+                <%= image_tag("star.png", class: "icon d-block mx-auto") %>
               <% end %>
-            </div>
+            <% end %>
             <% if player_prediction.present? %>
-              <div class="u-fs-dominant">
-                <%= percentage(match.predictions.select { |p| p.side == 1 }.length, predictions_count) %>%
-              </div>
+              <div><%= prediction_side1 %>%</div>
             <% end %>
           </div>
-
-          <div class="predictions__col">
-            <div class="predictions__button">
-              <%= link_to match.side_name(2),
-                          switch_prediction_player_match_path(match, side: 2),
-                          method: :post, class: "u-no-decoration" %>
+          <div class="col-6 text-center u-fs-big">
+            <%= link_to switch_prediction_player_match_path(match, side: 2),
+                        class: "predictions__btn btn btn-block btn-success #{'disabled' unless predictions_enabled}",
+                        method: :post do %>
+              <span><%= match.side_name(2) %></span>
               <% if player_prediction&.side == 2 %>
-                <div class="text-center">
-                  <%= image_tag("star.png", class: "predictions__star") %>
-                </div>
+                <%= image_tag("star.png", class: "icon d-block mx-auto") %>
               <% end %>
-            </div>
+            <% end %>
             <% if player_prediction.present? %>
-              <div class="u-fs-dominant">
-                <%= percentage(match.predictions.select { |p| p.side == 2 }.length, predictions_count) %>%
-              </div>
+              <div><%= prediction_side2 %>%</div>
             <% end %>
           </div>
         </div>
       <% else %>
         <p class="text-center">
-          <small>
-            Ak chceš tipnúť víťaza, musíš sa
-            <%= link_to "prihlásiť", new_player_session_path, target: :_top %>
-            . Prognózy zápasu vidia iba hráči, ktorí už tipli víťaza.
-          </small>
+          Ak chceš tipnúť víťaza, musíš sa
+          <%= link_to "prihlásiť", new_player_session_path, target: :_top %>
+          . Prognózy zápasu vidia iba hráči, ktorí už tipli víťaza.
         </p>
       <% end %>
     </div>

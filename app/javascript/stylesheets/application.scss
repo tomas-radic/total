@@ -279,6 +279,10 @@ html {
   }
 }
 
+.icon {
+  width: 1.5rem;
+}
+
 .today {
   //min-height: calc(100vh - $navbar-height);
   min-height: calc(100vh - $navbar-height);
@@ -625,27 +629,13 @@ html {
 
 .predictions {
 
-  &__wrapper {
+  &__btn {
+    min-height: 8rem;
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
+    font-size: inherit;
   }
-
-  &__col {
-    max-width: 10rem;
-    flex-grow: 1;
-    text-align: center;
-  }
-
-  &__button {
-    padding: 1rem;
-    border: 1px solid black;
-    min-height: 7rem;
-  }
-
-  &__star {
-    width: 1.5rem;
-  }
-
 }
 
 // UTILITY CLASSES
