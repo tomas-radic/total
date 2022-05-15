@@ -4,6 +4,7 @@
   <% prediction_side1 = percentage(match.predictions.select { |p| p.side == 1 }.length, predictions_count) %>
   <% prediction_side2 = 100 - prediction_side1 %>
 <% end %>
+<% show_predictions = current_player && (predictions_count > 0) && (player_prediction.present? || match.players.include?(current_player)) %>
 
 <hr>
 <div id="predictions" class="predictions">
@@ -48,7 +49,7 @@
                 <%= image_tag("star.png", class: "icon d-block mx-auto") %>
               <% end %>
             <% end %>
-            <% if player_prediction.present? %>
+            <% if show_predictions %>
               <div><%= prediction_side1 %>%</div>
             <% end %>
           </div>
@@ -61,7 +62,7 @@
                 <%= image_tag("star.png", class: "icon d-block mx-auto") %>
               <% end %>
             <% end %>
-            <% if player_prediction.present? %>
+            <% if show_predictions %>
               <div><%= prediction_side2 %>%</div>
             <% end %>
           </div>
