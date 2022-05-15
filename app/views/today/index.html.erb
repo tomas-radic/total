@@ -68,7 +68,11 @@
 
     <!-- Tournaments / News -->
     <% if selected_season.present? && (@upcoming_tournaments.first || @actual_articles.first) %>
-      <h3 class="caption-l3 accent-color text-center text-md-start mt-3">Turnaje / Novinky</h3>
+      <h3 class="caption-l3 accent-color text-center text-md-start mt-3">
+        <%= link_to "Turnaje", tournaments_path, class: "u-no-decoration accent-color" %>
+        /
+        <%= link_to "Novinky", articles_path, class: "u-no-decoration accent-color" %>
+      </h3>
       <div class="tiles">
         <% @upcoming_tournaments.each do |tournament| %>
           <%= render partial: "today/tile",
