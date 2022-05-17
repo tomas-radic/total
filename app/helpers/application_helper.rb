@@ -20,31 +20,33 @@ module ApplicationHelper
 
 
   def app_date(datetime)
-    datetime = datetime.to_date
-    today = Time.zone.now.to_date
-    day_diff = (today - datetime).to_i
-
-    prefix = case day_diff
-             when 2
-               "predvčerom"
-             when 1
-               "včera"
-             when 0
-               "dnes"
-             when -1
-               "zajtra"
-             when -2
-               "pozajtra"
-             else
-               ""
-             end
+    # datetime = datetime.to_date
+    # today = Time.zone.now.to_date
+    # day_diff = (today - datetime).to_i
+    #
+    # prefix = case day_diff
+    #          when 2
+    #            "predvčerom"
+    #          when 1
+    #            "včera"
+    #          when 0
+    #            "dnes"
+    #          when -1
+    #            "zajtra"
+    #          when -2
+    #            "pozajtra"
+    #          else
+    #            ""
+    #          end
 
     days = ["pon", "uto", "str", "štv", "pia", "sob", "ned"]
     months = ["jan", "feb", "mar", "apr", "máj", "jún", "júl", "aug", "sep", "okt", "nov", "dec"]
 
-    result = prefix
-    result += ", " if result.present?
-    result += "#{days[datetime.wday - 1]}, #{datetime.day}. #{months[datetime.month - 1]}."
+    # result = prefix
+    # result += ", " if result.present?
+    # result += "#{days[datetime.wday - 1]}, #{datetime.day}. #{months[datetime.month - 1]}."
+
+    "#{days[datetime.wday - 1]}, #{datetime.day}. #{months[datetime.month - 1]}."
   end
 
 
