@@ -28,18 +28,12 @@ module ApplicationHelper
 
     if prefix
       result = case (Time.zone.now.to_date - datetime).to_i
-               when 2
-                 "predvčerom"
                when 1
                  "včera"
                when 0
                  "dnes"
                when -1
                  "zajtra"
-               when -2
-                 "pozajtra"
-               else
-                 ""
                end
     end
 
