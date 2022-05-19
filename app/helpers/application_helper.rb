@@ -34,6 +34,8 @@ module ApplicationHelper
                  "dnes"
                when -1
                  "zajtra"
+               else
+                 ""
                end
     end
 
