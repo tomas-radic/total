@@ -19,42 +19,55 @@ module ApplicationHelper
   end
 
 
-  def app_date(datetime)
-    # datetime = datetime.to_date
-    # today = Time.zone.now.to_date
-    # day_diff = (today - datetime).to_i
-    #
-    # prefix = case day_diff
-    #          when 2
-    #            "predvčerom"
-    #          when 1
-    #            "včera"
-    #          when 0
-    #            "dnes"
-    #          when -1
-    #            "zajtra"
-    #          when -2
-    #            "pozajtra"
-    #          else
-    #            ""
-    #          end
-
+  def app_date(datetime, prefix: false, vertical: false)
+    result = ""
     days = ["pon", "uto", "str", "štv", "pia", "sob", "ned"]
     months = ["jan", "feb", "mar", "apr", "máj", "jún", "júl", "aug", "sep", "okt", "nov", "dec"]
 
-    # result = prefix
-    # result += ", " if result.present?
-    # result += "#{days[datetime.wday - 1]}, #{datetime.day}. #{months[datetime.month - 1]}."
+    datetime = datetime.to_date
 
-    "#{days[datetime.wday - 1]}, #{datetime.day}. #{months[datetime.month - 1]}."
-  end
+    if prefix
+      result = case (Time.zone.now.to_date - datetime).to_i
+               when 2
+                 "predvčerom"
+               when 1
+                 "včera"
+               when 0
+                 "dnes"
+               when -1
+                 "zajtra"
+               when -2
+                 "pozajtra"
+               else
+                 ""
+               end
+    end
 
+    day = days[datetime.wday - 1]
+    date = "#{datetime.day}. #{months[datetime.month - 1]}"
 
-  def app_date_span(datetime)
-    content_tag :span, class: "whitespace-nowrap" do
-      app_date datetime
+    if vertical
+      content_tag :span do
+        result += "<br>" if result.present?
+        result += (day + "<br>" + date)
+        result.html_safe
+      end.html_safe
+    else
+      result += " - " if result.present?
+      result += "#{day}, #{date}"
+
+      content_tag :span do
+        result.html_safe
+      end.html_safe
     end
   end
+
+
+  # def app_date_span(datetime)
+  #   content_tag :span, class: "whitespace-nowrap" do
+  #     app_date datetime
+  #   end
+  # end
 
 
   def app_time(datetime)

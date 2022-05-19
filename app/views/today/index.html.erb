@@ -124,7 +124,7 @@
                             class: "default-color" %>
               </td>
               <td class="centered-table__large"><%= match_looser_link(match, break_whitespace: true, options: { class: "u-no-decoration" }) %></td>
-              <td><%= app_date(match.date) %></td>
+              <td><%= app_date(match.date, prefix: true, vertical: true) %></td>
             </tr>
             <tr>
               <td></td>
@@ -176,7 +176,7 @@
               <td class="centered-table__bordered">
                 <% if match.date.present? %>
                   <%= link_to match_path(match), class: "default-color" do %>
-                    <%= app_date(match.date) %>
+                    <%= app_date(match.date, prefix: true, vertical: true) %>
                     <% if match.play_time.present? %>
                       <br><%= match.play_time %>
                     <% end %>

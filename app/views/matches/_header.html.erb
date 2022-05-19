@@ -11,7 +11,7 @@
   </div>
   <p class="page-header__text default-color">
     <% if match.date %>
-      <%= app_date_span match.date %>
+      <%= app_date match.date, prefix: true %>
       <%= match.play_time %>
       <%= match.place&.name %>
     <% end %>
