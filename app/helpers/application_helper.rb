@@ -67,7 +67,7 @@ module ApplicationHelper
 
 
   def app_time(datetime)
-    "#{app_date(datetime)} - #{datetime.strftime("%k:%M")}"
+    "#{app_date(datetime)} - #{datetime.strftime("%k:%M")}".html_safe
   end
 
 
