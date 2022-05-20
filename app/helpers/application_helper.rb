@@ -51,10 +51,7 @@ module ApplicationHelper
     else
       result += " - " if result.present?
       result += "#{day}, #{date}"
-
-      content_tag :span do
-        result.html_safe
-      end.html_safe
+      result
     end
   end
 
