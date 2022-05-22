@@ -243,7 +243,7 @@
           <tr class="centered-table__heading-row">
             <th class="text-center"></th>
             <th></th>
-            <th style="max-width: 50px;">Body</th>
+            <th>Body</th>
             <th class="text-end">% výhier</th>
           </tr>
           </thead>
@@ -260,7 +260,7 @@
               <%= content_tag :td, class: color_class do %>
                 <%= ranking[:points] %>
               <% end %>
-              <%= content_tag :td, class: "#{color_class} text-end" do %>
+              <%= content_tag :td, class: "#{color_class} text-end text-nowrap" do %>
                 <%= "#{(ranking[:percentage]).round(2)}% / #{ranking[:nr_matches]}" if ranking[:nr_matches] > 0 %>
               <% end %>
             </tr>
