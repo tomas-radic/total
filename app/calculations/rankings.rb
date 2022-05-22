@@ -50,7 +50,7 @@ class Rankings
         played: nr_matches,
         won: nr_won_matches,
         points: points,
-        percentage: nr_matches > 0 ? (((nr_won_matches * 100.0) / nr_matches) * 100).round : 0,
+        percentage: nr_matches > 0 ? (((nr_won_matches * 1.0) / nr_matches) * 100).round : 0,
         nr_matches: nr_matches,
         enrolled_at: player.enrollments.find { |e| e.season_id == @season.id }.created_at
       }

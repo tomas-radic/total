@@ -244,7 +244,7 @@
             <th class="text-center"></th>
             <th></th>
             <th>Body</th>
-            <th>% výhier</th>
+            <th class="text-end">% výhier</th>
           </tr>
           </thead>
           <tbody>
@@ -260,8 +260,8 @@
               <%= content_tag :td, class: color_class do %>
                 <%= ranking[:points] %>
               <% end %>
-              <%= content_tag :td, class: color_class do %>
-                <%= "#{(ranking[:percentage] / 100.0).round(2)}%" if ranking[:nr_matches] > 0 %>
+              <%= content_tag :td, class: "#{color_class} text-end" do %>
+                <%= "#{(ranking[:percentage]).round(2)}% / #{ranking[:nr_matches]}" if ranking[:nr_matches] > 0 %>
               <% end %>
             </tr>
           <% end %>
