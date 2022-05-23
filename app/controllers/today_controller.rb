@@ -19,7 +19,7 @@ class TodayController < ApplicationController
                                              .where("(begin_date < ? or end_date < ?) and (end_date >= ?)",
                                                     begins_in_days, begins_in_days, ended_before_days)
       @actual_articles = selected_season.articles.published
-                                        .where("(promote_until is not null and promote_until >= ?) or (created_at > ?)",
+                                        .where("(promote_until is not null and promote_until >= ?) or (promote_until is null and created_at > ?)",
                                                Date.today, 4.days.ago)
 
       @recent_matches = season_matches.reviewed.ranking_counted
