@@ -194,19 +194,19 @@ class Match < ApplicationRecord
         if set1_side1_score.present? || set1_side2_score.present?
           s1 = set1_side1_score.to_i
           s2 = set1_side2_score.to_i
-          side1 += (s1 - s2 > 1) ? 1 : -1
+          side1 += (s1 - s2 > 0) ? 1 : -1
         end
 
         if set2_side1_score.present? || set2_side2_score.present?
           s1 = set2_side1_score.to_i
           s2 = set2_side2_score.to_i
-          side1 += (s1 - s2 > 1) ? 1 : -1
+          side1 += (s1 - s2 > 0) ? 1 : -1
         end
 
         if set3_side1_score.present? || set3_side2_score.present?
           s1 = set3_side1_score.to_i
           s2 = set3_side2_score.to_i
-          side1 += (s1 - s2 > 1) ? 1 : -1
+          side1 += (s1 - s2 > 0) ? 1 : -1
         end
 
         if side1 > 0
