@@ -4,8 +4,11 @@
   <div class="page__content">
     <%= form_with model: [:player, @match] do |f| %>
       <div class="row">
-        <div class="col-7">
+        <div class="col-7" data-controller="forms">
           <%= f.label :play_date, "Dátum", class: "form-label" %>
+          <%= content_tag :span, class: "text-decoration-underline px-1 bg-warning", role: "button", data: { "action" => "click->forms#clearField", "target-id" => "match_play_date" } do %>
+            zrušiť dátum
+          <% end %>
           <%= f.date_field :play_date, class: "form-control" %>
         </div>
         <div class="col-5">

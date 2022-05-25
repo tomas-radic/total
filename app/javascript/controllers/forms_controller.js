@@ -27,4 +27,9 @@ export default class extends Controller {
       hideToggleable.classList.add("visually-hidden")
     }
   }
+
+
+  clearField() {
+    document.getElementById(event.currentTarget.dataset.targetId).value = ""
+  }
 }
