@@ -31,7 +31,7 @@
         <div class="text-center">
           <% if player_prediction.present? %>
             <p>Tvoj tip na víťaza je <%= match.side_name(player_prediction.side) %>.</p>
-          <% elsif predictions_enabled %>
+          <% elsif predictions_enabled && !match.players.include?(current_player) %>
             <p>Kliknutím na hráča tipni víťaza aj ty a uvidíš prognózy tohto zápasu!</p>
           <% end %>
           <% unless predictions_enabled %>
