@@ -7,7 +7,7 @@ class TodayController < ApplicationController
       @requested_matches = season_matches.ranking_counted.requested
                                          .where(finished_at: nil)
                                          .order(requested_at: :desc)
-                                         .includes(:reactions, :comments, :reacted_players, assignments: :player)
+                                         .includes(:reactions, :comments, :reacted_players, :predictions, assignments: :player)
 
       @rejected_matches = season_matches.ranking_counted.rejected
                                         .where("rejected_at >= ?", 48.hours.ago)
@@ -30,7 +30,7 @@ class TodayController < ApplicationController
       @planned_matches = season_matches.accepted.ranking_counted
                                        .where(finished_at: nil)
                                        .order(:play_date, :play_time)
-                                       .includes(:reactions, :comments, :reacted_players, :place, assignments: :player)
+                                       .includes(:reactions, :comments, :reacted_players, :predictions, :place, assignments: :player)
 
       @top_rankings = Rankings.calculate(selected_season, single_matches: true)
                               .slice(0, selected_season.play_off_size + 2)

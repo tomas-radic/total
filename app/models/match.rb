@@ -123,6 +123,16 @@ class Match < ApplicationRecord
   end
 
 
+  def predictions_text
+    pc = predictions.count
+
+    if pc > 0
+      predictions_side1 = ApplicationController.helpers.percentage(predictions.count { |p| p.side == 1 }, pc)
+      "#{predictions_side1}/#{100 - predictions_side1}"
+    end
+  end
+
+
   def date
     play_date.presence || finished_at.presence
   end

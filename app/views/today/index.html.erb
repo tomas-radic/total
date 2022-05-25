@@ -201,7 +201,7 @@
                 <td></td>
                 <td></td>
                 <td class="text-center">
-                  <%= link_to "tipni víťaza", match_path(match, anchor: "predictions") %>
+                  <%= render partial: "matches/predictions_link", locals: { match: match, current_player: current_player } %>
                 </td>
               </tr>
             <% end %>

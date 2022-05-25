@@ -1,7 +1,7 @@
 <%= turbo_stream_from "matches" %>
 <div id="matches_index_reload_notice"></div>
 
-<% if selected_season.present? && player_signed_in? && @pending_matches.any? %>
+<% if selected_season.present? && current_player.present? && @pending_matches.any? %>
   <section class="base-salmon">
     <div class="page__content">
       <h3 class="base-heading accent-color">Tvoje ďalšie zápasy.</h3>
@@ -47,7 +47,7 @@
               <td></td>
               <td></td>
               <td class="text-center">
-                <%= link_to "tipni víťaza", match_path(match, anchor: "predictions") %>
+                <%= render partial: "matches/predictions_link", locals: { match: match, current_player: current_player } %>
               </td>
             </tr>
           <% end %>
@@ -109,7 +109,7 @@
               <tr>
                 <td></td>
                 <td class="text-center">
-                  <%= link_to "tipni víťaza", match_path(match, anchor: "predictions") %>
+                  <%= render partial: "matches/predictions_link", locals: { match: match, current_player: current_player } %>
                 </td>
                 <td></td>
                 <td></td>

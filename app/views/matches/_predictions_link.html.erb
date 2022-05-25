@@ -1,0 +1,16 @@
+<%
+  label = if match.players.include?(current_player)
+            if match.predictions.first.present?
+              "Prognóza #{match.predictions_text}"
+            end
+          elsif match.predictions.include?(current_player.predictions.find { |p| p.match_id == match.id })
+            "Prognóza #{match.predictions_text}"
+          else
+            "Tipni víťaza"
+          end
+
+%>
+
+<% if label %>
+  <%= link_to label, match_path(match, anchor: "predictions") %>
+<% end %>
