@@ -49,6 +49,10 @@
 
   <% if match.reviewed? %>
     <p class="u-fs-giant py-4 text-center"><%= match.result %></p>
+    <p class="text-center">
+      <%= match.side_name(match.winner_side) %>
+      zvíťazil<small>/a</small> v tomto zápase.
+    </p>
     <% if match.retired? %>
       <p class="text-center">
         <%= match.looser_name %> zápas skrečoval<small>/a</small>.
