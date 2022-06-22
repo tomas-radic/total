@@ -5,7 +5,7 @@ class MatchesController < ApplicationController
       @matches = selected_season.matches.published.ranking_counted
                                 .where(rejected_at: nil)
                                 .order("finished_at desc nulls first")
-                                .order("play_date asc nulls last, play_time asc nulls last")
+                                .order("play_date asc nulls last, play_time asc nulls last, updated_at desc")
                                 .includes(:place, :reactions, :comments, :reacted_players, :predictions, :players, assignments: :player)
 
       if player_signed_in?
@@ -15,7 +15,7 @@ class MatchesController < ApplicationController
                         rejected_at: nil,
                         finished_at: nil
                       })
-                      .order("matches.requested_at desc")
+                      .order("matches.play_date asc nulls last, matches.play_time asc nulls last, matches.updated_at desc")
                       .includes(:reactions, :comments, :predictions, :players, assignments: :player)
       end
     end
