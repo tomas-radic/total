@@ -29,7 +29,7 @@ class TodayController < ApplicationController
 
       @planned_matches = season_matches.accepted.ranking_counted
                                        .where(finished_at: nil)
-                                       .order(:play_date, :play_time)
+                                       .order(play_date: :asc, play_time: :asc, updated_at: :desc)
                                        .includes(:reactions, :comments, :reacted_players, :predictions, :place, assignments: :player)
 
       @top_rankings = Rankings.calculate(selected_season, single_matches: true)
