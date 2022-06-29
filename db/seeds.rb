@@ -213,6 +213,21 @@ ActiveRecord::Base.transaction do
   )
 
 
+  puts "\nCreating predictions..."
+  raise "Existing data" if Prediction.any?
+
+  Match.all.each do |m|
+    used_player_ids = []
+
+    rand(0..8).times do
+      player = Player.where.not(id: used_player_ids).sample
+      used_player_ids << player.id
+
+      m.predictions.create!(player: player, match: m, side: rand(1..2))
+    end
+  end
+
+
   puts "\nCreating managers..."
   raise "Existing data" if Manager.any?
   [

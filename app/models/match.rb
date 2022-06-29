@@ -128,7 +128,7 @@ class Match < ApplicationRecord
 
     if pc > 0
       predictions_side1 = ApplicationController.helpers.percentage(predictions.count { |p| p.side == 1 }, pc)
-      "#{predictions_side1}/#{100 - predictions_side1}"
+      "#{predictions_side1}/#{100 - predictions_side1} (#{pc})"
     end
   end
 
