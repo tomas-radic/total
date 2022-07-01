@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       post :reject, on: :member
       get :finish_init, on: :member
       post :finish, on: :member
+      post :cancel, on: :member
       post :toggle_reaction, on: :member
 
       resources :comments, only: [:create, :edit, :update] do

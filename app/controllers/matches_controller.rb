@@ -3,7 +3,7 @@ class MatchesController < ApplicationController
   def index
     if selected_season.present?
       @matches = selected_season.matches.published.ranking_counted
-                                .where(rejected_at: nil)
+                                .where(rejected_at: nil, canceled_at: nil)
                                 .order("finished_at desc nulls first")
                                 .order("play_date asc nulls last, play_time asc nulls last, updated_at desc")
                                 .includes(:place, :reactions, :comments, :reacted_players, :predictions, :players, assignments: :player)

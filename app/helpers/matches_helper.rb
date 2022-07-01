@@ -1,9 +1,9 @@
 module MatchesHelper
 
   def match_color_base(match)
-    if match.finished_at && match.reviewed_at
+    if match.reviewed?
       "base-green"
-    elsif !match.rejected_at
+    elsif !match.rejected? && !match.canceled?
       "base-yellow"
     end
   end

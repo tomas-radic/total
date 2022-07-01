@@ -10,7 +10,7 @@ class PlayersController < ApplicationController
     @player = Player.find params[:id]
 
     if selected_season.present?
-      @all_matches = selected_season.matches.reviewed.sorted
+      @all_matches = selected_season.matches.published.reviewed.sorted
                                     .joins(:assignments)
                                     .where(assignments: { player_id: @player.id })
                                     .includes(assignments: :player)

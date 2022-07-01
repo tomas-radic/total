@@ -137,6 +137,20 @@ class Player::MatchesController < Player::BaseController
   end
 
 
+  def cancel
+    @match.update(canceled_at: Time.now, canceled_by: current_player)
+    @match.assignments.each do |assignment|
+      Turbo::StreamsChannel.broadcast_update_to(
+        "match_#{@match.id}_for_player_#{assignment.player.id}",
+        partial: "matches/match", locals: { match: @match, current_player: assignment.player },
+        target: "match_#{@match.id}"
+      )
+    end
+
+    redirect_to match_path(@match)
+  end
+
+
   def toggle_reaction
     @match = Match.published.find(params[:id])
     reaction = Reaction.find_by(reactionable: @match, player: current_player)

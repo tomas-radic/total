@@ -47,7 +47,7 @@ class Player < ApplicationRecord
 
 
   def opponents(season: nil, pending: false, ranking_counted: false)
-    player_matches = matches
+    player_matches = matches.published.where(canceled_at: nil)
     player_matches = player_matches.pending if pending
     player_matches = player_matches.ranking_counted if ranking_counted
     player_matches = player_matches.joins(:assignments).where("assignments.player_id = ?", id)

@@ -26,8 +26,7 @@ RSpec.describe "Player::Matches", type: :request do
         season.players << requested_player
       end
 
-      it "Creates new match, authorizes it and redirects" do
-        expect_any_instance_of(MatchPolicy).to(receive(:create?).and_return(true))
+      it "Creates new match and redirects" do
         expect { subject }.to change { Match.count }.by(1)
         expect(response).to redirect_to(match_path(Match.order(:created_at).last))
       end
@@ -65,8 +64,7 @@ RSpec.describe "Player::Matches", type: :request do
         ]
       end
 
-      it "Authorizes match and renders edit" do
-        expect_any_instance_of(MatchPolicy).to(receive(:edit?).and_return(true))
+      it "Renders edit" do
         expect(subject).to render_template(:edit)
       end
     end
@@ -126,9 +124,7 @@ RSpec.describe "Player::Matches", type: :request do
         match.save!
       end
 
-      it "Authorizes the match, updates only whitelisted attributes and redirects" do
-        allow_any_instance_of(MatchPolicy).to(receive(:finish?).and_return(true))
-        allow_any_instance_of(MatchPolicy).to(receive(:finish?).and_return(true)) # when broadcasting update
+      it "Updates only whitelisted attributes and redirects" do
         subject
 
         match.reload
@@ -188,8 +184,7 @@ RSpec.describe "Player::Matches", type: :request do
         sign_in player2
       end
 
-      it "Authorizes the match, accepts it and cancels open_to_play_since flag of both players" do
-        expect_any_instance_of(MatchPolicy).to(receive(:accept?).and_return(true))
+      it "Accepts match and cancels open_to_play_since flag of both players" do
         subject
 
         expect(match.reload.accepted_at).not_to be_nil
@@ -211,7 +206,6 @@ RSpec.describe "Player::Matches", type: :request do
     end
     let!(:player1) { create(:player, open_to_play_since: Time.now, seasons: [match.season]) }
     let!(:player2) { create(:player, open_to_play_since: Time.now, seasons: [match.season]) }
-    let!(:another_player) { create(:player, seasons: [match.season]) }
 
     before do
       match.assignments = [
@@ -227,8 +221,7 @@ RSpec.describe "Player::Matches", type: :request do
         sign_in player2
       end
 
-      it "Authorizes the match, rejects it and preserves open_to_play_since flag of both players" do
-        expect_any_instance_of(MatchPolicy).to(receive(:reject?).and_return(true))
+      it "Rejects it and preserves open_to_play_since flag of both players" do
         subject
 
         expect(match.reload.rejected_at).not_to be_nil
@@ -287,6 +280,41 @@ RSpec.describe "Player::Matches", type: :request do
           expect(match.reload.finished_at).to be_nil
           expect(response).to render_template(:finish_init)
         end
+      end
+    end
+  end
+
+
+  describe "POST /player/matches/:id/cancel" do
+    subject { post cancel_player_match_path(match) }
+
+    it_behaves_like "player_request"
+
+
+    let!(:match) do
+      create(:match, :accepted, competitable: build(:season), ranking_counted: true)
+    end
+    let!(:player1) { create(:player, open_to_play_since: Time.now, seasons: [match.season]) }
+    let!(:player2) { create(:player, open_to_play_since: Time.now, seasons: [match.season]) }
+
+    before do
+      match.assignments = [
+        build(:assignment, side: 1, player: player1),
+        build(:assignment, side: 2, player: player2)
+      ]
+
+      match.save!
+    end
+
+    context "When logged in player is a side 2 player of the match" do
+      before do
+        sign_in player2
+      end
+
+      it "Rejects match and preserves open_to_play_since flag of both players" do
+        subject
+
+        expect(match.reload.canceled_at).not_to be_nil
       end
     end
   end

@@ -13,6 +13,7 @@ class Match < ApplicationRecord
   has_many :reacted_players, through: :reactions, source: :player
   has_many :comments, as: :commentable
   has_many :predictions, dependent: :destroy
+  belongs_to :canceled_by, class_name: "Player", optional: true
 
 
   # Validations -----
@@ -23,6 +24,10 @@ class Match < ApplicationRecord
   validates :requested_at, presence: true, if: Proc.new { |m| m.accepted_at || m.rejected_at }
   validates :finished_at, presence: true, if: Proc.new { |m| m.reviewed_at }
   validates :finished_at, absence: true, if: Proc.new { |m| m.competitable.is_a?(Season) && m.accepted_at.nil? }
+  validates :canceled_at, absence: true, if: Proc.new { |m| m.finished_at || m.rejected_at }
+  validates :canceled_at, absence: true, if: Proc.new { |m| m.accepted_at.nil? && m.rejected_at.nil? }
+  validates :canceled_at, presence: true, if: Proc.new { |m| m.canceled_by_id.present? }
+  validates :canceled_by_id, presence: true, if: Proc.new { |m| m.canceled_at }
   validates :play_date, :play_time, :place_id,
             absence: true, if: Proc.new { |m| m.requested_at && m.accepted_at.blank? }
   validates :winner_side,
@@ -55,12 +60,13 @@ class Match < ApplicationRecord
   # Scopes
   scope :sorted, -> { order(finished_at: :desc) }
   scope :published, -> { where.not(published_at: nil) }
-  scope :requested, -> { where.not(requested_at: nil).where(accepted_at: nil, rejected_at: nil) }
+  scope :requested, -> { where.not(requested_at: nil).where(accepted_at: nil, rejected_at: nil, canceled_at: nil) }
   scope :accepted, -> { where.not(accepted_at: nil) }
   scope :rejected, -> { where.not(rejected_at: nil) }
   scope :pending, -> { where(rejected_at: nil, finished_at: nil) }
   scope :finished, -> { where.not(finished_at: nil) }
   scope :reviewed, -> { where.not(reviewed_at: nil) }
+  scope :canceled, -> { where.not(canceled_at: nil) }
   scope :ranking_counted, -> { where(ranking_counted: true) }
   scope :singles, -> { where(kind: "single") }
   scope :doubles, -> { where(kind: "double") }
@@ -158,8 +164,18 @@ class Match < ApplicationRecord
   end
 
 
+  def finished?
+    finished_at.present?
+  end
+
+
   def reviewed?
     reviewed_at.present?
+  end
+
+
+  def canceled?
+    canceled_at.present?
   end
 
 
@@ -298,7 +314,7 @@ class Match < ApplicationRecord
 
 
   def existing_matches
-    matches = competitable.matches.singles.where(finished_at: nil, rejected_at: nil)
+    matches = competitable.matches.published.singles.where(finished_at: nil, rejected_at: nil, canceled_at: nil)
                           .where.not(id: id)
                           .joins(:assignments)
                           .where(

@@ -31,6 +31,12 @@
           </div>
         <% else %>
           <div>
+            <% if MatchPolicy.new(current_player, match).cancel? %>
+              <%= link_to "Zrušiť", cancel_player_match_path(match),
+                          method: :post,
+                          data: { confirm: "Chceš naozaj zrušiť tento zápas?" },
+                          class: "btn btn-outline-danger" %>
+            <% end %>
             <% if MatchPolicy.new(current_player, match).edit? %>
               <%= link_to "Upraviť", edit_player_match_path(match),
                           class: "btn btn-warning" %>
@@ -62,13 +68,17 @@
     <p class="text-center">
       Na túto výzvu <%= match.side_name(2) %> zatiaľ nereagoval<small>/a</small>.
     </p>
+  <% elsif match.canceled_at %>
+    <p class="text-center text-danger">
+      Tento zápas bol zrušený <%= app_date match.canceled_at %>.
+    </p>
   <% elsif match.accepted_at %>
     <p class="text-center">
-      <%= match.side_name(2) %> akceptoval<small>/a</small> výzvu <%= app_date match.accepted_at %>
+      <%= match.side_name(2) %> akceptoval<small>/a</small> výzvu <%= app_date match.accepted_at %>.
     </p>
   <% elsif match.rejected_at %>
     <p class="text-center">
-      <%= match.side_name(2) %> odmietol<small>/la</small> túto výzvu <%= app_date match.rejected_at %>
+      <%= match.side_name(2) %> odmietol<small>/la</small> túto výzvu <%= app_date match.rejected_at %>.
     </p>
   <% end %>
 

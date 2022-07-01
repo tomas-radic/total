@@ -39,6 +39,7 @@ class MatchPolicy < ApplicationPolicy
     return false if season_ended?(record)
     return false unless record.ranking_counted?
     return false if record.reviewed?
+    return false if record.canceled?
 
     record.assignments.where(side: 2)
           .find { |a| a.player_id == user.id }
@@ -60,6 +61,7 @@ class MatchPolicy < ApplicationPolicy
       if record.competitable.is_a?(Season)
         return false if record.competitable.ended_at.present?
         return false unless update?
+        return false if record.canceled?
         return false if record.rejected?
         return false unless record.accepted?
 
@@ -80,10 +82,25 @@ class MatchPolicy < ApplicationPolicy
   end
 
 
+  def cancel?
+    if record.competitable.is_a?(Season)
+      return false unless record.assignments.find { |a| a.player_id == user.id }
+      return false if record.canceled?
+      return false if record.finished?
+      return false if record.rejected?
+      return false if record.requested?
+      true
+    else
+      false
+    end
+  end
+
+
   def switch_prediction?
     return false unless user.present?
     return false unless record.published?
     return false if record.reviewed?
+    return false if record.canceled?
     return false if record.predictions_disabled_since.present?
 
     true

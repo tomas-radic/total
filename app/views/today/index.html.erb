@@ -28,7 +28,7 @@
 
           <div class="today__content">
             <!-- Requested matches -->
-            <% if @requested_matches.any? || @rejected_matches.any? %>
+            <% if @requested_matches.first || @rejected_matches.first %>
               <div class="unconfirmed-matches">
                 <h3 class="caption-l3 accent-color text-center text-md-start">Nepotvrdené výzvy</h3>
                 <% @requested_matches.each do |match| %>
@@ -47,7 +47,21 @@
                       <%= link_to "#{match.side_name 2} odmietol/la - #{match.side_name 1}",
                                   match_path(match),
                                   class: "u-silver" %>
-                      <%= render partial: "shared/reactions_tiny", locals: { reactionable: match } %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+
+            <% if @canceled_matches.first %>
+              <div class="unconfirmed-matches">
+                <h3 class="caption-l3 accent-color text-center text-md-start">Zrušené zápasy</h3>
+                <div class="mt-3">
+                  <% @canceled_matches.each do |match| %>
+                    <div class="today__request-link">
+                      <%= link_to "#{match.side_name 1} - #{match.side_name 2}",
+                                  match_path(match),
+                                  class: "u-silver" %>
                     </div>
                   <% end %>
                 </div>

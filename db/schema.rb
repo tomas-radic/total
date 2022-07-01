@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_13_124332) do
+ActiveRecord::Schema.define(version: 2022_07_01_102034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -110,6 +110,9 @@ ActiveRecord::Schema.define(version: 2022_05_13_124332) do
     t.integer "comments_count", default: 0, null: false
     t.datetime "comments_disabled_since"
     t.datetime "predictions_disabled_since"
+    t.datetime "canceled_at"
+    t.uuid "canceled_by_id"
+    t.index ["canceled_by_id"], name: "index_matches_on_canceled_by_id"
     t.index ["competitable_type", "competitable_id"], name: "index_matches_on_competitable"
     t.index ["place_id"], name: "index_matches_on_place_id"
   end

@@ -4,12 +4,12 @@ class TodayController < ApplicationController
     if selected_season.present?
       season_matches = selected_season.matches.published
 
-      @requested_matches = season_matches.ranking_counted.requested
+      @requested_matches = season_matches.published.ranking_counted.requested
                                          .where(finished_at: nil)
                                          .order(requested_at: :desc)
                                          .includes(:reactions, :comments, :reacted_players, :predictions, assignments: :player)
 
-      @rejected_matches = season_matches.ranking_counted.rejected
+      @rejected_matches = season_matches.published.ranking_counted.rejected
                                         .where("rejected_at >= ?", 48.hours.ago)
                                         .includes(:reactions, :comments, :reacted_players, assignments: :player)
 
@@ -22,15 +22,18 @@ class TodayController < ApplicationController
                                         .where("(promote_until is not null and promote_until >= ?) or (promote_until is null and created_at > ?)",
                                                Date.today, 4.days.ago)
 
-      @recent_matches = season_matches.reviewed.ranking_counted
+      @recent_matches = season_matches.published.reviewed.ranking_counted
                                       .where("finished_at >= ?", 7.days.ago)
                                       .order(finished_at: :desc)
                                       .includes(:reactions, :comments, :reacted_players, assignments: :player)
 
-      @planned_matches = season_matches.accepted.ranking_counted
-                                       .where(finished_at: nil)
+      @planned_matches = season_matches.published.accepted.ranking_counted
+                                       .where(finished_at: nil, canceled_at: nil)
                                        .order(play_date: :asc, play_time: :asc, updated_at: :desc)
                                        .includes(:reactions, :comments, :reacted_players, :predictions, :place, assignments: :player)
+      @canceled_matches = season_matches.published.canceled.ranking_counted
+                                        .where("canceled_at > ?", 30.hours.ago)
+                                        .order(canceled_at: :desc)
 
       @top_rankings = Rankings.calculate(selected_season, single_matches: true)
                               .slice(0, selected_season.play_off_size + 2)
