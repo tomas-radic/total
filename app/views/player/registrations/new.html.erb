@@ -1,47 +1,9 @@
 <div class="page__content">
   <h2 class="text-center u-fs-giant">Registrácia</h2>
-  <div class="vertical-form mt-4">
-    <div class="vertical-form__controls">
-      <%= form_for resource, as: resource_name, url: registration_path(resource_name),
-                   data: { turbo: false } do |f| %>
-
-        <%#= render "player/shared/error_messages", resource: resource %>
-
-        <%= render partial: "player/registrations/player_fields",
-                   locals: { f: f, resource: resource } %>
-
-        <div class="mt-4">
-          <%= f.label :email, "* Email", class: "form-label" %>
-          <%= f.email_field :email, autocomplete: "email",
-                            class: "form-control" %>
-          <small><%= error_for(:email, resource) %></small>
-        </div>
-        <div class="mt-4">
-          <%= f.label :password, "* Heslo (aspoň #{@minimum_password_length} znakov)", class: "form-label" %>
-          <%= f.password_field :password, autocomplete: "new-password",
-                               class: "form-control" %>
-          <small><%= error_for(:password, resource) %></small>
-        </div>
-        <div class="mt-4">
-          <%= f.label :password_confirmation, "* Heslo znovu", class: "form-label" %>
-          <%= f.password_field :password_confirmation, autocomplete: "new-password",
-                               class: "form-control" %>
-          <small><%= error_for(:password_confirmation, resource) %></small>
-        </div>
-
-        <p class="text-center">
-          S cookies súhlasíš, to je jasné. Ak nie, tak vodprejsk!
-          <%= f.submit "Jop!" %>
-        </p>
-
-        <div class="mt-4 text-center">
-          <%= f.submit "Registrovať", class: "btn btn-success" %>
-          <hr>
-          <%= render "player/shared/links" %>
-        </div>
-      <% end %>
-
-      <%= render "player/shared/devise_footer" %>
-    </div>
-  </div>
+  <p class="text-center">Registrácie sú uzavreté.</p>
+  <p class="text-center">
+    Kontaktuj správcu webu na<br>
+    <%= link_to 'tomas.radic@gmail.com', 'mailto:tomas.radic@gmail.com' %><br>
+    <%= link_to '0905 289 248', 'tel:0905289248' %>
+  </p>
 </div>
