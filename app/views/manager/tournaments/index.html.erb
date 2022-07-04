@@ -1,4 +1,7 @@
 <div class="page__content">
+  <div>
+    <%= link_to "Vypísať turnaj", new_manager_tournament_path, class: "btn btn-success" %>
+  </div>
   <% if @tournaments.first %>
     <h2 class="text-center my-4">
       Turnaje <%= @managed_season.name %>
