@@ -1,0 +1,96 @@
+<h1 class="text-center my-4"><%= heading %></h1>
+
+<%= form_with model: [:manager, tournament], data: { controller: "forms" } do |f| %>
+  <div class="row">
+    <div class="col-md-6">
+      <%= f.label :name, "Názov", class: "form-label" %>
+      <%= f.text_field :name, class: "form-control" %>
+      <%= error_for(:name, tournament) %>
+    </div>
+    <div class="col-md-3">
+      <%= f.label :begin_date, "Začiatok", class: "form-label" %>
+      <%= content_tag :span, class: "text-decoration-underline px-1 bg-warning", role: "button", data: { "action" => "click->forms#clearField", "target-id" => "tournament_begin_date" } do %>
+        zrušiť dátum
+      <% end %>
+      <%= f.date_field :begin_date, class: "form-control" %>
+      <%= error_for(:begin_date, tournament) %>
+    </div>
+    <div class="col-md-3">
+      <%= f.label :end_date, "Koniec", class: "form-label" %>
+      <%= content_tag :span, class: "text-decoration-underline px-1 bg-warning", role: "button", data: { "action" => "click->forms#clearField", "target-id" => "tournament_end_date" } do %>
+        zrušiť dátum
+      <% end %>
+      <%= f.date_field :end_date, class: "form-control" %>
+      <%= error_for(:end_date, tournament) %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-5">
+      <%= f.label :main_info, "Informácie", class: "form-label" %>
+      <%= f.text_area :main_info, class: "form-control", rows: 10 %>
+      <%= error_for(:main_info, tournament) %>
+    </div>
+    <div class="col-md-7">
+      <%= f.label :side_info, "Voľný opis", class: "form-label" %>
+      <%= f.text_area :side_info, class: "form-control", rows: 10 %>
+      <%= error_for(:side_info, tournament) %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <%= f.label :place_id, "Miesto", class: "form-label" %>
+      <%= f.select :place_id,
+                   Place.all.map { |p| [p.name, p.id] },
+                   { include_blank: "Žiadne" },
+                   class: "form-control" %>
+      <%= error_for(:place_id, tournament) %>
+    </div>
+    <div class="col-md-6">
+      <%= f.label :color_base, "Farba", class: "form-label" %>
+      <%= f.select :color_base,
+                   Tournament.color_bases.keys.map { |cb| [cb, cb] },
+                   {},
+                   class: "form-control" %>
+      <%= error_for(:color_base, tournament) %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <%= f.label :draw_url, "URL pavúk", class: "form-label" %>
+      <%= f.text_field :draw_url, class: "form-control" %>
+      <%= error_for(:draw_url, tournament) %>
+    </div>
+    <div class="col-md-6">
+      <%= f.label :schedule_url, "URL plán", class: "form-label" %>
+      <%= f.text_field :schedule_url, class: "form-control" %>
+      <%= error_for(:schedule_url, tournament) %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <%= f.label :published_at, "Zverejnené", class: "form-label" %>
+      <%= content_tag :span, class: "text-decoration-underline px-1 bg-warning", role: "button", data: { "action" => "click->forms#clearField", "target-id" => "tournament_published_at" } do %>
+        zrušiť dátum
+      <% end %>
+      <%= f.date_field :published_at, class: "form-control" %>
+      <%= error_for(:published_at, tournament) %>
+    </div>
+    <div class="col-md-6">
+      <%= f.label :comments_disabled_since, "Komentáre zablokované", class: "form-label" %>
+      <%= content_tag :span, class: "text-decoration-underline px-1 bg-warning", role: "button", data: { "action" => "click->forms#clearField", "target-id" => "tournament_comments_disabled_since" } do %>
+        zrušiť dátum
+      <% end %>
+      <%= f.date_field :comments_disabled_since, class: "form-control" %>
+      <%= error_for(:comments_disabled_since, tournament) %>
+    </div>
+  </div>
+
+  <p class="text-end mt-4">
+    <%= link_to "Zrušiť", manager_tournaments_path, class: "btn btn-light" %>
+    <%= f.submit "Potvrdiť", class: "btn btn-success" %>
+  </p>
+<% end %>

@@ -1,0 +1,2 @@
+module Manager::TournamentsHelper
+end

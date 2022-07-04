@@ -10,8 +10,9 @@ RSpec.describe "Manager::Enrollments", type: :request do
 
 
     let!(:season) { create(:season) }
-    let!(:player) { create(:player) }
     let!(:manager) { create(:manager) }
+    let!(:player) { create(:player, email: manager.email) }
+
 
     context "As a signed in manager" do
       before { sign_in manager }

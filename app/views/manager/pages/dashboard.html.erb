@@ -11,8 +11,8 @@ Reloaded at <%= Time.now.in_time_zone.to_s %>
   <h2 class="base-heading text-center"><%= @managed_season.name %></h2>
 
   <div class="page__content">
-    <% if @players.any? %>
-      <h2 class="text-3xl text-center py-4 text-green-700">
+    <% if @players.first %>
+      <h2 class="text-center py-4">
         Registrovaní hráči
       </h2>
 
@@ -61,7 +61,7 @@ Reloaded at <%= Time.now.in_time_zone.to_s %>
         </tbody>
       </table>
     <% else %>
-      <p class="text-3xl text-center py-4 text-red-400">
+      <p class="text-center py-4">
         Žiadni hráči nie sú registrovaní.
       </p>
     <% end %>
@@ -69,7 +69,7 @@ Reloaded at <%= Time.now.in_time_zone.to_s %>
 
 
   <div>
-    <h2 class="text-3xl text-center py-4 text-green-700">
+    <h2 class="text-center py-4">
       Manažment sezóny
       <%= @managed_season.name %>.
     </h2>
@@ -77,27 +77,19 @@ Reloaded at <%= Time.now.in_time_zone.to_s %>
     <ul>
       <li>
         Sezóna bola vytvorená
-        <span class="text-green-500 font-extrabold">
-      <%= app_date @managed_season.created_at %>
-    </span>
+        <%= app_date @managed_season.created_at %>
       </li>
       <li>
         Prihlásení hráči:
-        <span class="text-green-500 font-extrabold">
-      <%= @managed_season.players.count %>
-    </span>
+        <%= @managed_season.players.count %>
       </li>
       <li>
         Odohraté zápasy:
-        <span class="text-green-500 font-extrabold">
-      <%= @managed_season.matches.published.reviewed.count %>
-    </span>
+        <%= @managed_season.matches.published.reviewed.count %>
       </li>
       <li>
         Turnaje:
-        <span class="text-green-500 font-extrabold">
-      <%= @managed_season.tournaments.published.count %>
-    </span>
+        <%= @managed_season.tournaments.published.count %>
       </li>
       <% if @managed_season.ended_at.present? %>
         <li>
@@ -107,9 +99,7 @@ Reloaded at <%= Time.now.in_time_zone.to_s %>
       <% else %>
         <li>
           Táto sezóna trvá už
-          <span class="text-green-500 font-extrabold">
-        <%= (Date.today - @managed_season.created_at.to_date).to_i + 1 %>
-      </span>
+          <%= (Date.today - @managed_season.created_at.to_date).to_i + 1 %>
           dní.
         </li>
       <% end %>
@@ -118,57 +108,39 @@ Reloaded at <%= Time.now.in_time_zone.to_s %>
 
       <li>
         Počet hráčov do PLAY-OFF:
-        <span class="text-green-500 font-extrabold">
-      <%= @managed_season.play_off_size %>
-    </span>
+        <%= @managed_season.play_off_size %>
       </li>
       <li>
         Body za výhru 2:0 v 2hre:
-        <span class="text-green-500 font-extrabold">
-      <%= @managed_season.points_single_20 %>
-    </span>
+        <%= @managed_season.points_single_20 %>
       </li>
       <li>
         Body za výhru 2:1 v 2hre:
-        <span class="text-green-500 font-extrabold">
-      <%= @managed_season.points_single_21 %>
-    </span>
+        <%= @managed_season.points_single_21 %>
       </li>
       <li>
         Body za prehru 0:2 v 2hre:
-        <span class="text-green-500 font-extrabold">
-      <%= @managed_season.points_single_02 %>
-    </span>
+        <%= @managed_season.points_single_02 %>
       </li>
       <li>
         Body za prehru 1:2 v 2hre:
-        <span class="text-green-500 font-extrabold">
-      <%= @managed_season.points_single_12 %>
-    </span>
+        <%= @managed_season.points_single_12 %>
       </li>
       <li>
         Body za výhru 2:0 vo 4hre:
-        <span class="text-green-500 font-extrabold">
-      <%= @managed_season.points_double_20 %>
-    </span>
+        <%= @managed_season.points_double_20 %>
       </li>
       <li>
         Body za výhru 2:1 vo 4hre:
-        <span class="text-green-500 font-extrabold">
-      <%= @managed_season.points_double_21 %>
-    </span>
+        <%= @managed_season.points_double_21 %>
       </li>
       <li>
         Body za prehru 0:2 vo 4hre:
-        <span class="text-green-500 font-extrabold">
-      <%= @managed_season.points_double_02 %>
-    </span>
+        <%= @managed_season.points_double_02 %>
       </li>
       <li>
         Body za prehru 1:2 vo 4hre:
-        <span class="text-green-500 font-extrabold">
-      <%= @managed_season.points_double_12 %>
-    </span>
+        <%= @managed_season.points_double_12 %>
       </li>
     </ul>
     <div class="text-center py-2">

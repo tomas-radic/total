@@ -1,0 +1,28 @@
+<div class="page__content">
+  <% if @tournaments.first %>
+    <h2 class="text-center my-4">
+      Turnaje <%= @managed_season.name %>
+    </h2>
+
+    <table class="centered-table">
+      <thead>
+        <tr class="centered-table__heading-row">
+          <th>Názov</th>
+          <th>Dátum</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @tournaments.each do |tournament| %>
+          <tr class="<%= tournament_date_css_class(tournament) %>">
+            <td><%= link_to tournament.name, edit_manager_tournament_path(tournament) %></td>
+            <td><%= tournament.date %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="text-center my-4">
+      Nie sú vypísané žiadne turnaje.
+    </p>
+  <% end %>
+</div>

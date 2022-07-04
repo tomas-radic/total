@@ -64,6 +64,8 @@ Rails.application.routes.draw do
     end
 
     post "enrollments/toggle", to: "enrollments#toggle", as: "toggle_enrollment"
+
+    resources :tournaments, except: [:show, :destroy]
   end
 
   # MANAGERS --------------------------------- (end)

@@ -7,14 +7,25 @@ class Manager::BaseController < ApplicationController
 
 
   def authenticate_manager!
-    # TODO: check for access_denied_since attribute here and sign out manager if needed.
     super
+
+    if current_manager.access_denied_since.present?
+      sign_out current_manager
+      redirect_to new_manager_session_path
+    end
   end
 
 
   def set_managed_season
     @managed_season = Season.sorted.where(ended_at: nil).first
     @managed_season ||= Season.sorted.first
+  end
+
+
+  def ensure_managed_season
+    if @managed_season.blank?
+      redirect_to manager_pages_dashboard_path and return
+    end
   end
 
 

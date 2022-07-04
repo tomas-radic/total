@@ -14,7 +14,7 @@ class Tournament < ApplicationRecord
   validates :name, :main_info, :color_base,
             presence: true
   validates :begin_date, :end_date,
-            presence: true, if: Proc.new { |t| t.published_at.present? }
+            presence: true, if: Proc.new { |t| t.published? }
 
   # Scopes --------
   scope :published, -> { where.not(published_at: nil) }
@@ -33,6 +33,11 @@ class Tournament < ApplicationRecord
     end
 
     result
+  end
+
+
+  def published?
+    published_at.present?
   end
 
 end

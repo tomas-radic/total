@@ -80,7 +80,7 @@ module ApplicationHelper
 
 
   def error_for(attribute, object)
-    unless object.errors[attribute].blank?
+    if object.errors[attribute].present?
       content_tag :p, class: "u-red" do
         "Chýbajúci, alebo nesprávny údaj."
       end

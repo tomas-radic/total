@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'shared_examples/manager_examples'
 
 RSpec.describe "Manager::Players", type: :request do
 
