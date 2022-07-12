@@ -29,6 +29,7 @@ class TodayController < ApplicationController
 
       @planned_matches = season_matches.published.accepted.ranking_counted
                                        .where(finished_at: nil, canceled_at: nil)
+                                       .where("play_date is null or play_date >= ?", Time.now.in_time_zone.to_date)
                                        .order(play_date: :asc, play_time: :asc, updated_at: :desc)
                                        .includes(:reactions, :comments, :reacted_players, :predictions, :place, assignments: :player)
       @canceled_matches = season_matches.published.canceled.ranking_counted
