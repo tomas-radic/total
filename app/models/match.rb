@@ -370,7 +370,7 @@ class Match < ApplicationRecord
         side1 += (s1 - s2 > 0) ? 1 : -1
       end
 
-      errors.add(:base, "Neplatné skóre.") if side1 == 0
+      errors.add(:base, "Neplatné skóre.") if side1 == 0 && !retired?
     end
   end
 
