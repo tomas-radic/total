@@ -109,6 +109,10 @@ class Match < ApplicationRecord
       ].reject(&:blank?).join(':')
     end
 
+    if retired?
+      sets << "(skreč)"
+    end
+
     sets.reject(&:blank?).join(", ")
   end
 
