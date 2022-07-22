@@ -26,54 +26,56 @@
             <div><a href="#race" class="default-color">Nominácie PLAY OFF</a></div>
           </div>
 
-          <div class="today__content">
-            <!-- Requested matches -->
-            <% if @requested_matches.first || @rejected_matches.first %>
-              <div class="unconfirmed-matches">
-                <h3 class="caption-l3 accent-color text-center text-md-start">Nepotvrdené výzvy</h3>
-                <% @requested_matches.each do |match| %>
-                  <div class="today__request-link">
-                    <%= link_to "#{match.side_name 1} - #{match.side_name 2}",
-                                match_path(match),
-                                class: "default-color #{'u-red-bg' if policy(match).accept? || policy(match).destroy?}" %>
-                    <%= render partial: "shared/reactions_tiny", locals: { reactionable: match } %>
-                  </div>
-
-                <% end %>
-
-                <div class="mt-3">
-                  <% @rejected_matches.each do |match| %>
-                    <div class="today__request-link">
-                      <%= link_to "#{match.side_name 2} odmietol/la - #{match.side_name 1}",
-                                  match_path(match),
-                                  class: "u-silver" %>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
-            <% end %>
-
-            <% if @canceled_matches.first %>
-              <div class="unconfirmed-matches">
-                <h3 class="caption-l3 accent-color text-center text-md-start">Zrušené zápasy</h3>
-                <div class="mt-3">
-                  <% @canceled_matches.each do |match| %>
+          <% if @requested_matches.first || @rejected_matches.first || @canceled_matches.first || @players_open_to_play.first %>
+            <div class="today__content">
+              <!-- Requested matches -->
+              <% if @requested_matches.first || @rejected_matches.first %>
+                <div class="unconfirmed-matches">
+                  <h3 class="caption-l3 accent-color text-center text-md-start">Nepotvrdené výzvy</h3>
+                  <% @requested_matches.each do |match| %>
                     <div class="today__request-link">
                       <%= link_to "#{match.side_name 1} - #{match.side_name 2}",
                                   match_path(match),
-                                  class: "u-silver" %>
+                                  class: "default-color #{'u-red-bg' if policy(match).accept? || policy(match).destroy?}" %>
+                      <%= render partial: "shared/reactions_tiny", locals: { reactionable: match } %>
                     </div>
-                  <% end %>
-                </div>
-              </div>
-            <% end %>
 
-            <!-- Players open to play -->
-            <div id="players_open_to_play_top">
-              <%= render partial: "shared/players_open_to_play",
-                         locals: { players: @players_open_to_play } %>
+                  <% end %>
+
+                  <div class="mt-3">
+                    <% @rejected_matches.each do |match| %>
+                      <div class="today__request-link">
+                        <%= link_to "#{match.side_name 2} odmietol/la - #{match.side_name 1}",
+                                    match_path(match),
+                                    class: "u-silver" %>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+
+              <% if @canceled_matches.first %>
+                <div class="unconfirmed-matches">
+                  <h3 class="caption-l3 accent-color text-center text-md-start">Zrušené zápasy</h3>
+                  <div class="mt-3">
+                    <% @canceled_matches.each do |match| %>
+                      <div class="today__request-link">
+                        <%= link_to "#{match.side_name 1} - #{match.side_name 2}",
+                                    match_path(match),
+                                    class: "u-silver" %>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+
+              <!-- Players open to play -->
+              <div id="players_open_to_play_top">
+                <%= render partial: "shared/players_open_to_play",
+                           locals: { players: @players_open_to_play } %>
+              </div>
             </div>
-          </div>
+          <% end %>
         </div>
       <% else %>
         <h3 class="today__no-season default-color">Nie je sezóna.<br>Všetci netrpezlivo čakáme.</h3>
