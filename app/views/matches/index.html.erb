@@ -64,6 +64,10 @@
 
     <% if selected_season.present? %>
       <% if @matches.any? %>
+        <p class="text-end accent-color me-lg-4">
+          Odohratých <%= @reviewed_count %><br>
+          Plánovaných <%= @planned_count %>
+        </p>
         <table class="centered-table">
           <tbody>
           <% @matches.each do |match| %>
@@ -118,6 +122,10 @@
           <% end %>
           </tbody>
         </table>
+
+        <p>
+          <%= paginate @matches %>
+        </p>
       <% else %>
         <p class="py-8 text-center">Žiadne zápasy.</p>
         <p class="py-2 text-center">
