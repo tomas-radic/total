@@ -1,9 +1,7 @@
 class CommentPolicy < ApplicationPolicy
 
   def create?
-    return false if user.comments_disabled_since.present? || record.commentable.comments_disabled_since.present?
-
-    true
+    can_comment? && commentable?
   end
 
 
@@ -13,9 +11,29 @@ class CommentPolicy < ApplicationPolicy
 
 
   def update?
-    return false if user.comments_disabled_since.present? || record.commentable.comments_disabled_since.present?
+    is_author? && can_comment? && commentable?
+  end
 
-    true
+
+  def delete?
+    is_author?
+  end
+
+
+  private
+
+  def is_author?
+    record.player_id == user.id
+  end
+
+
+  def can_comment?
+    user.comments_disabled_since.blank?
+  end
+
+
+  def commentable?
+    record.commentable.respond_to?(:comments_disabled_since) && record.commentable.comments_disabled_since.blank?
   end
 
 end

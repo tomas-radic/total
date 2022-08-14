@@ -31,11 +31,19 @@ Rails.application.routes.draw do
       post :cancel, on: :member
       post :toggle_reaction, on: :member
 
-      resources :comments, only: [:create, :edit, :update] do
+      resources :comments, only: [:create, :edit, :update], module: :matches do
         post :delete, on: :member
       end
 
       post :switch_prediction, on: :member
+    end
+
+    resources :articles, except: :all do
+      post :toggle_reaction, on: :member
+
+      resources :comments, only: [:create, :edit, :update], module: :articles do
+        post :delete, on: :member
+      end
     end
 
     post "players/toggle_open_to_play"

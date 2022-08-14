@@ -1,4 +1,4 @@
-<%= form_with model: [:player, match, comment] do |f| %>
+<%= form_with model: [:player, comment.commentable, comment], id: "comment-form" do |f| %>
   <div id="reply-control" class="d-none mb-1" data-comments-target="replyControl">
     <small>
       <span class="text-danger">Odpovedáš na</span>

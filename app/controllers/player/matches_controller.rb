@@ -165,19 +165,23 @@ class Player::MatchesController < Player::BaseController
 
     # Turbo::StreamsChannel.broadcast_replace_to "matches",
     #                                            target: "match_#{@match.id}_reactions",
-    #                                            partial: "shared/reactions",
+    #                                            partial: "shared/reactions_buttons",
     #                                            locals: { reactionable: @match, current_player: current_player }
     # Turbo::StreamsChannel.broadcast_replace_to "matches",
     #                                            target: "tiny_match_#{@match.id}_tiny_reactions",
-    #                                            partial: "shared/reactions_tiny",
+    #                                            partial: "shared/reactions_buttons_tiny",
     #                                            locals: { reactionable: @match, current_player: current_player }
 
     render turbo_stream: [
       turbo_stream.replace("match_#{@match.id}_reactions",
-                           partial: "shared/reactions",
-                           locals: { reactionable: @match }),
+                           partial: "shared/reactions_buttons",
+                           locals: {
+                             reactionable: @match,
+                             toggle_reaction_path: toggle_reaction_player_match_path(@match),
+                             object_path: match_path(@match)
+                           }),
       turbo_stream.replace("tiny_match_#{@match.id}_tiny_reactions",
-                           partial: "shared/reactions_tiny",
+                           partial: "shared/reactions_buttons_tiny",
                            locals: { reactionable: @match })
     ]
   end
@@ -218,8 +222,7 @@ class Player::MatchesController < Player::BaseController
 
 
   def load_and_authorize_record
-    @match = Match.published.find_by id: params[:id]
-    redirect_to(root_path) and return if @match.blank?
+    @match = Match.published.find params[:id]
     authorize @match
   end
 

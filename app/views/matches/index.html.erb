@@ -39,7 +39,12 @@
             <td></td>
             <td></td>
             <td class="text-center">
-              <%= render partial: "shared/reactions", locals: { reactionable: match } %>
+              <%= render partial: "shared/reactions_buttons",
+                         locals: {
+                           reactionable: match,
+                           toggle_reaction_path: toggle_reaction_player_match_path(match),
+                           object_path: match_path(match, anchor: "comments")
+                         } %>
             </td>
           </tr>
           <% if MatchPolicy.new(current_player, match).switch_prediction? %>
@@ -104,7 +109,12 @@
             <tr>
               <td></td>
               <td class="text-center">
-                <%= render partial: "shared/reactions", locals: { reactionable: match } %>
+                <%= render partial: "shared/reactions_buttons",
+                           locals: {
+                             reactionable: match,
+                             toggle_reaction_path: toggle_reaction_player_match_path(match),
+                             object_path: match_path(match, anchor: "comments")
+                           } %>
               </td>
               <td></td>
               <td></td>

@@ -1,6 +1,7 @@
 class Article < ApplicationRecord
 
   include ColorBase
+  include Reactions
 
   before_validation :set_random_color_base
 

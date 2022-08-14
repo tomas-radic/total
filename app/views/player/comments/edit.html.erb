@@ -1,5 +1,9 @@
 <%= turbo_frame_tag "tf_comment_#{@comment.id}_content" do %>
   <div class="mt-2">
-    <%= render partial: "player/comments/form", locals: { match: @comment.commentable, comment: @comment } %>
+    <%= render partial: "player/comments/form",
+               locals: {
+                 comment: @comment,
+                 current_player: current_player,
+               } %>
   </div>
 <% end %>

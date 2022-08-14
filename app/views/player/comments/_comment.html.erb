@@ -10,14 +10,14 @@
           <% if current_player == comment.player %>
             <% if comment.deleted_at.blank? %>
 
-              <%= form_with url: delete_player_match_comment_path(comment.commentable, comment), class: "d-inline-block" do |f| %>
+              <%= form_with url: delete_comment_path(comment), class: "d-inline-block" do |f| %>
                 <%= image_submit_tag "delete.png", class: "comment__btn-icon", data: { confirm: "Chceš zmazať komentár?" } %>
               <% end %>
 
               <div>
                 <%= turbo_frame_tag "tf_edit_comment_#{comment.id}",
                                     target: "tf_comment_#{comment.id}_content" do %>
-                  <%= link_to edit_player_match_comment_path(comment.commentable, comment),
+                  <%= link_to edit_comment_path(comment),
                               class: "u-no-decoration" do %>
                     <%= image_tag("edit.png", class: "comment__btn-icon") %>
                   <% end %>
