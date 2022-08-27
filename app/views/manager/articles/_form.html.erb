@@ -1,0 +1,69 @@
+<h1 class="text-center my-4"><%= heading %></h1>
+
+<%= form_with model: [:manager, article], data: { controller: "forms" } do |f| %>
+  <div class="row mt-5">
+    <div class="col-md-4">
+      <%= f.label :title, "Názov", class: "form-label" %>
+      <%= f.text_field :title, class: "form-control" %>
+      <%= error_for(:title, article) %>
+    </div>
+    <div class="col-md-4">
+      <%= f.label :color_base, "Farba", class: "form-label" %>
+      <%= f.select :color_base,
+                   Article.color_bases.keys.map { |cb| [cb, cb] },
+                   {},
+                   class: "form-control" %>
+      <%= error_for(:color_base, article) %>
+    </div>
+    <div class="col-md-4">
+      <%= f.label :link, "Linka", class: "form-label" %>
+      <%= f.text_field :link, class: "form-control" %>
+      <%= error_for(:link, article) %>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-md-8">
+      <div>
+        <%= f.label :content, "Obsah", class: "form-label" %>
+        <%= f.text_area :content, class: "form-control", rows: 10 %>
+        <%= error_for(:content, article) %>
+      </div>
+      <div class="u-grey">
+        <%= article.manager&.email || current_manager.email %>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div>
+        <%= f.label :published_at, "Zverejnené", class: "form-label" %>
+        <%= content_tag :span, class: "text-decoration-underline px-1 bg-warning", role: "button", data: { "action" => "click->forms#clearField", "target-id" => "article_published_at" } do %>
+          zrušiť dátum
+        <% end %>
+        <%= f.date_field :published_at, class: "form-control" %>
+        <%= error_for(:published_at, article) %>
+      </div>
+      <div>
+        <%= f.label :promote_until, "Promovať do", class: "form-label" %>
+        <%= content_tag :span, class: "text-decoration-underline px-1 bg-warning", role: "button", data: { "action" => "click->forms#clearField", "target-id" => "article_promote_until" } do %>
+          zrušiť dátum
+        <% end %>
+        <%= f.date_field :promote_until, class: "form-control" %>
+        <%= error_for(:promote_until, article) %>
+      </div>
+      <div>
+        <%= f.label :comments_disabled_since, "Komentáre zablokované", class: "form-label" %>
+        <%= content_tag :span, class: "text-decoration-underline px-1 bg-warning", role: "button", data: { "action" => "click->forms#clearField", "target-id" => "article_comments_disabled_since" } do %>
+          zrušiť dátum
+        <% end %>
+        <%= f.date_field :comments_disabled_since, class: "form-control" %>
+        <%= error_for(:comments_disabled_since, article) %>
+      </div>
+    </div>
+  </div>
+  <p class="text-end mt-4">
+    <% if article.persisted? %>
+      <%= link_to "Zmazať", manager_article_path(article), method: :delete, data: { confirm: "Naozaj zmazať tento článok?" }, class: "btn btn-danger" %>
+    <% end %>
+    <%= link_to "Zrušiť", manager_articles_path, class: "btn btn-light" %>
+    <%= f.submit "Potvrdiť", class: "btn btn-success" %>
+  </p>
+<% end %>

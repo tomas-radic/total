@@ -1,0 +1,31 @@
+<div class="page__content">
+  <div>
+    <%= link_to "Nový článok", new_manager_article_path, class: "btn btn-success" %>
+  </div>
+  <% if @articles.first %>
+    <h2 class="text-center my-4">
+      Články <%= @managed_season.name %>
+    </h2>
+
+    <table class="centered-table">
+      <thead>
+        <tr class="centered-table__heading-row">
+          <th>Názov</th>
+          <th>Dátum</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @articles.each do |article| %>
+          <tr>
+            <td><%= link_to article.title, edit_manager_article_path(article) %></td>
+            <td><%= app_date(article.created_at) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="text-center my-4">
+      Nie sú tu žiadne články.
+    </p>
+  <% end %>
+</div>
