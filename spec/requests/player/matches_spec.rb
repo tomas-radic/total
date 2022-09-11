@@ -260,7 +260,7 @@ RSpec.describe "Player::Matches", type: :request do
           { score: "6 4" }
         end
 
-        it "Finishes match and redirects to the match" do
+        xit "Finishes match and redirects to the match" do
           subject
 
           expect(match.reload.finished_at).not_to be_nil
@@ -274,7 +274,7 @@ RSpec.describe "Player::Matches", type: :request do
           { score: "6" }
         end
 
-        it "Does not finish the match and renders finish_init" do
+        xit "Does not finish the match and renders finish_init" do
           subject
 
           expect(match.reload.finished_at).to be_nil

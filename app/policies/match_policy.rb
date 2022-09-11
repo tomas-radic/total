@@ -58,18 +58,21 @@ class MatchPolicy < ApplicationPolicy
 
   def finish?
     if user.is_a?(Player)
-      if record.competitable.is_a?(Season)
-        return false if record.competitable.ended_at.present?
-        return false unless update?
-        return false if record.canceled?
-        return false if record.rejected?
-        return false unless record.accepted?
 
-        record.finished_at.blank? ||
-          (record.finished_at >= Rails.configuration.minutes_refinish_match.minutes.ago)
-      else
-        return false
-      end
+      false # TODO: finishing matches temporarily disabled
+
+      # if record.competitable.is_a?(Season)
+      #   return false if record.competitable.ended_at.present?
+      #   return false unless update?
+      #   return false if record.canceled?
+      #   return false if record.rejected?
+      #   return false unless record.accepted?
+      #
+      #   record.finished_at.blank? ||
+      #     (record.finished_at >= Rails.configuration.minutes_refinish_match.minutes.ago)
+      # else
+      #   return false
+      # end
 
 
     elsif user.is_a?(Manager)
