@@ -5,7 +5,7 @@ class TodayController < ApplicationController
       season_matches = selected_season.matches.published
 
       @requested_matches = season_matches.published.ranking_counted.requested
-                                         .where(finished_at: nil)
+                                         .where(finished_at: nil, canceled_at: nil)
                                          .order(requested_at: :desc)
                                          .includes(:reactions, :comments, :reacted_players, :predictions, assignments: :player)
 
