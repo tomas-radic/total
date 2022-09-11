@@ -1,6 +1,9 @@
 class MatchPolicy < ApplicationPolicy
 
   def create?
+
+    return false # TODO: creating matches temporarily disabled
+
     return false unless user.present?
     return false if season_ended?(record)
 
