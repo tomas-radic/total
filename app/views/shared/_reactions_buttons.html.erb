@@ -5,7 +5,7 @@
     <% if current_player.present? %>
       <% r_icon = reactionable.reactions.find { |r| r.player_id == current_player.id }.present? ? "liked.png" : "like.png" %>
       <% c_icon = reactionable.comments.find { |c| c.player_id == current_player.id }.present? ? "commented.png" : "comment.png" %>
-      <div class="reactions__col">
+      <div class="reactions__col default-color">
         <%= link_to toggle_reaction_path, method: :post, class: "reactions__col reactions__link" do %>
           <%= image_tag(r_icon, class: "reactions__icon") %>
         <% end %>
@@ -21,10 +21,10 @@
       </div>
       <%= link_to object_path, class: "reactions__col reactions__link" do %>
         <%= image_tag(c_icon, class: "reactions__icon") %>
-        <div><%= reactionable.comments_count %></div>
+        <div class="default-color"><%= reactionable.comments_count %></div>
       <% end %>
     <% else %>
-      <div class="reactions__col">
+      <div class="reactions__col default-color">
         <%= image_tag("like.png", class: "reactions__icon") %>
         <% if reactionable.reactions_count > 0 %>
           <div data-controller="reactions" data-reactions-target="reactionsCount" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-trigger="hover focus click" title="<%= reactionable.reacted_player_names(max_count: 5) %>">
@@ -38,7 +38,7 @@
       </div>
       <%= link_to object_path, class: "reactions__col reactions__link" do %>
         <%= image_tag("comment.png", class: "reactions__icon") %>
-        <div><%= reactionable.comments_count %></div>
+        <div class="default-color"><%= reactionable.comments_count %></div>
       <% end %>
     <% end %>
   </div>

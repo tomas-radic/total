@@ -18,7 +18,7 @@ module MatchesHelper
 
 
   def match_winner_link(match, break_whitespace: false, options: {})
-    return nil unless match.reviewed?
+    return nil unless match.finished?
 
     match.assignments.select { |a| a.side == match.winner_side }.map do |a|
       name = break_whitespace ? a.player.name.gsub(/\s+/, "<br>").html_safe : a.player.name
@@ -28,7 +28,7 @@ module MatchesHelper
 
 
   def match_looser_link(match, break_whitespace: false, options: {})
-    return nil unless match.reviewed?
+    return nil unless match.finished?
 
     match.assignments.select { |a| a.side != match.winner_side }.map do |a|
       name = break_whitespace ? a.player.name.gsub(/\s+/, "<br>").html_safe : a.player.name

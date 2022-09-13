@@ -4,8 +4,12 @@
   <div class="page-controls">
     <div class="page-controls__breadcrumbs">
       <%= link_to "Domov", root_path, target: :_top %>
-      /
-      <%= link_to "Zápasy", matches_path, target: :_top %>
+
+      <% if match.competitable_type == "Season" %>
+        / <%= link_to "Zápasy", matches_path, target: :_top %>
+      <% elsif match.competitable_type == "Tournament" %>
+        / <%= link_to "Turnaj", tournament_path(match.competitable_id), target: :_top %>
+      <% end %>
     </div>
     <% if current_player %>
       <div class="page-controls__buttons">
