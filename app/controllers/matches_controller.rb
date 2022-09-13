@@ -4,7 +4,7 @@ class MatchesController < ApplicationController
     if selected_season.present?
       page = params[:page] || 1
 
-      @matches = selected_season.matches.published #.ranking_counted Temporarily show also not ranking_counted
+      @matches = selected_season.matches.published.ranking_counted
                                 .where(rejected_at: nil, canceled_at: nil)
                                 .order("finished_at desc nulls first")
                                 .order("play_date asc nulls last, play_time asc nulls last, updated_at desc")

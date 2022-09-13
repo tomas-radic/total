@@ -22,12 +22,12 @@ class TodayController < ApplicationController
                                         .where("(promote_until is not null and promote_until >= ?) or (promote_until is null and created_at > ?)",
                                                Date.today, 4.days.ago)
 
-      @recent_matches = season_matches.published.reviewed
+      @recent_matches = season_matches.published.reviewed.ranking_counted
                                       .where("finished_at >= ?", 7.days.ago)
                                       .order(finished_at: :desc)
                                       .includes(:reactions, :comments, :reacted_players, assignments: :player)
 
-      @planned_matches = season_matches.published.accepted
+      @planned_matches = season_matches.published.accepted.ranking_counted
                                        .where(finished_at: nil, canceled_at: nil)
                                        .where("play_date is null or play_date >= ?", Time.now.in_time_zone.to_date)
                                        .order(play_date: :asc, play_time: :asc, updated_at: :desc)
