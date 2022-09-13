@@ -424,17 +424,16 @@ html {
     flex-direction: column;
     justify-content: space-between;
     min-height: 290px;
-    border: 1px solid $color-white;
     padding: 1rem;
     text-align: center;
 
     @media (min-width: $breakpoint-md) {
       width: 360px;
-      //border-right: 1px solid $color-white;
     }
   }
 
-  &__tile-spaced {
+  &__tile-bordered {
+    border: 1px solid $color-white;
     margin-bottom: 1rem;
 
     @media (min-width: $breakpoint-md) {
