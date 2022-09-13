@@ -529,8 +529,20 @@ html {
   }
 }
 
-.overflow-image {
+.overflow-content {
   overflow-x: scroll;
+
+  &__image {
+    width: 690px;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    text-align: center;
+    
+    &__image {
+      width: 960px;
+    }
+  }
 }
 
 .about {
