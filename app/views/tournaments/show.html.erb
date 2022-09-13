@@ -153,8 +153,8 @@
 
     <h3 id="draw" class="base-heading accent-color">Pavúk</h3>
     <% if @tournament.draw_url.present? %>
-      <div class="overflow-image">
-        <%= image_tag @tournament.draw_url, width: 690 %>
+      <div class="overflow-content">
+        <%= image_tag @tournament.draw_url, class: "overflow-content__image" %>
       </div>
     <% else %>
       <p class="py-8 text-center default-color">Nie je zverejnený.</p>
