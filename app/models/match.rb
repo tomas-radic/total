@@ -23,13 +23,13 @@ class Match < ApplicationRecord
   validates :accepted_at, absence: true, if: Proc.new { |m| m.rejected_at }
   validates :requested_at, presence: true, if: Proc.new { |m| m.accepted_at || m.rejected_at }
   validates :finished_at, presence: true, if: Proc.new { |m| m.reviewed_at }
-  validates :finished_at, absence: true, if: Proc.new { |m| m.competitable.is_a?(Season) && m.accepted_at.nil? }
+  validates :finished_at, absence: true, if: Proc.new { |m| m.competitable_type == "Season" && m.accepted_at.nil? }
   validates :canceled_at, absence: true, if: Proc.new { |m| m.finished_at || m.rejected_at }
   validates :canceled_at, absence: true, if: Proc.new { |m| m.accepted_at.nil? && m.rejected_at.nil? }
   validates :canceled_at, presence: true, if: Proc.new { |m| m.canceled_by_id.present? }
   validates :canceled_by_id, presence: true, if: Proc.new { |m| m.canceled_at }
   validates :play_date, :play_time, :place_id,
-            absence: true, if: Proc.new { |m| m.requested_at && m.accepted_at.blank? }
+            absence: true, if: Proc.new { |m| m.competitable_type == "Season" && m.requested_at && m.accepted_at.blank? }
   validates :winner_side,
             presence: true, if: Proc.new { |m| m.finished_at }
   validates :set1_side1_score, presence: true, if: Proc.new { |m| m.set1_side2_score.present? }
@@ -40,7 +40,7 @@ class Match < ApplicationRecord
   validates :set3_side2_score, presence: true, if: Proc.new { |m| m.set3_side1_score.present? }
   validate :result_state, if: Proc.new { |m| m.finished_at }
   validate :player_assignments
-  validate :existing_matches, if: Proc.new { |m| m.single? && m.finished_at.blank? && m.competitable.is_a?(Season) }
+  validate :existing_matches, if: Proc.new { |m| m.single? && m.finished_at.blank? && m.competitable_type == "Season" }
 
 
   # Enums -----
@@ -96,7 +96,7 @@ class Match < ApplicationRecord
 
 
   def result(side: 1)
-    return nil if reviewed_at.blank?
+    return nil if finished_at.blank?
 
     side = 1 if (side < 1) || (side > 2)
     other_side = side - 1
