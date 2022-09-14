@@ -57,7 +57,7 @@
 
   <hr>
 
-  <% if match.reviewed? %>
+  <% if match.reviewed? || (!match.ranking_counted && match.finished?) %>
     <p class="u-fs-giant py-4 text-center"><%= match.result %></p>
     <p class="text-center">
       <%= match.side_name(match.winner_side) %>
