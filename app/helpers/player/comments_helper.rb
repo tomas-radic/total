@@ -6,6 +6,8 @@ module Player::CommentsHelper
       edit_player_match_comment_path(comment.commentable, comment)
     when "Article"
       edit_player_article_comment_path(comment.commentable, comment)
+    when "Tournament"
+      edit_player_tournament_comment_path(comment.commentable, comment)
     end
   end
 
@@ -16,6 +18,8 @@ module Player::CommentsHelper
       delete_player_match_comment_path(comment.commentable, comment)
     when "Article"
       delete_player_article_comment_path(comment.commentable, comment)
+    when "Tournament"
+      delete_player_tournament_comment_path(comment.commentable, comment)
     end
   end
 end

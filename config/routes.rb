@@ -46,6 +46,14 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :tournaments, except: :all do
+      post :toggle_reaction, on: :member
+
+      resources :comments, only: [:create, :edit, :update], module: :tournaments do
+        post :delete, on: :member
+      end
+    end
+
     post "players/toggle_open_to_play"
     post "players/toggle_cant_play"
     post "players/anonymize"

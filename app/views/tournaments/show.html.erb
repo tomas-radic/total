@@ -46,6 +46,7 @@
       <% end %>
     </div>
   </div>
+
 </div>
 
 <div class="<%= @tournament.color_base_css %>">
@@ -160,4 +161,15 @@
       <p class="py-8 text-center default-color">Nie je zverejnený.</p>
     <% end %>
   </div>
+</div>
+
+<div class="page__content">
+  <%= render partial: "shared/comments_list",
+             locals: {
+               reactionable: @tournament,
+               current_player: current_player,
+               reactionable_type: "tournament",
+               toggle_reaction_path: toggle_reaction_player_tournament_path(@tournament),
+               object_path: tournament_path(@tournament, anchor: "comments")
+             } %>
 </div>
