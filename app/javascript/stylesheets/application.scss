@@ -235,6 +235,62 @@ html {
   }
 }
 
+.matches-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr 1fr 0.8fr;
+  grid-template-rows: 1fr;
+  @extend .text-center;
+  max-width: $breakpoint-md;
+  margin: 0 auto;
+
+  &__top-border {
+    border-top: 6px solid $color-white;
+  }
+
+  &__left-border {
+    border-left: 1px solid $color-white;
+  }
+
+  &__col {
+    padding-top: 0.6rem;
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+
+  &__col1 {
+    grid-column: 1/2;
+    grid-row: 1/2;
+
+    @media (min-width: $breakpoint-md) {
+      font-size: 2rem;
+    }
+  }
+
+  &__col2 {
+    grid-column: 2/3;
+
+    @media (min-width: $breakpoint-md) {
+      font-size: 1.3rem;
+      margin-left: 1rem;
+      margin-right: 1rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
+  &__col3 {
+    grid-column: 3/4;
+
+    @media (min-width: $breakpoint-md) {
+      font-size: 2rem;
+    }
+  }
+
+  &__col4 {
+    grid-column: 4/5;
+  }
+}
+
 .centered-table {
   width: 100%;
   line-height: 1.25rem;
