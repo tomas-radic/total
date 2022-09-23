@@ -6,59 +6,15 @@
     <div class="page__content">
       <h3 class="base-heading accent-color">Tvoje ďalšie zápasy.</h3>
 
-      <table class="centered-table">
-        <thead>
-        <tr class="centered-table__heading-row">
-          <th class="text-center">Vyzývateľ</th>
-          <th class="text-center">Vyzvaný</th>
-          <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @pending_matches.each do |match| %>
-          <tr class="text-center">
-            <td class="centered-table__large"><%= match_player_link(match, side: 1, options: { class: "u-no-decoration" }, break_whitespace: true) %></td>
-            <td class="centered-table__large"><%= match_player_link(match, side: 2, options: { class: "u-no-decoration" }, break_whitespace: true) %></td>
-            <td>
-              <% if match.date.present? %>
-                <%= link_to match_path(match), class: "default-color" do %>
-                  <%= app_date(match.date, prefix: true, vertical: true) %>
-                  <% if match.play_time.present? %>
-                    <br><%= match.play_time %>
-                  <% end %>
-                  <% if match.place %>
-                    <br><%= match.place.name %>
-                  <% end %>
-                <% end %>
-              <% else %>
-                <%= link_to "(plánuje sa)", match_path(match), class: "default-color" %>
-              <% end %>
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td class="text-center">
-              <%= render partial: "shared/reactions_buttons",
-                         locals: {
-                           reactionable: match,
-                           toggle_reaction_path: toggle_reaction_player_match_path(match),
-                           object_path: match_path(match, anchor: "comments")
-                         } %>
-            </td>
-          </tr>
-          <% if MatchPolicy.new(current_player, match).switch_prediction? %>
-            <tr>
-              <td></td>
-              <td></td>
-              <td class="text-center">
-                <%= render partial: "matches/predictions_link", locals: { match: match, current_player: current_player } %>
-              </td>
-            </tr>
-          <% end %>
-        <% end %>
-        </tbody>
-      </table>
+      <div class="matches-grid">
+        <div class="matches-grid__col matches-grid__col1">Vyzývateľ</div>
+        <div class="matches-grid__col matches-grid__col2"></div>
+        <div class="matches-grid__col matches-grid__col3">Vyzvaný</div>
+        <div class="matches-grid__col matches-grid__col4"></div>
+      </div>
+      <% @pending_matches.each do |match| %>
+        <%= render partial: "matches/grid", locals: { match: match, current_player: current_player } %>
+      <% end %>
     </div>
   </section>
 <% end %>
@@ -73,74 +29,10 @@
           Odohratých <%= @reviewed_count %><br>
           Plánovaných <%= @planned_count %>
         </p>
-
         <% @matches.each do |match| %>
-          <div class="my-4">
-            <% if match.reviewed? %>
-              <div class="matches-grid">
-                <div class="matches-grid__col matches-grid__col1">
-                  <%= match_winner_link(match, break_whitespace: true, options: { class: "u-no-decoration" }) %>
-                </div>
-                <div class="matches-grid__col matches-grid__row1 matches-grid__col2 matches-grid__top-border">
-                  <%= link_to break_whitespace(match.result(side: match.winner_side).gsub(", ", " ")), match_path(match),
-                              class: "default-color" %>
-                </div>
-                <div class="matches-grid__col matches-grid__col3">
-                  <%= match_looser_link(match, break_whitespace: true, options: { class: "u-no-decoration" }) %>
-                </div>
-                <div class="matches-grid__col matches-grid__col4">
-                  <%= app_date(match.date, prefix: true, vertical: true) if match.date %>
-                </div>
-              </div>
-            <% else %>
-              <div class="matches-grid">
-                <div class="matches-grid__col matches-grid__col1">
-                  <%= match_player_link(match, side: 1, break_whitespace: true, options: { class: "u-no-decoration" }) %>
-                </div>
-                <div class="matches-grid__col matches-grid__col2 matches-grid__top-border">
-                  <% if match.date.present? %>
-                    <%= link_to match_path(match), class: "default-color" do %>
-                      <%= app_date(match.date, prefix: true, vertical: true) %>
-                      <% if match.play_time.present? %>
-                        <br><%= match.play_time %>
-                      <% end %>
-                      <% if match.place %>
-                        <br><%= match.place.name %>
-                      <% end %>
-                    <% end %>
-                  <% else %>
-                    <%= link_to "(plánuje sa)", match_path(match), class: "default-color" %>
-                  <% end %>
-                </div>
-                <div class="matches-grid__col matches-grid__col3">
-                  <%= match_player_link(match, side: 2, break_whitespace: true, options: { class: "u-no-decoration" }) %>
-                </div>
-                <div class="matches-grid__col matches-grid__col4"></div>
-              </div>
-            <% end %>
-            <div class="matches-grid">
-              <div class="matches-grid__col matches-grid__col1"></div>
-              <div class="matches-grid__col matches-grid__col2">
-                <%= render partial: "shared/reactions_buttons",
-                           locals: {
-                             reactionable: match,
-                             toggle_reaction_path: toggle_reaction_player_match_path(match),
-                             object_path: match_path(match, anchor: "comments")
-                           } %>
-
-                <div>
-                  <%= render partial: "matches/predictions_link", locals: { match: match, current_player: current_player } %>
-                </div>
-              </div>
-              <div class="matches-grid__col matches-grid__col3"></div>
-              <div class="matches-grid__col matches-grid__col4"></div>
-            </div>
-          </div>
+          <%= render partial: "matches/grid", locals: { match: match, current_player: current_player } %>
         <% end %>
-
-        <p>
-          <%= paginate @matches %>
-        </p>
+        <p><%= paginate @matches %></p>
       <% else %>
         <p class="py-8 text-center">Žiadne zápasy.</p>
         <p class="py-2 text-center">

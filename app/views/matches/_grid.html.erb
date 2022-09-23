@@ -1,0 +1,64 @@
+<div class="my-4">
+  <% if match.finished? %>
+    <div class="matches-grid">
+      <div class="matches-grid__col matches-grid__col1">
+        <%= match_winner_link(match, break_whitespace: true, options: { class: "u-no-decoration default-color" }) %>
+      </div>
+      <div class="matches-grid__col matches-grid__col2 matches-grid__top-border">
+        <%= link_to break_whitespace(match.result(side: match.winner_side).gsub(", ", " ")),
+                    match_path(match),
+                    class: "default-color" %>
+        <div class="mt-4">
+          <%= render partial: "shared/reactions_buttons",
+                     locals: {
+                       reactionable: match,
+                       toggle_reaction_path: toggle_reaction_player_match_path(match),
+                       object_path: match_path(match, anchor: "comments")
+                     } %>
+        </div>
+      </div>
+      <div class="matches-grid__col matches-grid__col3">
+        <%= match_looser_link(match, break_whitespace: true, options: { class: "u-no-decoration default-color" }) %>
+      </div>
+      <div class="matches-grid__col matches-grid__col4 default-color">
+        <%= app_date(match.date, prefix: true, vertical: true) if match.date %>
+      </div>
+    </div>
+  <% else %>
+    <div class="matches-grid">
+      <div class="matches-grid__col matches-grid__col1">
+        <%= match_player_link(match, side: 1, break_whitespace: true, options: { class: "u-no-decoration default-color" }) %>
+      </div>
+      <div class="matches-grid__col matches-grid__col2 matches-grid__top-border">
+        <% if match.date.present? %>
+          <%= link_to match_path(match), class: "default-color" do %>
+            <%= app_date(match.date, prefix: true, vertical: true) %>
+            <% if match.play_time.present? %>
+              <br><%= match.play_time %>
+            <% end %>
+            <% if match.place %>
+              <br><%= match.place.name %>
+            <% end %>
+          <% end %>
+        <% else %>
+          <%= link_to "(plánuje sa)", match_path(match), class: "default-color" %>
+        <% end %>
+        <div class="mt-4">
+          <%= render partial: "shared/reactions_buttons",
+                     locals: {
+                       reactionable: match,
+                       toggle_reaction_path: toggle_reaction_player_match_path(match),
+                       object_path: match_path(match, anchor: "comments")
+                     } %>
+        </div>
+        <div>
+          <%= render partial: "matches/predictions_link", locals: { match: match, current_player: current_player } %>
+        </div>
+      </div>
+      <div class="matches-grid__col matches-grid__col3">
+        <%= match_player_link(match, side: 2, break_whitespace: true, options: { class: "u-no-decoration default-color" }) %>
+      </div>
+      <div class="matches-grid__col matches-grid__col4"></div>
+    </div>
+  <% end %>
+</div>

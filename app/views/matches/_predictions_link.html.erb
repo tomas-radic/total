@@ -1,14 +1,13 @@
 <%
-  label = if match.players.include?(current_player)
-            if match.predictions.first.present?
+  label = if current_player
+            if match.players.include?(current_player) || match.predictions.include?(current_player.predictions.find { |p| p.match_id == match.id })
               "Prognóza #{match.predictions_text}"
+            else
+              "Tipni víťaza"
             end
-          elsif match.predictions.include?(current_player.predictions.find { |p| p.match_id == match.id })
-            "Prognóza #{match.predictions_text}"
           else
             "Tipni víťaza"
           end
-
 %>
 
 <% if label %>
