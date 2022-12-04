@@ -26,8 +26,8 @@
         <% end %>
       </p>
 
-      <% predictions_enabled = MatchPolicy.new(current_player, match).switch_prediction? %>
       <% if current_player.present? %>
+        <% predictions_enabled = MatchPolicy.new(current_player, match).switch_prediction? %>
         <div class="text-center">
           <% if player_prediction.present? %>
             <p>Tvoj tip na víťaza je <%= match.side_name(player_prediction.side) %>.</p>

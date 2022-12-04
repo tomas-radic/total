@@ -19,12 +19,12 @@
     <%= render "shared/navbar" %>
     <% if current_player.present? && latest_open_season.present? &&
       !latest_open_season.players.merge(Enrollment.active).include?(current_player) %>
-    <div class="top-notice">
-      Máš registráciu, ale nie si prihlásený<small>/á</small> do súčasnej sezóny.
-      Kontaktuj - <%= link_to 'Ľuboš Hollan', 'tel:0908129978', class: "u-white" %>
-      alebo
-      <%= link_to 'Tomáš Radič', 'tel:0905289248', class: "u-white" %>.
-    </div>
+      <div class="top-notice">
+        Máš registráciu, ale nie si prihlásený<small>/á</small> do súčasnej sezóny.
+        Kontaktuj - <%= link_to 'Ľuboš Hollan', 'tel:0908129978', class: "u-white" %>
+        alebo
+        <%= link_to 'Tomáš Radič', 'tel:0905289248', class: "u-white" %>.
+      </div>
 
   <% end %>
     <%= render "shared/flash_message" %>

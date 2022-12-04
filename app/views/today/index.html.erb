@@ -37,7 +37,7 @@
                     <div class="today__request-link">
                       <%= link_to "#{match.side_name 1} - #{match.side_name 2}",
                                   match_path(match),
-                                  class: "default-color #{'u-red-bg' if policy(match).accept? || policy(match).destroy?}" %>
+                                  class: "default-color #{'u-red-bg' if current_player.present? && (policy(match).accept? || policy(match).destroy?)}" %>
                       <%= render partial: "shared/reactions_buttons_tiny", locals: { reactionable: match } %>
                     </div>
                   <% end %>

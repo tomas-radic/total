@@ -30,12 +30,12 @@
       /
       <%= link_to "Rebríček", rankings_path, target: :_top %>
     </div>
-    <% if current_player.present? %>
+    <% if selected_season.present? && current_player.present? %>
       <div class="page-controls__buttons">
         <%= link_to "Vyzvať hráča",
                     player_matches_path(player_id: player.id),
                     method: :post,
-                    class: "btn btn-warning #{'disabled' unless match_request_possible(current_player, requested_player: player, season: selected_season)}",
+                    class: "btn btn-warning #{'disabled' unless MatchPolicy.new(current_player, nil).create?(requested_player: player, season: selected_season)}",
                     data: { confirm: "Potvrď, že naozaj chceš vyzvať #{player.name}" } %>
       </div>
     <% end %>

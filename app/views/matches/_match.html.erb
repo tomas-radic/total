@@ -25,7 +25,8 @@
                           accept_player_match_path(match),
                           method: :post,
                           class: "btn btn-success" %>
-            <% elsif MatchPolicy.new(current_player, match).destroy? %>
+            <% end %>
+            <% if MatchPolicy.new(current_player, match).destroy? %>
               <%= link_to "Zmazať",
                           player_match_path(match),
                           method: :delete,
@@ -35,20 +36,14 @@
           </div>
         <% else %>
           <div>
-            <% if MatchPolicy.new(current_player, match).cancel? %>
-              <%= link_to "Zrušiť", cancel_player_match_path(match),
-                          method: :post,
-                          data: { confirm: "Chceš naozaj zrušiť tento zápas?" },
-                          class: "btn btn-outline-danger" %>
-            <% end %>
-            <% if MatchPolicy.new(current_player, match).edit? %>
-              <%= link_to "Upraviť", edit_player_match_path(match),
-                          class: "btn btn-warning" %>
-            <% end %>
-            <% if MatchPolicy.new(current_player, match).finish? %>
-              <%= link_to "Výsledok", finish_init_player_match_path(match),
-                          class: "btn btn-danger" %>
-            <% end %>
+            <%= link_to "Zrušiť", cancel_player_match_path(match),
+                        method: :post,
+                        data: { confirm: "Chceš naozaj zrušiť tento zápas?" },
+                        class: "btn btn-outline-danger #{'disabled' unless MatchPolicy.new(current_player, match).cancel?}" %>
+            <%= link_to "Upraviť", edit_player_match_path(match),
+                        class: "btn btn-warning #{'disabled' unless MatchPolicy.new(current_player, match).edit?}" %>
+            <%= link_to "Výsledok", finish_init_player_match_path(match),
+                        class: "btn btn-danger #{'disabled' unless MatchPolicy.new(current_player, match).finish?}" %>
           </div>
         <% end %>
       </div>

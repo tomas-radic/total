@@ -7,37 +7,7 @@ describe MatchPolicy do
   let!(:player) { create(:player) }
   let!(:match) { create(:match, competitable: build(:season)) }
 
-
-  permissions :create? do
-    before do
-      match.competitable.players << player
-      match.competitable.update_column(:ended_at, nil)
-    end
-
-    context "With conditions met" do
-      it "Permits" do
-        expect(subject).to permit(player, match)
-      end
-    end
-
-    context "When player is not enrolled" do
-      before { match.competitable.players.delete(player) }
-
-      it "Does not permit" do
-        expect(subject).not_to permit(player, match)
-      end
-    end
-
-    context "When season has ended" do
-      before { match.competitable.update_column(:ended_at, 2.days.ago) }
-
-      it "Does not permit" do
-        expect(subject).not_to permit(player, match)
-      end
-    end
-  end
-
-
+  
   permissions :edit?, :update? do
     before do
       match.competitable.update_column(:ended_at, nil)

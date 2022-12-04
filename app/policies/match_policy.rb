@@ -1,10 +1,16 @@
 class MatchPolicy < ApplicationPolicy
 
-  def create?
-    return false unless user.present?
-    return false if season_ended?(record)
+  def create?(requested_player:, season:)
+    return false if season.ended_at.present?
+    return false if user == requested_player
+    return false if user.access_denied_since.present? || requested_player.access_denied_since.present?
+    return false if user.anonymized_at.present? || requested_player.anonymized_at.present?
+    return false if requested_player.cant_play_since.present?
+    return false if user.opponents(season: season, pending: true, ranking_counted: true).include?(requested_player)
+    return false if season.enrollments.active.find { |e| e.player == user }.blank?
+    return false if season.enrollments.active.find { |e| e.player == requested_player }.blank?
 
-    player_enrolled?(user, record)
+    true
   end
 
 
@@ -14,7 +20,6 @@ class MatchPolicy < ApplicationPolicy
 
 
   def update?
-    return false unless user.present?
     return false if season_ended?(record)
     return false unless record.ranking_counted?
     return false unless record.accepted_at.present?
@@ -24,7 +29,6 @@ class MatchPolicy < ApplicationPolicy
 
 
   def destroy?
-    return false unless user.present?
     return false if season_ended?(record)
     return false unless record.ranking_counted?
     return false if record.accepted? || record.rejected? || record.reviewed?
@@ -35,7 +39,6 @@ class MatchPolicy < ApplicationPolicy
 
 
   def accept?
-    return false unless user.present?
     return false if season_ended?(record)
     return false unless record.ranking_counted?
     return false if record.reviewed?
@@ -59,7 +62,7 @@ class MatchPolicy < ApplicationPolicy
   def finish?
     if user.is_a?(Player)
       if record.competitable.is_a?(Season)
-        return false if record.competitable.ended_at.present?
+        return false if season_ended?(record)
         return false unless update?
         return false if record.canceled?
         return false if record.rejected?
@@ -97,7 +100,6 @@ class MatchPolicy < ApplicationPolicy
 
 
   def switch_prediction?
-    return false unless user.present?
     return false unless record.published?
     return false if record.reviewed?
     return false if record.canceled?
@@ -115,8 +117,7 @@ class MatchPolicy < ApplicationPolicy
 
 
   def season_ended?(record)
-    season = record.season
-    season&.ended_at.present?
+    record.season&.ended_at.present?
   end
 
 end

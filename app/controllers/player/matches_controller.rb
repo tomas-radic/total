@@ -1,15 +1,14 @@
 class Player::MatchesController < Player::BaseController
 
   before_action :load_and_authorize_record, except: [:create, :toggle_reaction, :switch_prediction]
-  after_action :verify_authorized, except: [:toggle_reaction]
+  after_action :verify_authorized, except: [:create, :toggle_reaction]
 
 
   def create
     @requested_player = Player.where(anonymized_at: nil).find params[:player_id]
 
-    if selected_season.blank? || selected_season.ended_at
-      flash[:notice] = "Sezóna je ukončená."
-      redirect_to player_path(@requested_player) and return
+    unless MatchPolicy.new(current_player, nil).create?(requested_player: @requested_player, season: selected_season)
+      raise Pundit::NotAuthorizedError, "nie je možné vyzvať hráča #{@requested_player.name}"
     end
 
     now = Time.now
@@ -23,7 +22,6 @@ class Player::MatchesController < Player::BaseController
       ]
     )
 
-    authorize @match
     current_player.update(cant_play_since: nil)
 
     if @match.save
