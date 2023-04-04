@@ -19,11 +19,11 @@ class Rankings
                    .includes(:enrollments, matches: :players).map do |player|
 
       matches = if @single_matches && @double_matches
-                  player.matches
+                  player.matches.where(competitable_type: 'Season').where(competitable_id: @season.id)
                 elsif @single_matches && !@double_matches
-                  player.matches.singles
+                  player.matches.singles.where(competitable_type: 'Season').where(competitable_id: @season.id)
                 elsif !@single_matches && @double_matches
-                  player.matches.doubles
+                  player.matches.doubles.where(competitable_type: 'Season').where(competitable_id: @season.id)
                 else
                   Match.none
                 end
