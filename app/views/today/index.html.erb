@@ -12,12 +12,13 @@
         <a href="#recent-matches" class="today__brand__link mb-5">TOtal.</a>
       </div>
 
-      <% if current_player.nil? %>
-        <div class="text-center mt-5">
+      <div class="text-center mt-5">
+        <% if current_player.nil? %>
           <%= link_to "Registrácia", new_player_registration_path, class: "btn btn-warning btn-lg mb-3" %>
           <%= link_to "Mám registráciu", new_player_session_path, class: "btn btn-success btn-lg mb-3" %>
-        </div>
-      <% end %>
+        <% end %>
+        <%= link_to "Rezervácie kurtov", reservations_path, class: "btn btn-success btn-lg mb-3" %>
+      </div>
 
       <% if selected_season.present? %>
         <div class="today__main">
