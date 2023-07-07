@@ -1,9 +1,0 @@
-<div class="page__content">
-  <h2 class="text-center u-fs-giant">Registrácia</h2>
-  <p class="text-center">Registrácie sú uzavreté.</p>
-  <p class="text-center">
-    Kontaktuj správcu webu na<br>
-    <%= link_to 'tomas.radic@gmail.com', 'mailto:tomas.radic@gmail.com' %><br>
-    <%= link_to '0905 289 248', 'tel:0905289248' %>
-  </p>
-</div>
