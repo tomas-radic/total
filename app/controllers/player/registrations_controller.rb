@@ -19,8 +19,8 @@ class Player::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    raise "Registrations are closed."
-    # super
+    # raise "Registrations are closed."
+    super
   end
 
   # GET /resource/edit
