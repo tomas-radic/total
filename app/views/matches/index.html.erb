@@ -35,9 +35,11 @@
         <p><%= paginate @matches %></p>
       <% else %>
         <p class="py-8 text-center">Žiadne zápasy.</p>
-        <p class="py-2 text-center">
-          <%= link_to "Zavolaj niekoho hrať!", rankings_path, class: "btn btn-success btn-lg" %>
-        </p>
+        <% if selected_season && !selected_season.ended_at? %>
+          <p class="py-2 text-center">
+            <%= link_to "Zavolaj niekoho hrať!", rankings_path, class: "btn btn-success btn-lg" %>
+          </p>
+        <% end %>
       <% end %>
     <% else %>
       <p class="py-8 text-center default-color">Žiadne nie sú, pretože nie je sezóna. Čakáme kým začne.</p>
