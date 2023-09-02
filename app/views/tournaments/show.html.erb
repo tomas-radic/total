@@ -51,30 +51,36 @@
 
 <div class="<%= @tournament.color_base_css %>">
   <div class="page__content">
-    <h3 id="matches" class="base-heading accent-color">Zápasy turnaja</h3>
+    <% if @planned_matches.first || @finished_matches.first %>
+      <h3 id="matches" class="base-heading accent-color">Zápasy turnaja</h3>
 
-    <% if @planned_matches.first %>
-      <p class="u-fs-big text-center accent-color">
-        Plánované
-      </p>
-      <% @planned_matches.each do |match| %>
-        <%= render partial: "matches/grid", locals: { match: match, current_player: current_player } %>
+      <% if @planned_matches.first %>
+        <p class="u-fs-big text-center accent-color">
+          Plánované
+        </p>
+        <% @planned_matches.each do |match| %>
+          <%= render partial: "matches/grid", locals: { match: match, current_player: current_player } %>
+        <% end %>
+      <% else %>
+        <p class="py-8 text-center default-color">Žiadne plánované zápasy.</p>
       <% end %>
-    <% end %>
 
-    <% if @finished_matches.first %>
-      <hr>
-      <p class="u-fs-big text-center accent-color">
-        Odohraté
-      </p>
-      <div class="matches-grid default-color">
-        <div class="matches-grid__col matches-grid__col1 u-fs-small">Víťaz</div>
-        <div class="matches-grid__col matches-grid__col2"></div>
-        <div class="matches-grid__col matches-grid__col3 u-fs-small">Porazený</div>
-        <div class="matches-grid__col matches-grid__col4"></div>
-      </div>
-      <% @finished_matches.each do |match| %>
-        <%= render partial: "matches/grid", locals: { match: match, current_player: current_player } %>
+      <% if @finished_matches.first %>
+        <hr>
+        <p class="u-fs-big text-center accent-color">
+          Odohraté
+        </p>
+        <div class="matches-grid default-color">
+          <div class="matches-grid__col matches-grid__col1 u-fs-small">Víťaz</div>
+          <div class="matches-grid__col matches-grid__col2"></div>
+          <div class="matches-grid__col matches-grid__col3 u-fs-small">Porazený</div>
+          <div class="matches-grid__col matches-grid__col4"></div>
+        </div>
+        <% @finished_matches.each do |match| %>
+          <%= render partial: "matches/grid", locals: { match: match, current_player: current_player } %>
+        <% end %>
+      <% else %>
+        <p class="py-8 text-center default-color">Žiadne odohraté zápasy.</p>
       <% end %>
     <% end %>
 
