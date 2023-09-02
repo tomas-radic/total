@@ -60,8 +60,6 @@
       <% @planned_matches.each do |match| %>
         <%= render partial: "matches/grid", locals: { match: match, current_player: current_player } %>
       <% end %>
-    <% else %>
-      <p class="py-8 text-center default-color">Žiadne plánované zápasy.</p>
     <% end %>
 
     <% if @finished_matches.first %>
@@ -78,8 +76,6 @@
       <% @finished_matches.each do |match| %>
         <%= render partial: "matches/grid", locals: { match: match, current_player: current_player } %>
       <% end %>
-    <% else %>
-      <p class="py-8 text-center default-color">Žiadne odohraté zápasy.</p>
     <% end %>
 
     <h3 id="draw" class="base-heading accent-color">Pavúk</h3>
