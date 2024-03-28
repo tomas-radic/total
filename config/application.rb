@@ -24,5 +24,6 @@ module Total
     config.time_zone = "Bratislava"
 
     config.minutes_refinish_match = 5
+    config.assets.initialize_on_precompile = false
   end
 end
